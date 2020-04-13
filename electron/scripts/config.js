@@ -17,6 +17,8 @@ $(()=> {
     setSelectedCityInformation(e);
     console.log(selectedCityInformation);
     $(".save-button").prop("disabled", false);
+    $(".city-item").removeClass("city-selected");
+    $(e.target).addClass("city-selected");
   });
 
   $(".save-button").click((e) => {

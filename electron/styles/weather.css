@@ -34,22 +34,23 @@
   color: yellow;
   display: inline-block;
   text-shadow: 2px 2px 3px darkolivegreen;
-}
+} 
 
 .current-conditions-icon {
-  width: 150px;
-  height: 150px;
-  background-color: white;
+  width: 100px;
+  height: 100px;
+  background-color: darkseagreen;
   display: inline-block;
-  position: inherit;
-  margin-left: 2em;
-  margin-top: 2em;
+  margin-left: 1em;
+  margin-bottom: 2em;
   box-shadow: 2px 2px 3px black;
+  color: white;
+  
 }
 
 .city-temp-enclosure {
   width: 300px;
-  height: 150px;
+  height: auto;
   display: inline-block;
   margin-left: 10px;
 }
@@ -58,7 +59,6 @@
   width: auto;
   display: block;
   height: auto;
-  margin-top: 0px;
   font-size: 30px;
   text-shadow: 2px 2px #2a2e33;
 }
@@ -67,7 +67,7 @@
   width: auto;
   display: inline-block;
   height: auto;
-  font-size: 55px;
+  font-size: 50px;
 }
 
 .enclosure {

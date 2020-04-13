@@ -8,12 +8,21 @@ body {
 }
 
 .configuration-container {
-  margin-left: 30%;
-  margin-top: 5em;
+  margin-left: 5%;
+  margin-top: 3em;
   background-color: #a2a8a3;
   width: 350px;
   padding: 0.8em;
   box-shadow: 5px 5px 5px #363836;
+  display: inline-block;
+}
+
+.options-container {
+  padding: 0.8em;
+  width: 350px;
+  background-color:#7fa9b3;
+  margin-top: 3em;
+  display: inline-block;
 }
 .margin-left {
   margin-left: 4%;
@@ -56,6 +65,10 @@ body {
   margin-top: 0.5em;
 }
 
+.city-selected {
+  background-color: #d1cec5;
+}
+
 .configuration-window {
-  background-image: url("../img/backgrounds/background_000.jpg");
+  background-image: url("../img/backgrounds/background_004_green_establishment.jpg");
 }
