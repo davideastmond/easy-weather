@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous" async></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <script src="https://kit.fontawesome.com/9566ef13c4.js" crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../styles/weather.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script async type="module" src="../scripts/current-forecast.js"></script>
+  <title>Current Forecast</title>
+  </head>
+<body class="current-forecast-background-image">
+  <div class="main-enclosure">
+    <div class="top-strip">
+      <div class="current-conditions-icon"></div>
+      <div class="city-temp-enclosure enclosure">
+        <div class="city-name">_</div>
+        <div class="temp-enclosure enclosure"> 
+          <div class="temperature-actual">_°</div>
+          <div class="temperature-feels-like">_</div>
+        </div>
+        <div class="current-weather-conditions">Test condition</p></div>
+        <div class="weather-condition-description">Test condition</p></div>
+        <div class="date-time">date:time</div>
+      </div>
+      <!-- This enclosure will have status like wind speed, direction, humidity-->
+      <div class="other-stats-enclosure enclosure">
+        <div class="wind-main-enclosure enclosure"> <div class="category"> Wind </div> <div class="separator"> | </div>
+          <div class="wind-speed"></div> <div class="separator"> | </div>
+          <div class="wind-gust"></div>
+        </div>
+        <div class="sunrise-set-enclosure enclosure"> <div class="category"> Sun </div> <div class="separator"> | </div>
+          <div class="sun-sunrise"></div> <div class="separator"> | </div>
+          <div class="sun-sunset"></div>
+        </div>
+      </div>
+      <div class="options-settings-enclosure enclosure">
+        <div class="settings-icon">
+          <i class="fas fa-wrench"></i>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-strip">
+    
+    </div>
+  </div>
+</body>
+</html>

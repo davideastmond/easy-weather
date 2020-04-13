@@ -1,0 +1,61 @@
+
+body {
+  background-color: whitesmoke;
+}
+
+.card, .card-body, .input-group {
+  background-color: whitesmoke;
+}
+
+.configuration-container {
+  margin-left: 30%;
+  margin-top: 5em;
+  background-color: #a2a8a3;
+  width: 350px;
+  padding: 0.8em;
+  box-shadow: 5px 5px 5px #363836;
+}
+.margin-left {
+  margin-left: 4%;
+}
+.card-search-enclosure {
+  padding: 1em;
+}
+
+.city-search-button {
+  margin-top: 1em;
+  width: 100%;
+}
+
+.caption-label {
+  color: white;
+}
+.search-page-width-items {
+  width: 300px;
+}
+.city-results-container {
+  margin-top: 0.5em;
+  padding: 0.4em;
+  height: 150px;
+  overflow: auto;
+}
+
+.sharp-button {
+  border-radius: 0px;
+}
+
+.city-item {
+  padding: 0.1em;
+}
+
+.city-item:hover {
+  cursor: pointer;
+}
+
+.save-city-div {
+  margin-top: 0.5em;
+}
+
+.configuration-window {
+  background-image: url("../img/backgrounds/background_000.jpg");
+}

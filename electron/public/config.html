@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script async src="../scripts/config.js"></script>
+  <script async src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous" async></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <link rel="stylesheet" href="../styles/main.css">
+<!-- Optional theme -->
+  <title>Easy Weather - Configure City</title>
+</head>
+<body class="configuration-window">
+  <div class="configuration-container">
+    <div class="card card-search-enclosure margin-left search-page-width-items">
+      <div class="card-body">
+        <h2 class="card-title">Search</h2>
+        <p class="card-text">Start typing a city to search. Pick a city from results and hit 'Save'</p>
+      </div>
+      <div class="input-group input-group-sm mb-3">
+        <input type="text" class="form-control city-search-box" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+      </div>
+    </div>
+    <div>
+      <p class=" h6 margin-left caption-label"> Search Results </p>
+    </div>
+    <div class="card city-results-container margin-left search-page-width-items">
+      <ul class="list-group city-results-list">
+      </ul>
+    </div>
+    <div>
+      <!-- Label that shows selected city-->
+      <p class= "h6 selected-city-label margin-left caption-label"> </p>
+    </div>
+    <div class="save-city-div search-page-width-items margin-left">
+      <button type="button" class="btn btn-primary sharp-button save-button" disabled=true>Save</button>
+    </div>
+  </div>
+</body>
+</html>
