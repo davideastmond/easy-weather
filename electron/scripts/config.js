@@ -1,9 +1,11 @@
 window.$ = window.jQuery = require("jquery");
 const cityList = require("../public/data/city.list.json");
 let selectedCityInformation;
+import assert from "assert";
+import { getPhotoBackgroundResourcePaths } from "./file-system";
 
 $(()=> {
-  // Do live search results when user types in a city, stroke by stroke
+  // Do dynamic search results when user types in a city, stroke by stroke
   $(".city-search-box").keyup(()=> {
     const textLength = $(".city-search-box").val().length;
     const textValue = $(".city-search-box").val();
@@ -22,7 +24,7 @@ $(()=> {
   });
 
   $(".save-button").click((e) => {
-    // Save city information to localStorage. Disable the save button and navigate to the
+    // Save city information to localStorage. Disable the save button and navigate to the weather page
     try { 
       window.localStorage.setItem("saved_city_data", JSON.stringify(selectedCityInformation));
       $(".saved-button").prop("disabled", true);
@@ -30,8 +32,9 @@ $(()=> {
     } catch(ex) {
       alert(ex);
     }
-    // navigate to current-forecast page.
   });
+
+  updateBackgroundImageThumbnails();
 });
 
 /**
@@ -53,6 +56,7 @@ function setSelectedCityInformation(e) {
   };
   $(".selected-city-label").text(selectedCityInformation.full_name());
 }
+
 /**
  * This function will return list items based on the search
  */
@@ -67,7 +71,7 @@ function renderCitySearchResults(filteredCityList) {
 
 /**
  * This function will perform the city list filter (returning an array of city objects)
- * @returns {[]} An array of filtered city items from city.list.json
+ * @returns {[{}]} An array of filtered city items from city.list.json
  */
 function doCityFilter(input) {
   return cityList.filter((cityItem) => {
@@ -85,7 +89,7 @@ function doCityFilter(input) {
 
 /**
  * Creates and returns an individual list-item
- * @returns {jQueryDOMElement} A jQuery DOM element
+ * @returns {JQuery<HTMLElement>} A jQuery DOM element
  */
 function getListItem(cityListItem) {
   return $("<li></li>").addClass("list-group-item city-item")
@@ -99,14 +103,42 @@ function getListItem(cityListItem) {
 }
 
 /**
- * 
+ * Updates the small thumbnails of default-built-in 
+ * background images user can select
+ * as main background image
+ * @param {number} max 
+ */
+function updateBackgroundImageThumbnails(max = 6) {
+  // This gets all the paths regardless of amount
+  let backgroundImageElementURLS = getPhotoBackgroundResourcePaths();
+
+  if (backgroundImageElementURLS.length > max) {
+    backgroundImageElementURLS = backgroundImageElementURLS.slice(0, max + 1);
+  }
+
+  backgroundImageElementURLS.forEach((url) => {
+    $(".options-change-background-image-enclosure").append(getBackGroundImageFromResource(url));
+  });
+}
+
+/**
+ * Returns a jQuery image element based on the URL
+ * @param {JQuery<HTMLElement>} resource 
+ */
+function getBackGroundImageFromResource(resource) {
+  assert(resource, "Image URL is null or undefined");
+  return $("<img/>").addClass("options-bkg-img-thumbnail")
+  .attr("src", resource);
+}
+
+/** 
  * @param {string} ISOCode 
  * @returns {string} Friendly country name
  */
 function getFullCountryFromISOCode(ISOCode) {
   const codes = require("../public/data/country-codes.json");
-
   const results = codes.filter(code => code["alpha-2"] === ISOCode);
+
   if (results && results.length > 0) {
     return results[0].name;
   }

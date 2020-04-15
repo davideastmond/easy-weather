@@ -23,7 +23,15 @@ body {
   background-color:#7fa9b3;
   margin-top: 3em;
   display: inline-block;
+  margin-left: 5%;
 }
+
+.options-bkg-img-thumbnail {
+  display: inline-block;
+  width: 120px;
+  height: 68px;
+}
+
 .margin-left {
   margin-left: 4%;
 }
