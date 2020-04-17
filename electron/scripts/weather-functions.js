@@ -58,7 +58,6 @@ function updateCityName(cityName) {
 }
 
 function updateTemperature(temp) {
-  // Round the temperature
   const roundedTemperature = Math.floor(temp);
   $(".temperature-actual").text(Math.floor(roundedTemperature).toString() + degreeSymbol + "C");
 }

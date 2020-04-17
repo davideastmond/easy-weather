@@ -1,8 +1,4 @@
 
-body {
-  background-color: whitesmoke;
-}
-
 .card, .card-body, .input-group {
   background-color: whitesmoke;
 }
@@ -18,18 +14,26 @@ body {
 }
 
 .options-container {
-  padding: 0.8em;
   width: 350px;
+  height: auto;
   background-color:#7fa9b3;
-  margin-top: 3em;
   display: inline-block;
-  margin-left: 5%;
+  margin-left: 0.5em;
 }
 
 .options-bkg-img-thumbnail {
   display: inline-block;
   width: 120px;
   height: 68px;
+  margin: 0.1em;
+}
+
+.options-bkg-img-thumbnail:hover {
+  cursor: pointer;
+}
+
+.options-change-background-image-enclosure {
+  width: 350px;
 }
 
 .margin-left {
@@ -78,5 +82,5 @@ body {
 }
 
 .configuration-window {
-  background-image: url("../img/backgrounds/background_004_green_establishment.jpg");
+  background-image: url("../img/backgrounds/background_003_blue_sea_sky.jpg");
 }

@@ -1,8 +1,10 @@
 window.$ = window.jQuery = require("jquery");
 const cityList = require("../public/data/city.list.json");
 let selectedCityInformation;
-import assert from "assert";
-import { getPhotoBackgroundResourcePaths } from "./file-system";
+const assert = require("assert");
+const electronPath = require("electron-root-path").rootPath;
+const path = require("path");
+import { getPhotoBackgroundResourcePaths } from "./file-system.js";
 
 $(()=> {
   // Do dynamic search results when user types in a city, stroke by stroke
@@ -108,16 +110,16 @@ function getListItem(cityListItem) {
  * as main background image
  * @param {number} max 
  */
-function updateBackgroundImageThumbnails(max = 6) {
+async function updateBackgroundImageThumbnails(max = 6) {
   // This gets all the paths regardless of amount
-  let backgroundImageElementURLS = getPhotoBackgroundResourcePaths();
-
+  let backgroundImageElementURLS = await getPhotoBackgroundResourcePaths();
   if (backgroundImageElementURLS.length > max) {
     backgroundImageElementURLS = backgroundImageElementURLS.slice(0, max + 1);
   }
-
+  console.log(backgroundImageElementURLS);
+  console.log(electronPath);
   backgroundImageElementURLS.forEach((url) => {
-    $(".options-change-background-image-enclosure").append(getBackGroundImageFromResource(url));
+    $(".options-change-background-image-enclosure").append(getBackGroundImageFromResource(path.join(electronPath, "electron\\img\\backgrounds\\" + url)));
   });
 }
 

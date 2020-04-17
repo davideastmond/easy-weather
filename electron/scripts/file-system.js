@@ -1,6 +1,6 @@
 const path = require("path");
 
-import { rootPath } from 'electron-root-path';
+const rootPath = require('electron-root-path').rootPath;
 const fs = require('fs');
 
 /**
@@ -8,10 +8,10 @@ const fs = require('fs');
  */
 export function getPhotoBackgroundResourcePaths() {
   return new Promise((resolve, reject) => {
-    const dir_path =  path.join(rootPath, "electron\\img\\backgrounds");
+    const dir_path = path.join(rootPath, "electron\\img\\backgrounds");
     fs.readdir(dir_path, (err, res) => {
       if (err) reject(err);
-      resolve(res.map((photoURL) => { return path.join(dir_path, photoURL) ;}));
+      resolve(res);
     });
   });
 }
