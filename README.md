@@ -1,4 +1,5 @@
 # Easy-Weather
+![mainscreen](https://github.com/davideastmond/easy-weather/blob/master/docs/img/sc000.JPG)
 
 ## Info
 
