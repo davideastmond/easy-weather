@@ -16,9 +16,13 @@
 .options-container {
   width: 350px;
   height: auto;
+  padding: 0.5em;
   background-color:#7fa9b3;
   display: inline-block;
-  margin-left: 0.5em;
+  margin-left: 1em;
+  position: absolute;
+  margin-top: 3em;
+
 }
 
 .options-bkg-img-thumbnail {
@@ -34,6 +38,7 @@
 
 .options-change-background-image-enclosure {
   width: 350px;
+  overflow: auto;
 }
 
 .margin-left {
@@ -81,6 +86,10 @@
   background-color: #d1cec5;
 }
 
+.active-background-image-selected {
+  border: 2px solid yellow;
+}
 .configuration-window {
   background-image: url("../img/backgrounds/background_003_blue_sea_sky.jpg");
+  background-size: 100vw 100vh;
 }

@@ -117,6 +117,7 @@
 }
 
 .current-forecast-background-image {
-  background-image: url("../img/backgrounds/background_001_city.jpg");
+  /* background-image: url("../img/backgrounds/background_001_city.jpg"); */
+  background-size: 100vw 100vh;
 }
 

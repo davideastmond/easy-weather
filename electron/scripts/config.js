@@ -36,9 +36,28 @@ $(()=> {
     }
   });
 
-  updateBackgroundImageThumbnails();
+  $(".options-change-background-image-enclosure").click((e)=>{
+    const storage = window.localStorage;
+    storage.setItem("backgroundImage", e.target.dataset.id);
+    liveLoadBackgroundImage(e.target.dataset.id);
+    refreshImages();
+    $(e.target).toggleClass("active-background-image-selected");
+  });
+  refreshBackgroundImageThumbnails();
 });
 
+function liveLoadBackgroundImage(fileName) {
+  const fn = `../img/backgrounds/${fileName}`;
+  $(".configuration-window").css("background-image", "url(" + fn + ")");
+}
+
+function loadBackGroundFromLocalStorage() {
+  const sStorage = window.localStorage;
+  const currentImage = sStorage.getItem("backgroundImage");
+  if (currentImage) {
+    liveLoadBackgroundImage(currentImage);
+  }
+}
 /**
  * Basically populates the global object. This called when user selects
  * a city from the search result.
@@ -110,16 +129,16 @@ function getListItem(cityListItem) {
  * as main background image
  * @param {number} max 
  */
-async function updateBackgroundImageThumbnails(max = 6) {
+async function refreshBackgroundImageThumbnails(max = 6) {
   // This gets all the paths regardless of amount
+  loadBackGroundFromLocalStorage();
   let backgroundImageElementURLS = await getPhotoBackgroundResourcePaths();
   if (backgroundImageElementURLS.length > max) {
     backgroundImageElementURLS = backgroundImageElementURLS.slice(0, max + 1);
   }
-  console.log(backgroundImageElementURLS);
-  console.log(electronPath);
   backgroundImageElementURLS.forEach((url) => {
-    $(".options-change-background-image-enclosure").append(getBackGroundImageFromResource(path.join(electronPath, "electron\\img\\backgrounds\\" + url)));
+    $(".options-change-background-image-enclosure")
+    .append(getBackGroundImageFromResource(path.join(electronPath, "electron\\img\\backgrounds\\" + url), url));
   });
 }
 
@@ -127,10 +146,21 @@ async function updateBackgroundImageThumbnails(max = 6) {
  * Returns a jQuery image element based on the URL
  * @param {JQuery<HTMLElement>} resource 
  */
-function getBackGroundImageFromResource(resource) {
+function getBackGroundImageFromResource(resource, fn) {
   assert(resource, "Image URL is null or undefined");
+
+  const session = window.localStorage;
+  const currentImage = session.getItem("backgroundImage");
+
+  if (currentImage === fn) {
+    return $("<img/>").addClass("options-bkg-img-thumbnail")
+    .attr("src", resource)
+    .attr("data-id", fn)
+    .addClass("active-background-image-selected");
+  }
   return $("<img/>").addClass("options-bkg-img-thumbnail")
-  .attr("src", resource);
+  .attr("src", resource)
+  .attr("data-id", fn);   
 }
 
 /** 
@@ -147,6 +177,9 @@ function getFullCountryFromISOCode(ISOCode) {
   return "Country name not found";
 }
 
+function refreshImages() {
+  $(".options-bkg-img-thumbnail").removeClass("active-background-image-selected");
+}
 function getCityDataById(id) {
   // Will return a single object from the city.list.json
   return cityList.filter((city) => city.id === id);

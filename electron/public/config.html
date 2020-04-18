@@ -38,10 +38,25 @@
     </div>
   </div>
   <div class="options-container">
-    <div class="options-change-background-image-enclosure"> 
-      <!-- This guys displays thumbnails of the background image options-->
+    <div> 
+      <p class="h4"> Background Image </p>
     </div>
-    <div class="options-change-measurement-units-enclosure"></div>
+    <div class="options-change-background-image-enclosure"> 
+      <!-- This guy displays thumbnails of the background image options-->
+    </div>
+    <div class="options-change-measurement-units-enclosure">
+      <div> 
+        <p class="h4"> Units </p>
+      </div>
+      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-secondary metric active">
+          <input type="radio" name="options" id="option_metric" checked> Metric
+        </label>
+        <label class="btn btn-secondary imperial">
+          <input type="radio" name="options" id="option_imperial"> Imperial
+        </label>
+      </div>
+    </div>
     <div class="options-save-cancel-button-enclosure"></div>
   </div>
 </body>
