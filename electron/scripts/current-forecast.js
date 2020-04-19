@@ -27,8 +27,7 @@ function liveLoadBackgroundImage(fileName) {
 }
 
 function loadBackGroundFromLocalStorage() {
-  const sStorage = window.localStorage;
-  const currentImage = sStorage.getItem("backgroundImage");
+  const currentImage = window.localStorage.getItem("backgroundImage");
   if (currentImage !== "undefined") {
     liveLoadBackgroundImage(currentImage);
   } else {

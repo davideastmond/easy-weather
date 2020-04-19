@@ -9,8 +9,7 @@ const MEASUREMENTS = {
  */
 export function setMeasurementUnitsIntoLocalStorage(unit) {
   assert(unit === "metric" || unit === "imperial", "Invalid measurement unit");
-  const storage = window.localStorage;
-  storage.setItem("units", unit);
+  window.localStorage.setItem("units", unit);
 }
 
 /**

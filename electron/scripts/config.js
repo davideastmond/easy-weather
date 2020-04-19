@@ -38,8 +38,7 @@ $(()=> {
   });
 
   $(".options-change-background-image-enclosure").click((e)=>{
-    const storage = window.localStorage;
-    storage.setItem("backgroundImage", e.target.dataset.id);
+    window.localStorage.setItem("backgroundImage", e.target.dataset.id);
     liveLoadBackgroundImage(e.target.dataset.id);
     refreshImages();
     $(e.target).toggleClass("active-background-image-selected");
@@ -50,7 +49,6 @@ $(()=> {
       $(e.target).addClass("active");
       $(".imperial").removeClass("active");
       setMeasurementUnitsIntoLocalStorage("metric");
-      console.log(window.localStorage);
     }
   });
 
@@ -59,7 +57,6 @@ $(()=> {
       $(e.target).addClass("active");
       $(".metric").removeClass("active");
       setMeasurementUnitsIntoLocalStorage("imperial");
-      console.log(window.localStorage);
     }
   });
   loadDefaultMeasurementUnits();
@@ -72,8 +69,7 @@ function liveLoadBackgroundImage(fileName) {
 }
 
 function loadBackGroundFromLocalStorage() {
-  const sStorage = window.localStorage;
-  const currentImage = sStorage.getItem("backgroundImage");
+  const currentImage = window.localStorage.getItem("backgroundImage");
   if (currentImage !== "undefined") {
     liveLoadBackgroundImage(currentImage);
   } else {
@@ -175,9 +171,7 @@ async function refreshBackgroundImageThumbnails(max = 6) {
  */
 function getBackGroundImageFromResource(resource, fn) {
   assert(resource, "Image URL is null or undefined");
-
-  const local = window.localStorage;
-  const currentImage = local.getItem("backgroundImage");
+  const currentImage = window.localStorage.getItem("backgroundImage");
 
   if (currentImage === fn) {
     return $("<img/>").addClass("options-bkg-img-thumbnail")
