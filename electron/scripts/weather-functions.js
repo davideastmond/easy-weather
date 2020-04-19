@@ -19,6 +19,7 @@ export function getWindSpeedInKmPerHour(speedInMetresPerSecond) {
  * @returns {Promise<any>} the results of the axios.get request
  */
 export async function getForecastFromAPI() {
+  //TODO: Metric / Imperial units -
   const savedCityInfo = getFromLocalStorage();
   const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${savedCityInfo.lat}&lon=${savedCityInfo.lon}&appid=${process.env.API_KEY}&units=metric`;
   

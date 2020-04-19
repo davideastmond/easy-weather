@@ -15,4 +15,5 @@ It shows up-to-date weather data for the location of your choosing.
 ## Dependencies
 
 ## Image / Photo Credits
-- Coming soon.
+(https://unsplash.com/images/stock/royalty-free)
+Detailed credits coming soon.

@@ -43,6 +43,24 @@ $(()=> {
     refreshImages();
     $(e.target).toggleClass("active-background-image-selected");
   });
+
+  $(".metric").click((e) => {
+    if (! $(e.target).hasClass("active")) {
+      $(e.target).addClass("active");
+      $(".imperial").removeClass("active");
+      setMeasurementUnitsIntoLocalStorage("metric");
+      console.log(window.localStorage);
+    }
+  });
+
+  $(".imperial").click((e)=> {
+    if (! $(e.target).hasClass("active")) {
+      $(e.target).addClass("active");
+      $(".metric").removeClass("active");
+      setMeasurementUnitsIntoLocalStorage("imperial");
+      console.log(window.localStorage);
+    }
+  });
   refreshBackgroundImageThumbnails();
 });
 
@@ -54,8 +72,11 @@ function liveLoadBackgroundImage(fileName) {
 function loadBackGroundFromLocalStorage() {
   const sStorage = window.localStorage;
   const currentImage = sStorage.getItem("backgroundImage");
-  if (currentImage) {
+  if (currentImage !== "undefined") {
     liveLoadBackgroundImage(currentImage);
+  } else {
+    liveLoadBackgroundImage("background_003_blue_sea_sky.jpg");
+    sStorage.setItem("backgroundImage", "background_003_blue_sea_sky.jpg" );
   }
 }
 /**
@@ -180,7 +201,13 @@ function getFullCountryFromISOCode(ISOCode) {
 function refreshImages() {
   $(".options-bkg-img-thumbnail").removeClass("active-background-image-selected");
 }
-function getCityDataById(id) {
-  // Will return a single object from the city.list.json
-  return cityList.filter((city) => city.id === id);
+
+/**
+ * Saves preferred unit of measurement to localStorage
+ * @param {string} unit 
+ */
+function setMeasurementUnitsIntoLocalStorage(unit) {
+  assert(unit === "metric" || unit === "imperial", "Invalid measurement unit");
+  const storage = window.localStorage;
+  storage.setItem("units", unit);
 }

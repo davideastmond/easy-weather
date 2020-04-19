@@ -15,6 +15,12 @@ $(async()=> {
   }
 });
 
+$(()=> {
+  $(".settings-icon").click((e) => {
+    window.location.href = " config.html";
+  });
+});
+
 function liveLoadBackgroundImage(fileName) {
   const fn = `../img/backgrounds/${fileName}`;
   $(".current-forecast-background-image ").css("background-image", "url(" + fn + ")");
@@ -23,7 +29,10 @@ function liveLoadBackgroundImage(fileName) {
 function loadBackGroundFromLocalStorage() {
   const sStorage = window.localStorage;
   const currentImage = sStorage.getItem("backgroundImage");
-  if (currentImage) {
+  if (currentImage !== "undefined") {
     liveLoadBackgroundImage(currentImage);
+  } else {
+    liveLoadBackgroundImage("background_003_blue_sea_sky.jpg");
+    sStorage.setItem("backgroundImage", "background_003_blue_sea_sky.jpg");
   }
 }
