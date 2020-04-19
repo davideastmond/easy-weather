@@ -5,6 +5,7 @@ const assert = require("assert");
 const electronPath = require("electron-root-path").rootPath;
 const path = require("path");
 import { getPhotoBackgroundResourcePaths } from "./file-system.js";
+import { setMeasurementUnitsIntoLocalStorage, getMeasurementUnitsFromLocalStorage } from "./measurement-units";
 
 $(()=> {
   // Do dynamic search results when user types in a city, stroke by stroke
@@ -202,12 +203,13 @@ function refreshImages() {
   $(".options-bkg-img-thumbnail").removeClass("active-background-image-selected");
 }
 
-/**
- * Saves preferred unit of measurement to localStorage
- * @param {string} unit 
- */
-function setMeasurementUnitsIntoLocalStorage(unit) {
-  assert(unit === "metric" || unit === "imperial", "Invalid measurement unit");
-  const storage = window.localStorage;
-  storage.setItem("units", unit);
+function loadDefaultMeasurementUnits() {
+  const units = getMeasurementUnitsFromLocalStorage();
+  // update UI
+  switch(units) {
+    case "metric":
+      break;
+    case "imperial":
+      break;
+  }
 }

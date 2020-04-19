@@ -3,6 +3,7 @@ window.$ = window.jQuery = require("jquery");
 require("dotenv").config();
 const degreeSymbol = "°";
 const moment = require("moment");
+import { getMeasurementUnitsFromLocalStorage } from "./measurement-units";
 
 export function getWindCompassDirectionFromDegrees(degrees) {
   const compassDirections = ["N","NNE","NE","ENE","E","ESE", "SE", "SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
@@ -21,7 +22,8 @@ export function getWindSpeedInKmPerHour(speedInMetresPerSecond) {
 export async function getForecastFromAPI() {
   //TODO: Metric / Imperial units -
   const savedCityInfo = getFromLocalStorage();
-  const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${savedCityInfo.lat}&lon=${savedCityInfo.lon}&appid=${process.env.API_KEY}&units=metric`;
+  const units = getMeasurementUnitsFromLocalStorage();
+  const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${savedCityInfo.lat}&lon=${savedCityInfo.lon}&appid=${process.env.API_KEY}&units=${units || "metric"}`;
   
   return await axios.get(url);
 }

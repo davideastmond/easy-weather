@@ -1,6 +1,8 @@
 # Easy-Weather
 ![mainscreen](https://github.com/davideastmond/easy-weather/blob/master/docs/img/sc000.JPG)
 
+![options](https://github.com/davideastmond/easy-weather/blob/master/docs/img/sc001.JPG)
+
 ## Description
 Desktop app using ElectronJS for Windows / Mac / Linux and openWeather API.
 It shows up-to-date weather data for the location of your choosing.
