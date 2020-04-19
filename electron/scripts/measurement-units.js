@@ -1,3 +1,8 @@
+const assert = require('assert');
+const MEASUREMENTS = {
+  metric: { temperature: " °C", wind: " km/h", pressure: " kPa"},
+  imperial:{ temperature: " °F", wind: " m/h", pressure: " mb"}
+};
 /**
  * Saves preferred unit of measurement to localStorage
  * @param {string} unit 
@@ -12,8 +17,8 @@ export function setMeasurementUnitsIntoLocalStorage(unit) {
  * @returns {string} either "metric" or "imperial"
  */
 export function getMeasurementUnitsFromLocalStorage () {
-  const units = window.sessionStorage.getItem("units");
-
+  const units = window.localStorage.getItem("units");
+  console.log("L-21 Units was", units);
   if (units && units !== "undefined") {
     return units;
   } else {
@@ -21,4 +26,14 @@ export function getMeasurementUnitsFromLocalStorage () {
     setMeasurementUnitsIntoLocalStorage("metric");
     return "metric";
   }
+}
+
+/**
+ * Gets the current measurement units (metric or imperial) and returns the
+ * proper unit of measurement given the type
+ * @param {string} type "temperature" | "wind" | "pressure"
+ */
+export function getMeasurementUnitsSymbol(type) {
+  const units = getMeasurementUnitsFromLocalStorage();
+  return MEASUREMENTS[units][type];
 }

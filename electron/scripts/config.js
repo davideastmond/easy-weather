@@ -62,6 +62,7 @@ $(()=> {
       console.log(window.localStorage);
     }
   });
+  loadDefaultMeasurementUnits();
   refreshBackgroundImageThumbnails();
 });
 
@@ -76,9 +77,13 @@ function loadBackGroundFromLocalStorage() {
   if (currentImage !== "undefined") {
     liveLoadBackgroundImage(currentImage);
   } else {
-    liveLoadBackgroundImage("background_003_blue_sea_sky.jpg");
-    sStorage.setItem("backgroundImage", "background_003_blue_sea_sky.jpg" );
+    loadDefaultBackground();
   }
+}
+
+function loadDefaultBackground() {
+  liveLoadBackgroundImage("background_003_blue_sea_sky.jpg");
+  sStorage.setItem("backgroundImage", "background_003_blue_sea_sky.jpg" );
 }
 /**
  * Basically populates the global object. This called when user selects
@@ -171,8 +176,8 @@ async function refreshBackgroundImageThumbnails(max = 6) {
 function getBackGroundImageFromResource(resource, fn) {
   assert(resource, "Image URL is null or undefined");
 
-  const session = window.localStorage;
-  const currentImage = session.getItem("backgroundImage");
+  const local = window.localStorage;
+  const currentImage = local.getItem("backgroundImage");
 
   if (currentImage === fn) {
     return $("<img/>").addClass("options-bkg-img-thumbnail")
@@ -206,10 +211,14 @@ function refreshImages() {
 function loadDefaultMeasurementUnits() {
   const units = getMeasurementUnitsFromLocalStorage();
   // update UI
+  $(".metric").removeClass("active");
+  $(".imperial").removeClass("active");
   switch(units) {
     case "metric":
+      $(".metric").addClass("active");
       break;
     case "imperial":
+      $(".imperial").addClass("active");
       break;
   }
 }

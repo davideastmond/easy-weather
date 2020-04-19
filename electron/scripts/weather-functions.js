@@ -1,9 +1,10 @@
 const axios = require("axios").default;
 window.$ = window.jQuery = require("jquery");
 require("dotenv").config();
+
 const degreeSymbol = "°";
 const moment = require("moment");
-import { getMeasurementUnitsFromLocalStorage } from "./measurement-units";
+import { getMeasurementUnitsFromLocalStorage, getMeasurementUnitsSymbol } from "./measurement-units.js";
 
 export function getWindCompassDirectionFromDegrees(degrees) {
   const compassDirections = ["N","NNE","NE","ENE","E","ESE", "SE", "SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
@@ -23,7 +24,7 @@ export async function getForecastFromAPI() {
   //TODO: Metric / Imperial units -
   const savedCityInfo = getFromLocalStorage();
   const units = getMeasurementUnitsFromLocalStorage();
-  const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${savedCityInfo.lat}&lon=${savedCityInfo.lon}&appid=${process.env.API_KEY}&units=${units || "metric"}`;
+  const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${savedCityInfo.lat}&lon=${savedCityInfo.lon}&appid=${process.env.API_KEY}&units=${units}`;
   
   return await axios.get(url);
 }
@@ -62,7 +63,7 @@ function updateCityName(cityName) {
 
 function updateTemperature(temp) {
   const roundedTemperature = Math.floor(temp);
-  $(".temperature-actual").text(Math.floor(roundedTemperature).toString() + degreeSymbol + "C");
+  $(".temperature-actual").text(Math.floor(roundedTemperature).toString() + getMeasurementUnitsSymbol("temperature"));
 }
 
 function updateTime(time) {
@@ -86,7 +87,7 @@ function updateWeatherIcon(iconString) {
 
 function updateTemperatureFeelsLike(temp) {
   const roundedTemperature = Math.floor(temp);
-  $(".temperature-feels-like").text(`Feels like: ${Math.floor(roundedTemperature).toString()}${degreeSymbol} C`);
+  $(".temperature-feels-like").text(`Feels like: ${Math.floor(roundedTemperature).toString()} ${getMeasurementUnitsSymbol("temperature")}`);
 }
 
 function updateWindData(data) {
@@ -95,8 +96,8 @@ function updateWindData(data) {
 
   const windCompassDirection = getWindCompassDirectionFromDegrees(wind_deg);
   const windSpeedInKmHr = getWindSpeedInKmPerHour(wind_speed);
-  $(".wind-speed").text( `Speed: ${windSpeedInKmHr} km/h ${windCompassDirection}`);
-  $(".wind-gust").text(`Gust: ${wind_gust && getWindSpeedInKmPerHour(wind_gust) + " km/h" || "-" }`);
+  $(".wind-speed").text( `Speed: ${windSpeedInKmHr} ${getMeasurementUnitsSymbol("wind")} ${windCompassDirection}`);
+  $(".wind-gust").text(`Gust: ${wind_gust && getWindSpeedInKmPerHour(wind_gust) + getMeasurementUnitsSymbol("wind") || "-" }`);
 }
 
 function updateSunriseSunset(data) {
