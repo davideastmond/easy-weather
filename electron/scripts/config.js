@@ -5,7 +5,7 @@ const assert = require("assert");
 const electronPath = require("electron-root-path").rootPath;
 const path = require("path");
 import { getPhotoBackgroundResourcePaths } from "./file-system.js";
-import { setMeasurementUnitsIntoLocalStorage, getMeasurementUnitsFromLocalStorage } from "./measurement-units";
+import { setMeasurementUnitsIntoLocalStorage, getMeasurementUnitsFromLocalStorage } from "./measurement-units.js";
 
 $(()=> {
   // Do dynamic search results when user types in a city, stroke by stroke
