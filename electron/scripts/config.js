@@ -6,7 +6,9 @@ const path = require("path");
 import { getPhotoBackgroundResourcePaths } from "./file-system.js";
 import { setMeasurementUnitsIntoLocalStorage, getMeasurementUnitsFromLocalStorage } from "./measurement-units.js";
 
+
 let selectedCityInformation;
+let isWin = process.platform === "win32"
 
 $(()=> {
   // Do dynamic search results when user types in a city, stroke by stroke
@@ -161,8 +163,13 @@ async function refreshBackgroundImageThumbnails(max = 6) {
     backgroundImageElementURLS = backgroundImageElementURLS.slice(0, max + 1);
   }
   backgroundImageElementURLS.forEach((url) => {
-    $(".options-change-background-image-enclosure")
-    .append(getBackGroundImageFromResource(path.join(electronPath, "electron\\img\\backgrounds\\" + url), url));
+    if (!isWin) {
+      $(".options-change-background-image-enclosure")
+      .append(getBackGroundImageFromResource(path.join(electronPath, "electron/img/backgrounds/" + url), url)); 
+    } else {
+      $(".options-change-background-image-enclosure")
+      .append(getBackGroundImageFromResource(path.join(electronPath, "electron\\img\\backgrounds\\" + url), url)); 
+    }
   });
 }
 
