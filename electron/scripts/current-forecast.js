@@ -1,17 +1,23 @@
 
 import { getForecastFromAPI,
-  updateWeatherForecastUI } from "./weather-functions.js";
+  updateWeatherForecastUI, getFromLocalStorage } from "./weather-functions.js";
+
+import { getMeasurementUnitsFromLocalStorage } from "./measurement-units.js";
+require("dotenv").config();
 
 $(async()=> {
   /* When this page loads, we need to do an axios fetch request to the API
   to get weather for the city. Then call a method to update the UI
   */
  loadBackGroundFromLocalStorage();
+  const key = process.env.API_KEY;
+  const savedCityInfo = getFromLocalStorage();
+  const units = getMeasurementUnitsFromLocalStorage();
   try {
-    const { data } = await getForecastFromAPI();
+    const { data } = await getForecastFromAPI(savedCityInfo.lat, savedCityInfo.lon, key, units);
     updateWeatherForecastUI(data);
   } catch (ex) {
-    alert(ex);
+    console.log(ex);
   }
 });
 

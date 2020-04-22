@@ -1,11 +1,12 @@
 window.$ = window.jQuery = require("jquery");
 const cityList = require("../public/data/city.list.json");
-let selectedCityInformation;
 const assert = require("assert");
 const electronPath = require("electron-root-path").rootPath;
 const path = require("path");
 import { getPhotoBackgroundResourcePaths } from "./file-system.js";
 import { setMeasurementUnitsIntoLocalStorage, getMeasurementUnitsFromLocalStorage } from "./measurement-units.js";
+
+let selectedCityInformation;
 
 $(()=> {
   // Do dynamic search results when user types in a city, stroke by stroke

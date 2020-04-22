@@ -17,7 +17,6 @@ export function setMeasurementUnitsIntoLocalStorage(unit) {
  */
 export function getMeasurementUnitsFromLocalStorage () {
   const units = window.localStorage.getItem("units");
-  console.log("L-21 Units was", units);
   if (units && units !== "undefined") {
     return units;
   } else {

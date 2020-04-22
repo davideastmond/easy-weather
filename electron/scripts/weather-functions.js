@@ -9,23 +9,19 @@ import { getMeasurementUnitsFromLocalStorage, getMeasurementUnitsSymbol } from "
 export function getWindCompassDirectionFromDegrees(degrees) {
   const compassDirections = ["N","NNE","NE","ENE","E","ESE", "SE", "SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
   const value = ((degrees / 22.5) + 0.5);
-  return compassDirections[Math.ceil(value % 16)];
+  return compassDirections[Math.floor(value % 16)];
 }
 
-export function getWindSpeedInKmPerHour(speedInMetresPerSecond) {
-  return Math.ceil(speedInMetresPerSecond * 3.6);
+export function getWindSpeed(speed, units) {
+  return units === "metric" ? Math.ceil(speed * 3.6) : Math.ceil(speed);
 }
 
 /**
  * Helper method to pull from localStorage and do fetch
  * @returns {Promise<any>} the results of the axios.get request
  */
-export async function getForecastFromAPI() {
-  //TODO: Metric / Imperial units -
-  const savedCityInfo = getFromLocalStorage();
-  const units = getMeasurementUnitsFromLocalStorage();
-  const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${savedCityInfo.lat}&lon=${savedCityInfo.lon}&appid=${process.env.API_KEY}&units=${units}`;
-  
+export async function getForecastFromAPI(lat, lon, key, units) {
+  const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${key}&units=${units}`;
   return await axios.get(url);
 }
 
@@ -50,6 +46,7 @@ export function updateWeatherForecastUI(data) {
  updateWeatherIcon(data.current.weather[0].icon);
  updateWindData(data.current);
  updateSunriseSunset(data.current);
+ updateAtmosphericPressure(data.current);
 }
 
 /**
@@ -95,19 +92,25 @@ function updateWindData(data) {
   ({ wind_speed, wind_gust, wind_deg } = data);
 
   const windCompassDirection = getWindCompassDirectionFromDegrees(wind_deg);
-  const windSpeedInKmHr = getWindSpeedInKmPerHour(wind_speed);
-  $(".wind-speed").text( `Speed: ${windSpeedInKmHr} ${getMeasurementUnitsSymbol("wind")} ${windCompassDirection}`);
-  $(".wind-gust").text(`Gust: ${wind_gust && getWindSpeedInKmPerHour(wind_gust) + getMeasurementUnitsSymbol("wind") || "-" }`);
+  const windSpeed = getWindSpeed(wind_speed, getMeasurementUnitsFromLocalStorage());
+  $(".wind-speed").text(`Speed: ${windSpeed} ${getMeasurementUnitsSymbol("wind")} ${windCompassDirection}`);
+  $(".wind-gust").text(`Gust: ${wind_gust && getWindSpeed(wind_gust) + getMeasurementUnitsSymbol("wind") || "-" }`);
 }
 
 function updateSunriseSunset(data) {
   let sunrise, sunset;
   ({ sunrise, sunset } = data);
   
-  $(".sun-sunrise").text(`Rise ${moment.unix(sunrise).format("HH:mm")}`);
-  $(".sun-sunset").text(`Set ${moment.unix(sunset).format("HH:mm")}`);
+  $(".sun-sunrise").text(`Rise: ${moment.unix(sunrise).format("HH:mm")}`);
+  $(".sun-sunset").text(`Set: ${moment.unix(sunset).format("HH:mm")}`);
 }
 
-function getFromLocalStorage() {
+export function getFromLocalStorage() {
   return JSON.parse(window.localStorage.getItem("saved_city_data"));
+}
+
+function updateAtmosphericPressure(data) {
+  let pressure;
+  ({ pressure } = data);
+  $(".atmospheric-pressure").text(`${pressure} ${getMeasurementUnitsSymbol("pressure")}`);
 }

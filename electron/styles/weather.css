@@ -61,6 +61,7 @@
   height: auto;
   font-size: 30px;
   text-shadow: 2px 2px #2a2e33;
+  background-color: #595b66;
 }
 
 .temperature-actual {
@@ -110,7 +111,7 @@
   background-color: #2a2e33;
 }
 
-.wind-speed, .wind-gust, .wind_deg, .sun-sunrise, .sun-sunset {
+.wind-speed, .wind-gust, .wind_deg, .sun-sunrise, .sun-sunset, .atmospheric-pressure {
   display: inline-block;
   font-size: 15px;
   margin-left: 0.1em;
