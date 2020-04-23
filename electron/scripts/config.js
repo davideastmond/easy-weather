@@ -67,9 +67,7 @@ $(()=> {
 });
 
 function liveLoadBackgroundImage(fileName) {
-  console.log(fileName)
   const fn = `../img/backgrounds/${fileName}`;
-  console.log("71", fn);
   $(".configuration-window").css("background-image", "url(" + fn + ")");
 }
 
