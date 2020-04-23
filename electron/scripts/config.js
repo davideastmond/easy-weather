@@ -67,13 +67,16 @@ $(()=> {
 });
 
 function liveLoadBackgroundImage(fileName) {
+  console.log(fileName)
   const fn = `../img/backgrounds/${fileName}`;
+  console.log("71", fn);
   $(".configuration-window").css("background-image", "url(" + fn + ")");
 }
 
 function loadBackGroundFromLocalStorage() {
   const currentImage = window.localStorage.getItem("backgroundImage");
-  if (currentImage !== "undefined") {
+
+  if (currentImage !== "undefined" && currentImage !== null) {
     liveLoadBackgroundImage(currentImage);
   } else {
     loadDefaultBackground();
@@ -82,7 +85,7 @@ function loadBackGroundFromLocalStorage() {
 
 function loadDefaultBackground() {
   liveLoadBackgroundImage("background_003_blue_sea_sky.jpg");
-  sStorage.setItem("backgroundImage", "background_003_blue_sea_sky.jpg" );
+  window.localStorage.setItem("backgroundImage", "background_003_blue_sea_sky.jpg" );
 }
 /**
  * Basically populates the global object. This called when user selects
