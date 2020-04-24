@@ -111,7 +111,7 @@
   background-color: #2a2e33;
 }
 
-.wind-speed, .wind-gust, .wind_deg, .sun-sunrise, .sun-sunset, .atmospheric-pressure {
+.wind-speed, .wind-gust, .wind_deg, .sun-sunrise, .sun-sunset, .atmospheric-pressure, .humidity {
   display: inline-block;
   font-size: 15px;
   margin-left: 0.1em;
