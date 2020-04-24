@@ -25,6 +25,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
+    - run: npm install -g typescript
+    - run: npm tsc -w
     - run: npm run build --if-present
     - run: npm test
       env:
