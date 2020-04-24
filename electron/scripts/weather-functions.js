@@ -47,6 +47,7 @@ export function updateWeatherForecastUI(data) {
  updateWindData(data.current);
  updateSunriseSunset(data.current);
  updateAtmosphericPressure(data.current);
+ updateHumidity(data.current);
 }
 
 /**
@@ -103,6 +104,12 @@ function updateSunriseSunset(data) {
   
   $(".sun-sunrise").text(`Rise: ${moment.unix(sunrise).format("HH:mm")}`);
   $(".sun-sunset").text(`Set: ${moment.unix(sunset).format("HH:mm")}`);
+}
+
+function updateHumidity(data) {
+  let humidity;
+  ({ humidity } = data);
+  $(".humidity").text(`${humidity}%`);
 }
 
 export function getFromLocalStorage() {
