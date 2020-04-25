@@ -1,6 +1,6 @@
 import { getWindCompassDirectionFromDegrees, getWindSpeed } from "../electron/scripts/weather-functions.js";
 
-describe.only("Conversion tests", ()=> {
+describe("Conversion tests", ()=> {
   test("converts wind direction in degrees to compass coordinates (90 degrees)", ()=> {
     const result = getWindCompassDirectionFromDegrees(90);
     expect(result).toBe("E");
