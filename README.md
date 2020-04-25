@@ -14,7 +14,18 @@ It shows up-to-date weather data for the location of your choosing.
 - Set units (metric / imperial)
 
 ## Installation
+- Clone / fork the repo
+- Run `npm i`
+- Install typescript and compile `main.ts`
+- Add your API key from openWeather (https://home.openweathermap.org/) to a 
+.env as per the sample.env file
+- run `npm start` from the command line.
+
+## Tests
+- Run jest tests using `npm t`
+
 ## Dependencies
+- Typescript
 
 ## Image / Photo Credits
 (https://unsplash.com/images/stock/royalty-free)
