@@ -11,7 +11,7 @@ $(async()=> {
   */
  loadBackGroundFromLocalStorage();
   const key = process.env.API_KEY;
-  const savedCityInfo = getFromLocalStorage();
+  const savedCityInfo = getFromLocalStorage(window.localStorage);
   const units = getMeasurementUnitsFromLocalStorage();
   try {
     const { data } = await getForecastFromAPI(savedCityInfo.lat, savedCityInfo.lon, key, units);

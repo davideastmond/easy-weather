@@ -1,4 +1,4 @@
-# Easy-Weather
+# Easy-weather
 ![mainscreen](https://github.com/davideastmond/easy-weather/blob/master/docs/img/sc000.JPG)
 
 ![options](https://github.com/davideastmond/easy-weather/blob/master/docs/img/sc001.jpg)
@@ -16,9 +16,10 @@ It shows up-to-date weather data for the location of your choosing.
 ## Installation
 - Clone / fork the repo
 - Run `npm i`
+- create a `.env` file
+- Add your API key from openWeather (https://home.openweathermap.org/) to the 
+  .env as per the sample.env file
 - Install typescript and compile `main.ts`
-- Add your API key from openWeather (https://home.openweathermap.org/) to a 
-.env as per the sample.env file
 - run `npm start` from the command line.
 
 ## Tests

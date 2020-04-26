@@ -15,12 +15,12 @@ export function setMeasurementUnitsIntoLocalStorage(unit) {
 /**
  * @returns {string} either "metric" or "imperial"
  */
-export function getMeasurementUnitsFromLocalStorage () {
-  const units = window.localStorage.getItem("units");
+export function getMeasurementUnitsFromLocalStorage(storage) {
+  assert(storage.getItem, "Wrong object passed for obtaining local storage");
+  const units = storage.getItem("units");
   if (units && units !== "undefined") {
     return units;
   } else {
-    console.log("Measurement units was undefined: reset to metric");
     setMeasurementUnitsIntoLocalStorage("metric");
     return "metric";
   }
@@ -31,7 +31,7 @@ export function getMeasurementUnitsFromLocalStorage () {
  * proper unit of measurement given the type
  * @param {string} type "temperature" | "wind" | "pressure"
  */
-export function getMeasurementUnitsSymbol(type) {
-  const units = getMeasurementUnitsFromLocalStorage();
+export function getMeasurementUnitsSymbol(type, storage) {
+  const units = getMeasurementUnitsFromLocalStorage(storage);
   return MEASUREMENTS[units][type];
 }

@@ -1,4 +1,7 @@
-import { getWindCompassDirectionFromDegrees, getWindSpeed } from "../electron/scripts/weather-functions.js";
+import { getWindCompassDirectionFromDegrees, getWindSpeed, 
+  makeWeatherConditionCaptionString } from "../electron/scripts/weather-functions.js";
+
+  import { getMeasurementUnitsSymbol } from "../electron/scripts/measurement-units";
 
 describe("Conversion tests", ()=> {
   test("converts wind direction in degrees to compass coordinates (90 degrees)", ()=> {
@@ -22,4 +25,34 @@ describe("Conversion tests", ()=> {
     const result = getWindSpeed(speedValue, "imperial");
     expect(result).toBe(30);
   });
+
+  test("makes a proper weather condition caption string", ()=> {
+    const testString = [{ main: "testing"}, { main: "one"}, { main: "two" }];
+    const result = makeWeatherConditionCaptionString(testString);
+    expect(result).toBe("testing one two");
+  })
+
+  test("returns correct measurement units symbol for metric measurement system", ()=> {
+    const storage = {
+      units: "metric",
+      getItem: (i) => {
+        return storage[i];
+      }
+    }
+    expect(getMeasurementUnitsSymbol("temperature", storage)).toBe(" °C");
+    expect(getMeasurementUnitsSymbol("wind", storage)).toBe(" km/h");
+    expect(getMeasurementUnitsSymbol("pressure", storage)).toBe(" kPa")
+  })
+
+  test("returns correct measurement units symbol for imperial measurement system", ()=> {
+    const storage = {
+      units: "imperial",
+      getItem: (i) => {
+        return storage[i];
+      }
+    }
+    expect(getMeasurementUnitsSymbol("temperature", storage)).toBe(" °F");
+    expect(getMeasurementUnitsSymbol("wind", storage)).toBe(" m/h");
+    expect(getMeasurementUnitsSymbol("pressure", storage)).toBe(" mb");
+  })
 });

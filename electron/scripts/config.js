@@ -212,7 +212,7 @@ function refreshImages() {
 }
 
 function loadDefaultMeasurementUnits() {
-  const units = getMeasurementUnitsFromLocalStorage();
+  const units = getMeasurementUnitsFromLocalStorage(window.localStorage);
   // update UI
   $(".metric").removeClass("active");
   $(".imperial").removeClass("active");

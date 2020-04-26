@@ -5,6 +5,7 @@ require("dotenv").config();
 const degreeSymbol = "°";
 const moment = require("moment");
 import { getMeasurementUnitsFromLocalStorage, getMeasurementUnitsSymbol } from "./measurement-units.js";
+const assert = require("assert");
 
 export function getWindCompassDirectionFromDegrees(degrees) {
   const compassDirections = ["N","NNE","NE","ENE","E","ESE", "SE", "SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
@@ -25,11 +26,14 @@ export async function getForecastFromAPI(lat, lon, key, units) {
   return await axios.get(url);
 }
 
+/**
+* @param conditions {string[]}
+ */
 export function makeWeatherConditionCaptionString(conditions) {
   return conditions.reduce((acc, cv) => {
     acc += cv.main;
     return acc + " ";
-  }, "");
+  }, "").trim();
 }
 
 /**
@@ -38,7 +42,7 @@ export function makeWeatherConditionCaptionString(conditions) {
 */
 export function updateWeatherForecastUI(data) {
  console.log(data);
- updateCityName(getFromLocalStorage().city_name);
+ updateCityName(getFromLocalStorage(window.localStorage).city_name);
  updateTemperature(data.current.temp);
  updateTemperatureFeelsLike(data.current.feels_like);
  updateTime(data.current.dt);
@@ -61,7 +65,7 @@ function updateCityName(cityName) {
 
 function updateTemperature(temp) {
   const roundedTemperature = Math.floor(temp);
-  $(".temperature-actual").text(Math.floor(roundedTemperature).toString() + getMeasurementUnitsSymbol("temperature"));
+  $(".temperature-actual").text(Math.floor(roundedTemperature).toString() + getMeasurementUnitsSymbol("temperature", window.localStorage));
 }
 
 function updateTime(time) {
@@ -93,7 +97,7 @@ function updateWindData(data) {
   ({ wind_speed, wind_gust, wind_deg } = data);
 
   const windCompassDirection = getWindCompassDirectionFromDegrees(wind_deg);
-  const windSpeed = getWindSpeed(wind_speed, getMeasurementUnitsFromLocalStorage());
+  const windSpeed = getWindSpeed(wind_speed, getMeasurementUnitsFromLocalStorage(window.localStorage));
   $(".wind-speed").text(`Speed: ${windSpeed} ${getMeasurementUnitsSymbol("wind")} ${windCompassDirection}`);
   $(".wind-gust").text(`Gust: ${wind_gust && getWindSpeed(wind_gust) + getMeasurementUnitsSymbol("wind") || "-" }`);
 }
@@ -112,10 +116,20 @@ function updateHumidity(data) {
   $(".humidity").text(`${humidity}%`);
 }
 
-export function getFromLocalStorage() {
-  return JSON.parse(window.localStorage.getItem("saved_city_data"));
+/**
+ * 
+ * @param {{}} storage should be window.localStorage object
+ * @returns {string}
+ */
+export function getFromLocalStorage(storage) {
+  assert(storage.getItem, "Incorrect local storage object passed to this method");
+  return JSON.parse(storage.getItem("saved_city_data"));
 }
 
+/**
+ * 
+ * @param {{}} data 
+ */
 function updateAtmosphericPressure(data) {
   let pressure;
   ({ pressure } = data);
