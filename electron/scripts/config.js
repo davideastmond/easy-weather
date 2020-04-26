@@ -158,20 +158,25 @@ function getListItem(cityListItem) {
  */
 async function refreshBackgroundImageThumbnails(max = 6) {
   // This gets all the paths regardless of amount
-  loadBackGroundFromLocalStorage(window.localStorage);
-  let backgroundImageElementURLS = await getPhotoBackgroundResourcePaths();
-  if (backgroundImageElementURLS.length > max) {
-    backgroundImageElementURLS = backgroundImageElementURLS.slice(0, max + 1);
-  }
-  backgroundImageElementURLS.forEach((url) => {
-    if (!isWin) {
-      $(".options-change-background-image-enclosure")
-      .append(getBackGroundImageFromResource(path.join(electronPath, "electron/img/backgrounds/" + url), url)); 
-    } else {
-      $(".options-change-background-image-enclosure")
-      .append(getBackGroundImageFromResource(path.join(electronPath, "electron\\img\\backgrounds\\" + url), url)); 
+  loadBackGroundFromLocalStorage();
+
+  try { 
+    let backgroundImageElementURLS = await getPhotoBackgroundResourcePaths();
+    if (backgroundImageElementURLS.length > max) {
+      backgroundImageElementURLS = backgroundImageElementURLS.slice(0, max + 1);
     }
-  });
+    backgroundImageElementURLS.forEach((url) => {
+      if (!isWin) {
+        $(".options-change-background-image-enclosure")
+        .append(getBackGroundImageFromResource(path.join(electronPath, "electron/img/backgrounds/" + url), url)); 
+      } else {
+        $(".options-change-background-image-enclosure")
+        .append(getBackGroundImageFromResource(path.join(electronPath, "electron\\img\\backgrounds\\" + url), url)); 
+      }
+    });
+  } catch (ex) {
+    console.log(ex);
+  }
 }
 
 /**
@@ -212,7 +217,7 @@ function refreshImages() {
 }
 
 function loadDefaultMeasurementUnits() {
-  const units = getMeasurementUnitsFromLocalStorage(window.localStorage);
+  const units = getMeasurementUnitsFromLocalStorage();
   // update UI
   $(".metric").removeClass("active");
   $(".imperial").removeClass("active");
