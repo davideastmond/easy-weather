@@ -3,16 +3,17 @@ import { getForecastFromAPI,
   updateWeatherForecastUI, getFromLocalStorage } from "./weather-functions.js";
 
 import { getMeasurementUnitsFromLocalStorage } from "./measurement-units.js";
+const assert = require("assert");
 require("dotenv").config();
 
 $(async()=> {
   /* When this page loads, we need to do an axios fetch request to the API
   to get weather for the city. Then call a method to update the UI
   */
- loadBackGroundFromLocalStorage();
+ loadBackGroundFromLocalStorage(window.localStorage);
   const key = process.env.API_KEY;
   const savedCityInfo = getFromLocalStorage(window.localStorage);
-  const units = getMeasurementUnitsFromLocalStorage();
+  const units = getMeasurementUnitsFromLocalStorage(window.localStorage);
   try {
     const { data } = await getForecastFromAPI(savedCityInfo.lat, savedCityInfo.lon, key, units);
     updateWeatherForecastUI(data);
@@ -32,12 +33,13 @@ function liveLoadBackgroundImage(fileName) {
   $(".current-forecast-background-image ").css("background-image", "url(" + fn + ")");
 }
 
-function loadBackGroundFromLocalStorage() {
-  const currentImage = window.localStorage.getItem("backgroundImage");
+function loadBackGroundFromLocalStorage(storage) {
+  assert(storage.getItem, "supply a valid local storage object")
+  const currentImage = storage.getItem("backgroundImage");
   if (currentImage !== "undefined") {
     liveLoadBackgroundImage(currentImage);
   } else {
     liveLoadBackgroundImage("background_003_blue_sea_sky.jpg");
-    sStorage.setItem("backgroundImage", "background_003_blue_sea_sky.jpg");
+    storage.setItem("backgroundImage", "background_003_blue_sea_sky.jpg");
   }
 }

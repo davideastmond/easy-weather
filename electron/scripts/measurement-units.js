@@ -16,6 +16,7 @@ export function setMeasurementUnitsIntoLocalStorage(unit) {
  * @returns {string} either "metric" or "imperial"
  */
 export function getMeasurementUnitsFromLocalStorage(storage) {
+  assert(storage, "storage isn't defined here");
   assert(storage.getItem, "Wrong object passed for obtaining local storage");
   const units = storage.getItem("units");
   if (units && units !== "undefined") {

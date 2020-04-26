@@ -41,17 +41,17 @@ export function makeWeatherConditionCaptionString(conditions) {
 * @param {{}} data data received from weatherAPI
 */
 export function updateWeatherForecastUI(data) {
- console.log(data);
- updateCityName(getFromLocalStorage(window.localStorage).city_name);
- updateTemperature(data.current.temp);
- updateTemperatureFeelsLike(data.current.feels_like);
- updateTime(data.current.dt);
- updateCurrentWeatherConditions(data.current.weather); // this is an array of weather conditions
- updateWeatherIcon(data.current.weather[0].icon);
- updateWindData(data.current);
- updateSunriseSunset(data.current);
- updateAtmosphericPressure(data.current);
- updateHumidity(data.current);
+  console.log(data);
+  updateCityName(getFromLocalStorage(window.localStorage).city_name);
+  updateTemperature(data.current.temp);
+  updateTemperatureFeelsLike(data.current.feels_like);
+  updateTime(data.current.dt);
+  updateCurrentWeatherConditions(data.current.weather); // this is an array of weather conditions
+  updateWeatherIcon(data.current.weather[0].icon);
+  updateWindData(data.current);
+  updateSunriseSunset(data.current);
+  updateAtmosphericPressure(data.current);
+  updateHumidity(data.current);
 }
 
 /**
@@ -89,7 +89,7 @@ function updateWeatherIcon(iconString) {
 
 function updateTemperatureFeelsLike(temp) {
   const roundedTemperature = Math.floor(temp);
-  $(".temperature-feels-like").text(`Feels like: ${Math.floor(roundedTemperature).toString()} ${getMeasurementUnitsSymbol("temperature")}`);
+  $(".temperature-feels-like").text(`Feels like: ${Math.floor(roundedTemperature).toString()} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`);
 }
 
 function updateWindData(data) {
@@ -98,8 +98,8 @@ function updateWindData(data) {
 
   const windCompassDirection = getWindCompassDirectionFromDegrees(wind_deg);
   const windSpeed = getWindSpeed(wind_speed, getMeasurementUnitsFromLocalStorage(window.localStorage));
-  $(".wind-speed").text(`Speed: ${windSpeed} ${getMeasurementUnitsSymbol("wind")} ${windCompassDirection}`);
-  $(".wind-gust").text(`Gust: ${wind_gust && getWindSpeed(wind_gust) + getMeasurementUnitsSymbol("wind") || "-" }`);
+  $(".wind-speed").text(`Speed: ${windSpeed} ${getMeasurementUnitsSymbol("wind", window.localStorage)} ${windCompassDirection}`);
+  $(".wind-gust").text(`Gust: ${wind_gust && getWindSpeed(wind_gust) + getMeasurementUnitsSymbol("wind", window.localStorage) || "-" }`);
 }
 
 function updateSunriseSunset(data) {
@@ -133,5 +133,5 @@ export function getFromLocalStorage(storage) {
 function updateAtmosphericPressure(data) {
   let pressure;
   ({ pressure } = data);
-  $(".atmospheric-pressure").text(`${pressure} ${getMeasurementUnitsSymbol("pressure")}`);
+  $(".atmospheric-pressure").text(`${pressure} ${getMeasurementUnitsSymbol("pressure", window.localStorage)}`);
 }

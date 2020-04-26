@@ -158,7 +158,7 @@ function getListItem(cityListItem) {
  */
 async function refreshBackgroundImageThumbnails(max = 6) {
   // This gets all the paths regardless of amount
-  loadBackGroundFromLocalStorage();
+  loadBackGroundFromLocalStorage(window.localStorage);
   let backgroundImageElementURLS = await getPhotoBackgroundResourcePaths();
   if (backgroundImageElementURLS.length > max) {
     backgroundImageElementURLS = backgroundImageElementURLS.slice(0, max + 1);
