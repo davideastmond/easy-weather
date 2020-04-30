@@ -41,7 +41,7 @@ describe("Conversion tests", ()=> {
     }
     expect(getMeasurementUnitsSymbol("temperature", storage)).toBe(" °C");
     expect(getMeasurementUnitsSymbol("wind", storage)).toBe(" km/h");
-    expect(getMeasurementUnitsSymbol("pressure", storage)).toBe(" kPa")
+    expect(getMeasurementUnitsSymbol("pressure", storage)).toBe(" kPa");
   })
 
   test("returns correct measurement units symbol for imperial measurement system", ()=> {
@@ -50,7 +50,7 @@ describe("Conversion tests", ()=> {
       getItem: (i) => {
         return storage[i];
       }
-    }
+    };
     expect(getMeasurementUnitsSymbol("temperature", storage)).toBe(" °F");
     expect(getMeasurementUnitsSymbol("wind", storage)).toBe(" m/h");
     expect(getMeasurementUnitsSymbol("pressure", storage)).toBe(" mb");

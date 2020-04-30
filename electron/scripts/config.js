@@ -8,7 +8,7 @@ import { setMeasurementUnitsIntoLocalStorage, getMeasurementUnitsFromLocalStorag
 
 
 let selectedCityInformation;
-let isWin = process.platform === "win32"
+let isWin = process.platform === "win32";
 
 $(()=> {
   // Do dynamic search results when user types in a city, stroke by stroke
@@ -217,7 +217,7 @@ function refreshImages() {
 }
 
 function loadDefaultMeasurementUnits() {
-  const units = getMeasurementUnitsFromLocalStorage();
+  const units = getMeasurementUnitsFromLocalStorage(window.localStorage);
   // update UI
   $(".metric").removeClass("active");
   $(".imperial").removeClass("active");

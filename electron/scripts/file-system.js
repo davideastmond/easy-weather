@@ -5,13 +5,13 @@ const fs = require('fs');
 let b_path;
 
 if (process.platform === "win32") {
-  b_path = "electron\\img\\backgrounds"
+  b_path = "electron\\img\\backgrounds";
 } else {
-  b_path = "electron/img/backgrounds"
+  b_path = "electron/img/backgrounds";
 }
 
 /**
- * @returns { Promise<string[]> } the paths to the built in photos
+ * @returns { Promise<string[]> } the paths to the built-in photos
  */
 export function getPhotoBackgroundResourcePaths() {
   return new Promise((resolve, reject) => {
