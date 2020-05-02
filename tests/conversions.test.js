@@ -38,7 +38,7 @@ describe("Conversion tests", ()=> {
       getItem: (i) => {
         return storage[i];
       }
-    }
+    };
     expect(getMeasurementUnitsSymbol("temperature", storage)).toBe(" °C");
     expect(getMeasurementUnitsSymbol("wind", storage)).toBe(" km/h");
     expect(getMeasurementUnitsSymbol("pressure", storage)).toBe(" kPa");

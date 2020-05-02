@@ -33,5 +33,5 @@ describe("local storage tests", () => {
     localStorageObj.saved_city_data = JSON.stringify(localStorageObj.saved_city_data);
     const result = getFromLocalStorage(localStorageObj);
     expect(result.city_name).toBe("Toronto");
-  })
-})
+  });
+});

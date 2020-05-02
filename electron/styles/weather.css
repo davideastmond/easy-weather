@@ -122,3 +122,24 @@
   background-size: 100vw 100vh;
 }
 
+.weather-card {
+  border-style: solid;
+  border-color: wheat;
+  border-width: 0.5px;
+  width: 100px;
+  height: 100%;
+  display: inline-block;
+  padding-left: 0.2em;
+}
+
+.temperature-display {
+  font-size: 20px;
+  display: inline-block;
+}
+
+.forecast-cards-enclosure {
+  padding-left: 1.5em;
+  padding-top: 1.5em;
+  padding-bottom: 1.5em;
+  height: 100%;
+}

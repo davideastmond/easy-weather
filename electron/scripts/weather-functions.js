@@ -52,6 +52,7 @@ export function updateWeatherForecastUI(data) {
   updateSunriseSunset(data.current);
   updateAtmosphericPressure(data.current);
   updateHumidity(data.current);
+  updateNextTwelveHourForecast(data.hourly);
 }
 
 /**
@@ -64,9 +65,10 @@ function updateCityName(cityName) {
 }
 
 function updateTemperature(temp) {
-  const roundedTemperature = Math.floor(temp);
-  $(".temperature-actual").text(Math.floor(roundedTemperature).toString() + getMeasurementUnitsSymbol("temperature", window.localStorage));
+  $(".temperature-actual").text(roundedTemperature(temp).toString() + getMeasurementUnitsSymbol("temperature", window.localStorage));
 }
+
+const roundedTemperature = (temp) => Math.floor(temp);
 
 function updateTime(time) {
   $(".date-time").text(moment.unix(time).format("dddd, MMMM D YYYY, HH:mm"));
@@ -78,7 +80,7 @@ function updateTime(time) {
 function updateCurrentWeatherConditions(conditions) {
   const caption = makeWeatherConditionCaptionString(conditions);
 
- $(".current-weather-conditions").text(caption);
+ $(".current-weather-conditions").text(caption);  
  $(".weather-condition-description").text(conditions[0].description);
 }
 
@@ -88,8 +90,7 @@ function updateWeatherIcon(iconString) {
 }
 
 function updateTemperatureFeelsLike(temp) {
-  const roundedTemperature = Math.floor(temp);
-  $(".temperature-feels-like").text(`Feels like: ${Math.floor(roundedTemperature).toString()} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`);
+  $(".temperature-feels-like").text(`Feels like: ${roundedTemperature(temp).toString()} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`);
 }
 
 function updateWindData(data) {
@@ -135,3 +136,34 @@ function updateAtmosphericPressure(data) {
   ({ pressure } = data);
   $(".atmospheric-pressure").text(`${pressure} ${getMeasurementUnitsSymbol("pressure", window.localStorage)}`);
 }
+
+/**
+ * Returns two hourly forecasts; the now + 6, and the other now + 12
+ * @param {} data 
+ */
+function updateNextTwelveHourForecast(data) {
+  const plusSix =data[5];
+  const plusTwelve = data[11];
+  $(".forecast-cards-enclosure").html( [ 
+    { temperature: `${roundedTemperature(plusSix.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}` }, 
+    { temperature:`${roundedTemperature(plusTwelve.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}` }
+  ].map(weatherCard).join(''));
+}
+
+/**
+ * A template for hourly forecast cards.
+ * 
+ */
+export const weatherCard = ({ temperature, 
+  feels_like, condition_main, condition_description, 
+  wind_speed, wind_direction, date_time}) => `
+  <div class="weather-card">
+    <div class="weather-card-temperature-enclosure">
+      <div class="card-temperature">
+        <p class="h4 temperature-display">${temperature}</p>
+      </div>
+      <div class="weather-card-weather-icon"> </div>
+    </div>
+  </div>
+`
+;
