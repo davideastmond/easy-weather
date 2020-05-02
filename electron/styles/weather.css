@@ -143,3 +143,19 @@
   padding-bottom: 1.5em;
   height: 100%;
 }
+
+.weather-card-weather-icon-container {
+  display: inline-block;
+  margin-right: 0px;
+}
+
+.weather-card-temperature-enclosure {
+  display: inline-block;
+}
+.card-temperature {
+  display: inline-block;
+}
+.card-icon {
+  width: 30px;
+  display: inline-block;
+}

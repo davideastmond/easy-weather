@@ -47,7 +47,7 @@ export function updateWeatherForecastUI(data) {
   updateTemperatureFeelsLike(data.current.feels_like);
   updateTime(data.current.dt);
   updateCurrentWeatherConditions(data.current.weather); // this is an array of weather conditions
-  updateWeatherIcon(data.current.weather[0].icon);
+  renderWeatherIcon(data.current.weather[0].icon, ".current-conditions-icon");
   updateWindData(data.current);
   updateSunriseSunset(data.current);
   updateAtmosphericPressure(data.current);
@@ -84,11 +84,14 @@ function updateCurrentWeatherConditions(conditions) {
  $(".weather-condition-description").text(conditions[0].description);
 }
 
-function updateWeatherIcon(iconString) {
-  const iconURL = `http://openweathermap.org/img/wn/${iconString}@2x.png`;
-  $(".current-conditions-icon").css({ "background-image" : `url("${iconURL}")` });
+function getWeatherIconURL(iconString) {
+  return `http://openweathermap.org/img/wn/${iconString}@2x.png`;
 }
 
+function renderWeatherIcon(iconString, jQueryElement) {
+  assert($(jQueryElement).length, "jQuery element does not exist");
+  $(jQueryElement).css({ "background-image" : `url("${getWeatherIconURL(iconString)}")` });
+}
 function updateTemperatureFeelsLike(temp) {
   $(".temperature-feels-like").text(`Feels like: ${roundedTemperature(temp).toString()} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`);
 }
@@ -145,8 +148,8 @@ function updateNextTwelveHourForecast(data) {
   const plusSix =data[5];
   const plusTwelve = data[11];
   $(".forecast-cards-enclosure").html( [ 
-    { temperature: `${roundedTemperature(plusSix.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}` }, 
-    { temperature:`${roundedTemperature(plusTwelve.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}` }
+    { temperature: `${roundedTemperature(plusSix.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`, icon_src: `${getWeatherIconURL(plusSix.weather[0].icon)}` }, 
+    { temperature:`${roundedTemperature(plusTwelve.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`, icon_src: `${getWeatherIconURL(plusTwelve.weather[0].icon)}` }
   ].map(weatherCard).join(''));
 }
 
@@ -156,14 +159,16 @@ function updateNextTwelveHourForecast(data) {
  */
 export const weatherCard = ({ temperature, 
   feels_like, condition_main, condition_description, 
-  wind_speed, wind_direction, date_time}) => `
+  wind_speed, wind_direction, date_time, icon_src}) => `
   <div class="weather-card">
     <div class="weather-card-temperature-enclosure">
       <div class="card-temperature">
         <p class="h4 temperature-display">${temperature}</p>
       </div>
-      <div class="weather-card-weather-icon"> </div>
     </div>
+    <div class="weather-card-weather-icon-container">
+        <img class="card-icon" src=${icon_src}>
+      </div>
   </div>
 `
 ;
