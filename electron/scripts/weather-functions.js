@@ -168,7 +168,8 @@ export const weatherCard = ({ temperature,
     </div>
     <div class="weather-card-weather-icon-container">
         <img class="card-icon" src=${icon_src}>
-      </div>
+    </div>
+    <div class="time-footer"></div>
   </div>
 `
 ;
