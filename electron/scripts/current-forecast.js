@@ -24,7 +24,7 @@ $(async()=> {
 
 $(()=> {
   $(".settings-icon").click((e) => {
-    window.location.href = " config.html";
+    window.location.href = "config.html";
   });
 });
 

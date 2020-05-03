@@ -39,6 +39,10 @@ $(()=> {
       alert(ex);
     }
   });
+  $(".close-config-enclosure").click((e) => {
+    $(".saved-button").prop("disabled", true);
+    window.location.href = "current-forecast.html";
+  });
 
   $(".options-change-background-image-enclosure").click((e)=>{
     window.localStorage.setItem("backgroundImage", e.target.dataset.id);
@@ -64,6 +68,7 @@ $(()=> {
   });
   loadDefaultMeasurementUnits();
   refreshBackgroundImageThumbnails();
+  getSavedCityInformationFromLocalStorage();
 });
 
 function liveLoadBackgroundImage(fileName) {
@@ -229,4 +234,35 @@ function loadDefaultMeasurementUnits() {
       $(".imperial").addClass("active");
       break;
   }
+}
+
+function getSavedCityInformationFromLocalStorage() {
+  try {
+    const cityInfo = JSON.parse(window.localStorage.getItem('saved_city_data'));
+    if (cityInfo) {
+      console.log(cityInfo);
+      $(".selected-city-label").text(getFullCityName(cityInfo));
+      $(".city-search-box").val(cityInfo.city_name);
+      $(".save-button").prop("disabled", false);
+      loadSelectedCityInformation(cityInfo);
+      $(".close-config-enclosure").css("visibility", "visible");
+    }
+  } catch(error) {
+    console.log("Error getting saved city information", error);
+  }
+}
+
+function getFullCityName(data) {
+  return `${data.city_name}, ${data.state} ${data.country}`.trim();
+}
+
+function loadSelectedCityInformation(info) {
+  selectedCityInformation = {
+    id: info.id,
+    city_name: info.city_name,
+    state: info.state,
+    country: info.country,
+    lat: info.lat,
+    lon: info.lon,
+  };
 }

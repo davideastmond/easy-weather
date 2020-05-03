@@ -92,3 +92,17 @@
   /* background-image: url("../img/backgrounds/background_003_blue_sea_sky.jpg"); */
   background-size: 100vw 100vh;
 }
+
+.close-config-enclosure {
+  float: right;
+  position: inherit;
+  font-size: 25px;
+  text-shadow: 2px 2px 3px grey;
+  margin-top: 0px;
+  margin-right: 0.5em;
+  visibility: hidden;
+}
+
+.close-config-enclosure:hover {
+  cursor: pointer;
+}
