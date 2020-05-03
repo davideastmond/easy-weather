@@ -159,3 +159,8 @@
   width: 30px;
   display: inline-block;
 }
+
+.time-footer {
+  margin-bottom: 0px;
+  clear: both;
+}

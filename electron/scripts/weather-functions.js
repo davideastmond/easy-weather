@@ -148,7 +148,7 @@ function updateNextTwelveHourForecast(data) {
   const plusSix =data[5];
   const plusTwelve = data[11];
   $(".forecast-cards-enclosure").html( [ 
-    { temperature: `${roundedTemperature(plusSix.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`, icon_src: `${getWeatherIconURL(plusSix.weather[0].icon)}` }, 
+    { temperature: `${roundedTemperature(plusSix.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`, icon_src: `${getWeatherIconURL(plusSix.weather[0].icon)}`, date_time: moment.unix(plusSix.dt).format("dddd HH:mm") }, 
     { temperature:`${roundedTemperature(plusTwelve.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`, icon_src: `${getWeatherIconURL(plusTwelve.weather[0].icon)}` }
   ].map(weatherCard).join(''));
 }
@@ -169,7 +169,7 @@ export const weatherCard = ({ temperature,
     <div class="weather-card-weather-icon-container">
         <img class="card-icon" src=${icon_src}>
     </div>
-    <div class="time-footer"></div>
+    <footer class="time-footer">${date_time}</footer>
   </div>
 `
 ;
