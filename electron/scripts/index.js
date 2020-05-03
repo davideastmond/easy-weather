@@ -6,7 +6,7 @@ window.$ = window.jQuery = require("jquery");
  */ 
 
 $(()=> {
-  window.localStorage.clear();
+  //window.localStorage.clear();
   const data = window.localStorage.getItem("saved_city_data");
   if (!data || data === "") {
     window.location.href = "config.html";
