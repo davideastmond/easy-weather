@@ -6,27 +6,52 @@ import { getMeasurementUnitsFromLocalStorage } from "./measurement-units.js";
 const assert = require("assert");
 require("dotenv").config();
 
+let xTimer = 120;
+
 $(async()=> {
   /* When this page loads, we need to do an axios fetch request to the API
   to get weather for the city. Then call a method to update the UI
   */
- loadBackGroundFromLocalStorage(window.localStorage);
-  const key = process.env.API_KEY;
-  const savedCityInfo = getFromLocalStorage(window.localStorage);
-  const units = getMeasurementUnitsFromLocalStorage(window.localStorage);
-  try {
-    const { data } = await getForecastFromAPI(savedCityInfo.lat, savedCityInfo.lon, key, units);
-    updateWeatherForecastUI(data);
-  } catch (ex) {
-    console.log(ex);
-  }
+  refresh();
+  startIntervalTimer();
 });
+
 
 $(()=> {
   $(".settings-icon").click((e) => {
     window.location.href = "config.html";
   });
 });
+
+async function refresh() {
+  loadBackGroundFromLocalStorage(window.localStorage);
+ const key = process.env.API_KEY;
+ const savedCityInfo = getFromLocalStorage(window.localStorage);
+ const units = getMeasurementUnitsFromLocalStorage(window.localStorage);
+ try {
+   const { data } = await getForecastFromAPI(savedCityInfo.lat, savedCityInfo.lon, key, units);
+   updateWeatherForecastUI(data);
+ } catch (ex) {
+   console.log(ex);
+ }
+}
+
+function startIntervalTimer() {
+  const timer = setInterval(() => {
+    xTimer -= 1;
+    if (xTimer > 10) {
+      console.log("Timer", xTimer);
+    } else if (xTimer <= 10 && xTimer >= 1) {
+      $(".weather-forecast-auto-update").css("visibility", "visible").text(`Will update in ${xTimer} seconds...`);
+      console.log("Countdown to refresh", xTimer);
+    }
+    if (xTimer <= 0) {
+      refresh();
+      xTimer = 120;
+      $(".weather-forecast-auto-update").css("visibility", "hidden");
+    }
+  }, (1000));
+}
 
 function liveLoadBackgroundImage(fileName) {
   const fn = `../img/backgrounds/${fileName}`;

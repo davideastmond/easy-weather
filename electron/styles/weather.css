@@ -161,6 +161,14 @@
 }
 
 .time-footer {
-  margin-bottom: 0px;
+  bottom: -93px;
+  position: relative;
   clear: both;
+  font-size: 12px;
+}
+
+.weather-forecast-auto-update {
+  position: absolute;
+  bottom: 0;
+  visibility: visible;
 }
