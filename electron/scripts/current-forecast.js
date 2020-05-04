@@ -42,11 +42,13 @@ function startIntervalTimer() {
     if (xTimer > 10) {
       console.log("Timer", xTimer);
     } else if (xTimer <= 10 && xTimer >= 1) {
+      $(".weather-forecast-auto-update").css("visibility", "visible").text(`Will update in ${xTimer} seconds...`);
       console.log("Countdown to refresh", xTimer);
     }
     if (xTimer <= 0) {
       refresh();
       xTimer = 120;
+      $(".weather-forecast-auto-update").css("visibility", "hidden");
     }
   }, (1000));
 }
