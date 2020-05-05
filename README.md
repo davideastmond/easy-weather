@@ -1,7 +1,7 @@
 # Easy-weather
-![mainscreen](https://github.com/davideastmond/easy-weather/blob/master/docs/img/sc000.JPG)
+![mainscreen](https://github.com/davideastmond/easy-weather/blob/master/docs/img/May_04_main_weather.jpg)
 
-![options](https://github.com/davideastmond/easy-weather/blob/master/docs/img/sc001.jpg)
+![options](https://github.com/davideastmond/easy-weather/blob/master/docs/img/May_04_settings_easy_weather.jpg)
 
 ## Description
 Desktop app using ElectronJS for Windows / Mac / Linux and openWeather API.
