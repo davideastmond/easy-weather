@@ -1,4 +1,5 @@
 # Easy-weather
+![Node.js CI](https://github.com/davideastmond/easy-weather/workflows/Node.js%20CI/badge.svg)
 ![mainscreen](https://github.com/davideastmond/easy-weather/blob/master/docs/img/May_04_main_weather.jpg)
 
 ![options](https://github.com/davideastmond/easy-weather/blob/master/docs/img/May_04_settings_easy_weather.jpg)

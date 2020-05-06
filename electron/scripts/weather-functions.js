@@ -7,6 +7,8 @@ const moment = require("moment");
 import { getMeasurementUnitsFromLocalStorage, getMeasurementUnitsSymbol } from "./measurement-units.js";
 const assert = require("assert");
 
+const WEATHER_CARD_DATE_FORMAT_CONSTANT = "ddd HH:mm";
+
 export function getWindCompassDirectionFromDegrees(degrees) {
   const compassDirections = ["N","NNE","NE","ENE","E","ESE", "SE", "SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
   const value = ((degrees / 22.5) + 0.5);
@@ -148,8 +150,8 @@ function updateNextTwelveHourForecast(data) {
   const plusSix =data[5];
   const plusTwelve = data[11];
   $(".forecast-cards-enclosure").html( [ 
-    { temperature: `${roundedTemperature(plusSix.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`, icon_src: `${getWeatherIconURL(plusSix.weather[0].icon)}`, date_time: moment.unix(plusSix.dt).format("dddd HH:mm") }, 
-    { temperature:`${roundedTemperature(plusTwelve.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`, icon_src: `${getWeatherIconURL(plusTwelve.weather[0].icon)}`, date_time: moment.unix(plusTwelve.dt).format("dddd HH:mm") }
+    { temperature: `${roundedTemperature(plusSix.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`, icon_src: `${getWeatherIconURL(plusSix.weather[0].icon)}`, date_time: moment.unix(plusSix.dt).format(WEATHER_CARD_DATE_FORMAT_CONSTANT) }, 
+    { temperature:`${roundedTemperature(plusTwelve.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`, icon_src: `${getWeatherIconURL(plusTwelve.weather[0].icon)}`, date_time: moment.unix(plusTwelve.dt).format(WEATHER_CARD_DATE_FORMAT_CONSTANT) }
   ].map(weatherCard).join(''));
 }
 
