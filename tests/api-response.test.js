@@ -1,7 +1,5 @@
 import { getForecastFromAPI } from "../electron/scripts/weather-functions";
 import regeneratorRuntime from "regenerator-runtime";
-import { AssertionError } from "assert";
-import { assert } from "assert";
 require("dotenv").config();
 
 describe("External API tests", ()=> {

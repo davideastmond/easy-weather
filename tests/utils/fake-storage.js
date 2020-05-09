@@ -8,4 +8,10 @@ export class FakeStorage {
   getItem(key) {
     return this.prop[key];
   }
+
+  saveObject(key, val) {
+    this.prop = {
+      [key]: JSON.stringify(val)
+    };
+  }
 }

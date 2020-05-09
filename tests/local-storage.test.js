@@ -10,18 +10,18 @@ describe("local storage tests", () => {
     expect(getMeasurementUnitsFromLocalStorage(fs2)).toBe("metric");
   });
 
-  test.only("gets city info from local storage", ()=> {
-    let localStorageObj = {
-      getItem: (key) => {
-        return localStorageObj[key];
-      },
-      saved_city_data: {
-        city_name: "Toronto"
-      }
-    };
-    
-    localStorageObj.saved_city_data = JSON.stringify(localStorageObj.saved_city_data);
-    const result = getFromLocalStorage(localStorageObj);
+  test("gets city info from local storage", ()=> {
+    const fs1 = new FakeStorage();
+    fs1.saveObject("saved_city_data", { city_name: "Toronto"});
+    const result = getFromLocalStorage(fs1);
     expect(result.city_name).toBe("Toronto");
   });
+
+  test("invalid key supplied", ()=> {
+    const fs1 = new FakeStorage();
+    fs1.saveObject("saved_city_data", { city_name: "Toronto"});
+    const result = getFromLocalStorage(fs1);
+    expect(result.invalid).toBe(undefined);
+  });
+
 });

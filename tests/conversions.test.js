@@ -1,7 +1,9 @@
 import { getWindCompassDirectionFromDegrees, getWindSpeed, 
   makeWeatherConditionCaptionString } from "../electron/scripts/weather-functions.js";
 
-  import { getMeasurementUnitsSymbol } from "../electron/scripts/measurement-units";
+import { getMeasurementUnitsSymbol } from "../electron/scripts/measurement-units";
+import { FakeStorage } from "./utils/fake-storage.js";
+
 
 describe("Conversion tests", ()=> {
   test("converts wind direction in degrees to compass coordinates (90 degrees)", ()=> {
@@ -30,29 +32,19 @@ describe("Conversion tests", ()=> {
     const testString = [{ main: "testing"}, { main: "one"}, { main: "two" }];
     const result = makeWeatherConditionCaptionString(testString);
     expect(result).toBe("testing one two");
-  })
+  });
 
   test("returns correct measurement units symbol for metric measurement system", ()=> {
-    const storage = {
-      units: "metric",
-      getItem: (i) => {
-        return storage[i];
-      }
-    };
-    expect(getMeasurementUnitsSymbol("temperature", storage)).toBe(" °C");
-    expect(getMeasurementUnitsSymbol("wind", storage)).toBe(" km/h");
-    expect(getMeasurementUnitsSymbol("pressure", storage)).toBe(" kPa");
+    const fs = new FakeStorage("units", "metric");
+    expect(getMeasurementUnitsSymbol("temperature", fs)).toBe(" °C");
+    expect(getMeasurementUnitsSymbol("wind", fs)).toBe(" km/h");
+    expect(getMeasurementUnitsSymbol("pressure", fs)).toBe(" kPa");
   });
 
   test("returns correct measurement units symbol for imperial measurement system", ()=> {
-    const storage = {
-      units: "imperial",
-      getItem: (i) => {
-        return storage[i];
-      }
-    };
-    expect(getMeasurementUnitsSymbol("temperature", storage)).toBe(" °F");
-    expect(getMeasurementUnitsSymbol("wind", storage)).toBe(" m/h");
-    expect(getMeasurementUnitsSymbol("pressure", storage)).toBe(" mb");
-  })
+    const fs = new FakeStorage("units", "imperial");
+    expect(getMeasurementUnitsSymbol("temperature", fs)).toBe(" °F");
+    expect(getMeasurementUnitsSymbol("wind", fs)).toBe(" m/h");
+    expect(getMeasurementUnitsSymbol("pressure", fs)).toBe(" mb");
+  });
 });
