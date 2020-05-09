@@ -23,6 +23,6 @@ describe("Fake storage test functionality", ()=> {
   test.only("fake storage object sets key value but value is an object", () => {
     const fakeStorage = new FakeStorage();
     fakeStorage.setItem("foo", { key: "value"});
-    expect(fakeStorage.getItem("foo")).toBe("value");
+    expect(fakeStorage.getItem("foo")).toMatchObject({key: "value"});
   });
 });
