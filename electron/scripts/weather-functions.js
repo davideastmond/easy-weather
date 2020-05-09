@@ -2,7 +2,6 @@ const axios = require("axios").default;
 window.$ = window.jQuery = require("jquery");
 require("dotenv").config();
 
-const degreeSymbol = "°";
 const moment = require("moment");
 import { getMeasurementUnitsFromLocalStorage, getMeasurementUnitsSymbol } from "./measurement-units.js";
 const assert = require("assert");
@@ -150,8 +149,8 @@ function updateNextTwelveHourForecast(data) {
   const plusSix =data[5];
   const plusTwelve = data[11];
   $(".forecast-cards-enclosure").html( [ 
-    { temperature: `${roundedTemperature(plusSix.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`, icon_src: `${getWeatherIconURL(plusSix.weather[0].icon)}`, date_time: moment.unix(plusSix.dt).format(WEATHER_CARD_DATE_FORMAT_CONSTANT) }, 
-    { temperature:`${roundedTemperature(plusTwelve.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`, icon_src: `${getWeatherIconURL(plusTwelve.weather[0].icon)}`, date_time: moment.unix(plusTwelve.dt).format(WEATHER_CARD_DATE_FORMAT_CONSTANT) }
+    { temperature: `${roundedTemperature(plusSix.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`, feels_like: `${roundedTemperature(plusSix.feels_like)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`, icon_src: `${getWeatherIconURL(plusSix.weather[0].icon)}`, date_time: moment.unix(plusSix.dt).format(WEATHER_CARD_DATE_FORMAT_CONSTANT), condition_description: makeWeatherConditionCaptionString(plusSix.weather) }, 
+    { temperature:`${roundedTemperature(plusTwelve.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`, feels_like: `${roundedTemperature(plusTwelve.feels_like)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`, icon_src: `${getWeatherIconURL(plusTwelve.weather[0].icon)}`, date_time: moment.unix(plusTwelve.dt).format(WEATHER_CARD_DATE_FORMAT_CONSTANT), condition_description: makeWeatherConditionCaptionString(plusTwelve.weather) }
   ].map(weatherCard).join(''));
 }
 
@@ -164,11 +163,15 @@ export const weatherCard = ({ temperature,
   <div class="weather-card">
     <div class="weather-card-temperature-enclosure">
       <div class="card-temperature">
-        <p class="h4 temperature-display">${temperature}</p>
+        <p class="temperature-display">${temperature}</p>
       </div>
     </div>
     <div class="weather-card-weather-icon-container">
         <img class="card-icon" src=${icon_src}>
+    </div>
+    <div class="temperature-display-feels-like">Feels like:${feels_like}</div>
+    <div class="weather-card-weather-description-container">
+      <div class="weather-card-weather-description">${condition_description}</div>
     </div>
     <footer class="time-footer">${date_time}</footer>
   </div>
