@@ -55,7 +55,7 @@ $(()=> {
     if (! $(e.target).hasClass("active")) {
       $(e.target).addClass("active");
       $(".imperial").removeClass("active");
-      setMeasurementUnitsIntoLocalStorage("metric");
+      setMeasurementUnitsIntoLocalStorage("metric", window.localStorage);
     }
   });
 
@@ -63,7 +63,7 @@ $(()=> {
     if (! $(e.target).hasClass("active")) {
       $(e.target).addClass("active");
       $(".metric").removeClass("active");
-      setMeasurementUnitsIntoLocalStorage("imperial");
+      setMeasurementUnitsIntoLocalStorage("imperial", window.localStorage);
     }
   });
   loadDefaultMeasurementUnits();

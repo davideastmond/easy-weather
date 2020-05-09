@@ -1,4 +1,4 @@
-import { getMeasurementUnitsFromLocalStorage } from "../electron/scripts/measurement-units";
+import { getMeasurementUnitsFromLocalStorage, setMeasurementUnitsIntoLocalStorage } from "../electron/scripts/measurement-units";
 import { getFromLocalStorage } from "../electron/scripts/weather-functions";
 import { FakeStorage } from "./utils/fake-storage";
 
@@ -24,4 +24,9 @@ describe("local storage tests", () => {
     expect(result.invalid).toBe(undefined);
   });
 
+  test("measurement units set into localStorage object", ()=> {
+    const fs1 = new FakeStorage();
+    setMeasurementUnitsIntoLocalStorage("metric", fs1);
+    expect(fs1.getItem("units")).toBe("metric");
+  })
 });

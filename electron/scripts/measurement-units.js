@@ -7,9 +7,10 @@ const MEASUREMENTS = {
  * Saves preferred unit of measurement to localStorage
  * @param {string} unit 
  */
-export function setMeasurementUnitsIntoLocalStorage(unit) {
+export function setMeasurementUnitsIntoLocalStorage(unit, storage) {
   assert(unit === "metric" || unit === "imperial", "Invalid measurement unit");
-  window.localStorage.setItem("units", unit);
+  assert(storage && storage.setItem, "Invalid storage object");
+  storage.setItem("units", unit);
 }
 
 /**
