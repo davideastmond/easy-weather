@@ -2,13 +2,6 @@ const assert = require("assert");
 const path = require("path");
 const rootPath = require('electron-root-path').rootPath;
 const fs = require('fs');
-// let b_path;
-
-// if (process.platform === "win32") {
-//   b_path = "electron\\img\\backgrounds";
-// } else {
-//   b_path = "electron/img/backgrounds";
-// }
 
 /**
  * @returns { Promise<string[]> } the paths to the built-in photos
