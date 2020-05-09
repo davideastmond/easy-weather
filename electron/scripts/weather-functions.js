@@ -157,7 +157,6 @@ function updateNextTwelveHourForecast(data) {
 
 /**
  * A template for hourly forecast cards.
- * 
  */
 export const weatherCard = ({ temperature, 
   feels_like, condition_main, condition_description, 
