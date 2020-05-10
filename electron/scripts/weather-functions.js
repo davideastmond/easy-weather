@@ -173,7 +173,9 @@ export const weatherCard = ({ temperature,
     <div class="weather-card-weather-description-container">
       <div class="weather-card-weather-description">${condition_description}</div>
     </div>
-    <footer class="time-footer">${date_time}</footer>
+    <div>
+      <footer class="time-footer">${date_time}</footer>
+    </div>
   </div>
 `
 ;
