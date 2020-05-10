@@ -31,8 +31,7 @@ jobs:
       env:
         CI: true
         API_KEY: ${{ secrets.API_KEY }}
-  
-  build:
+    
     runs-on: windows-latest
     
     strategy:
