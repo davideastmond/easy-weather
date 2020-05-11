@@ -6,11 +6,11 @@ import { getMeasurementUnitsFromLocalStorage } from "./measurement-units.js";
 const assert = require("assert");
 require("dotenv").config();
 
-let xTimer = 120;
+let refreshTimer = 120;
 
 $(async()=> {
   /* When this page loads, we need to do an axios fetch request to the API
-  to get weather for the city. Then call a method to update the UI
+  to get weather for the city. Then call a method to update the UI and start the refresh timer
   */
   refresh();
   startIntervalTimer();
@@ -25,29 +25,26 @@ $(()=> {
 
 async function refresh() {
   loadBackGroundFromLocalStorage(window.localStorage);
- const key = process.env.API_KEY;
- const savedCityInfo = getFromLocalStorage(window.localStorage);
- const units = getMeasurementUnitsFromLocalStorage(window.localStorage);
- try {
-   const { data } = await getForecastFromAPI(savedCityInfo.lat, savedCityInfo.lon, key, units);
-   updateWeatherForecastUI(data);
- } catch (ex) {
-   console.log(ex);
- }
+  const key = process.env.API_KEY;
+  const savedCityInfo = getFromLocalStorage(window.localStorage);
+  const units = getMeasurementUnitsFromLocalStorage(window.localStorage);
+  try {
+    const { data } = await getForecastFromAPI(savedCityInfo.lat, savedCityInfo.lon, key, units);
+    updateWeatherForecastUI(data);
+  } catch (ex) {
+    console.log(ex);
+  }
 }
 
 function startIntervalTimer() {
   const timer = setInterval(() => {
-    xTimer -= 1;
-    if (xTimer > 10) {
-      console.log("Timer", xTimer);
-    } else if (xTimer <= 10 && xTimer >= 1) {
-      $(".weather-forecast-auto-update").css("visibility", "visible").text(`Will update in ${xTimer} seconds...`);
-      console.log("Countdown to refresh", xTimer);
+    refreshTimer -= 1;
+    if (refreshTimer <= 10 && refreshTimer >= 1) {
+      $(".weather-forecast-auto-update").css("visibility", "visible").text(`Will update in ${refreshTimer} seconds...`);
     }
-    if (xTimer <= 0) {
+    if (refreshTimer <= 0) {
       refresh();
-      xTimer = 120;
+      refreshTimer = 120;
       $(".weather-forecast-auto-update").css("visibility", "hidden");
     }
   }, (1000));
@@ -59,7 +56,7 @@ function liveLoadBackgroundImage(fileName) {
 }
 
 function loadBackGroundFromLocalStorage(storage) {
-  assert(storage.getItem, "supply a valid local storage object")
+  assert(storage && storage.getItem, "supply a valid local storage object")
   const currentImage = storage.getItem("backgroundImage");
   if (currentImage !== "undefined") {
     liveLoadBackgroundImage(currentImage);

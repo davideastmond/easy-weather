@@ -167,7 +167,7 @@ export const weatherCard = ({ temperature,
       </div>
     </div>
     <div class="weather-card-weather-icon-container">
-        <img class="card-icon" src=${icon_src}>
+      <img class="card-icon" src=${icon_src}>
     </div>
     <div class="temperature-display-feels-like">Feels like:${feels_like}</div>
     <div class="weather-card-weather-description-container">

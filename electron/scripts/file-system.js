@@ -6,9 +6,9 @@ const fs = require('fs');
 /**
  * @returns { Promise<string[]> } the paths to the built-in photos
  */
-export function getPhotoBackgroundResourcePaths() {
+export function getPhotoBackgroundResourcePaths(resourcePath = "electron/img/backgrounds" ) {
   return new Promise((resolve, reject) => {
-    const dir_path = path.join(rootPath, getRelevantOSPath(process.platform, "electron/img/backgrounds"));
+    const dir_path = path.join(rootPath, getRelevantOSPath(process.platform, resourcePath));
     fs.readdir(dir_path, (err, res) => {
       if (err) reject(err);
       resolve(res);
@@ -22,9 +22,9 @@ export function getPhotoBackgroundResourcePaths() {
  * @param {string} pathString 
  */
 export function getRelevantOSPath(os, pathString) {
-  assert(os && pathString, "provide valid os (win32 || darwin ) and a path string");
+  assert(os && pathString, "provide valid os (win32 || darwin || linux ) and a path string");
   assert(!(pathString.includes("/") && pathString.includes("\\")), "invalid path string");
-  assert(os === "win32" || os === "darwin", "Invalid OS");
+  assert(os === "win32" || os === "darwin" || os === "linux", `Invalid OS ${os}`);
 
   // If there are no slashes in the path, return the path itself (no need to modify it)
   if (!(pathString.includes("/")) && !(pathString.includes("\\"))) {
@@ -32,7 +32,7 @@ export function getRelevantOSPath(os, pathString) {
   }
 
   let splitPath;
-  // Forward slashes for darwin, backslashes for win32
+  // Forward slashes for darwin / linux, backslashes for win32
   if (pathString.includes("/")) {
     splitPath = pathString.split("/");
   } else if ( pathString.includes("\\")) {
@@ -41,6 +41,8 @@ export function getRelevantOSPath(os, pathString) {
 
   switch(os) {
     case "darwin":
+      return splitPath.join("/");
+    case "linux":
       return splitPath.join("/");
     case "win32":
       return splitPath.join("\\");

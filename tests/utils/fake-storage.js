@@ -4,6 +4,7 @@
  * Useful for tests
  */
 export class FakeStorage {
+ 
   constructor(key, val) {
    this.prop = {
      [key]: val

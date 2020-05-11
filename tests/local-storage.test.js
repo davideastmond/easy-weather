@@ -24,9 +24,13 @@ describe("local storage tests", () => {
     expect(result.invalid).toBe(undefined);
   });
 
-  test("measurement units set into localStorage object", ()=> {
+  test("measurement units properly set / retrieved into / from localStorage object", ()=> {
     const fs1 = new FakeStorage();
+    const fs2 = new FakeStorage();
     setMeasurementUnitsIntoLocalStorage("metric", fs1);
+    setMeasurementUnitsIntoLocalStorage("imperial", fs2);
     expect(fs1.getItem("units")).toBe("metric");
-  })
+    expect(fs2.getItem("units")).toBe("imperial");
+
+  });
 });

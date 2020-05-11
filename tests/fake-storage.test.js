@@ -15,14 +15,15 @@ describe("Fake storage test functionality", ()=> {
 
   test("fake storage object sets the correct key value (where value is a string) and it can be retrieved", ()=> {
     const fakeStorage = new FakeStorage();
-    // create a new key value (string) on the fly and then test that it can be retrieved
     fakeStorage.setItem("foo", "bar"); 
     expect(fakeStorage.getItem("foo")).toBe("bar");
   });
 
-  test.only("fake storage object sets key value but value is an object", () => {
+  test("fake storage object sets key value but value is an object", () => {
     const fakeStorage = new FakeStorage();
-    fakeStorage.setItem("foo", { key: "value"});
-    expect(fakeStorage.getItem("foo")).toMatchObject({key: "value"});
+    const testItem = { key: "value", more_keys: "keys"};
+    fakeStorage.setItem("foo", testItem);
+    expect(fakeStorage.getItem("foo")).toMatchObject(testItem);
+    expect(fakeStorage.getItem("foo")).toMatchObject({ more_keys: "keys" , key: "value" });
   });
 });

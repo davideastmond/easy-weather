@@ -1,6 +1,7 @@
-import { getRelevantOSPath } from "../electron/scripts/file-system";
+import { getRelevantOSPath, getPhotoBackgroundResourcePaths } from "../electron/scripts/file-system";
+import regeneratorRuntime from "regenerator-runtime";
 
-describe("file system tests - os path formatting", ()=> {
+describe("file system tests", ()=> {
   test("returns the correctly-formatted path for win32", ()=> {
     const os = "win32";
     const path = "/test/test.path";
@@ -43,8 +44,13 @@ describe("file system tests - os path formatting", ()=> {
 
   test("path string has no slashes - just return original path string with no formatting", ()=> {
     const os = "win32";
-    const path = "mypath";
+    const path = "my_path";
     const result = getRelevantOSPath(os, path);
     expect(result).toBe(path);
+  });
+
+  test("photoResourcePaths return valid data and throws / rejects as expected", async()=> {
+    await expect(getPhotoBackgroundResourcePaths()).resolves.not.toHaveLength(0);
+    await expect(getPhotoBackgroundResourcePaths("/invalid/path")).rejects;
   });
 });
