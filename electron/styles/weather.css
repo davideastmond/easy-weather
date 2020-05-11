@@ -133,6 +133,11 @@
   padding-bottom: 0.1em;
 }
 
+.weather-card:hover {
+  cursor: pointer;
+  background-color: khaki;
+  color: black;
+}
 .temperature-display {
   font-size: 20px;
   display: inline-block;

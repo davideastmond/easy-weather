@@ -1,7 +1,15 @@
 const assert = require('assert');
 const MEASUREMENTS = {
-  metric: { temperature: " °C", wind: " km/h", pressure: " kPa"},
-  imperial:{ temperature: " °F", wind: " m/h", pressure: " mb"}
+  metric: {
+    temperature: " °C",
+    wind: " km/h",
+    pressure: " kPa"
+  },
+  imperial: {
+    temperature: " °F",
+    wind: " m/h",
+    pressure: " mb"
+  }
 };
 /**
  * Saves preferred unit of measurement to localStorage
