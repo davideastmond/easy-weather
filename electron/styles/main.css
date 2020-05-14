@@ -1,5 +1,6 @@
-
-.card, .card-body, .input-group {
+.card,
+.card-body,
+.input-group {
   background-color: whitesmoke;
 }
 
@@ -16,7 +17,7 @@
   width: 350px;
   height: auto;
   padding: 0.5em;
-  background-color:#7fa9b3;
+  background-color: #7fa9b3;
   display: inline-block;
   margin-left: 1em;
   position: absolute;
@@ -43,6 +44,7 @@
 .margin-left {
   margin-left: 4%;
 }
+
 .card-search-enclosure {
   padding: 1em;
 }
@@ -55,9 +57,11 @@
 .caption-label {
   color: white;
 }
+
 .search-page-width-items {
   width: 300px;
 }
+
 .city-results-container {
   margin-top: 0.5em;
   padding: 0.4em;
@@ -88,7 +92,13 @@
 .active-background-image-selected {
   border: 2px solid yellow;
 }
+
 .configuration-window {
+  /* background-image: url("../img/backgrounds/background_003_blue_sea_sky.jpg"); */
+  background-size: 100vw 100vh;
+}
+
+.hourly-window {
   /* background-image: url("../img/backgrounds/background_003_blue_sea_sky.jpg"); */
   background-size: 100vw 100vh;
 }

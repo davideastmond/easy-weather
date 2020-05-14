@@ -6,7 +6,7 @@ const fs = require('fs');
 /**
  * @returns { Promise<string[]> } the paths to the built-in photos
  */
-export function getPhotoBackgroundResourcePaths(resourcePath = "electron/img/backgrounds" ) {
+export function getPhotoBackgroundResourcePaths(resourcePath = "electron/img/backgrounds") {
   return new Promise((resolve, reject) => {
     const dir_path = path.join(rootPath, getRelevantOSPath(process.platform, resourcePath));
     fs.readdir(dir_path, (err, res) => {
@@ -35,16 +35,28 @@ export function getRelevantOSPath(os, pathString) {
   // Forward slashes for darwin / linux, backslashes for win32
   if (pathString.includes("/")) {
     splitPath = pathString.split("/");
-  } else if ( pathString.includes("\\")) {
+  } else if (pathString.includes("\\")) {
     splitPath = pathString.split("\\");
   }
 
-  switch(os) {
+  switch (os) {
     case "darwin":
       return splitPath.join("/");
     case "linux":
       return splitPath.join("/");
     case "win32":
       return splitPath.join("\\");
+  }
+}
+
+export function loadBackGroundFromLocalStorage(storage, UILoaderFunction) {
+  assert(storage && storage.getItem, "supply a valid local storage object");
+  assert(UILoaderFunction, "please supply a UI Loader function that references the UI instance to update");
+  const currentImage = storage.getItem("backgroundImage");
+  if (currentImage !== "undefined") {
+    UILoaderFunction(currentImage);
+  } else {
+    UILoaderFunction("background_003_blue_sea_sky.jpg");
+    storage.setItem("backgroundImage", "background_003_blue_sea_sky.jpg");
   }
 }
