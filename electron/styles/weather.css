@@ -175,10 +175,8 @@
 }
 
 .forecast-cards-enclosure {
-  padding-left: 1.5em;
-  padding-top: 1.5em;
-  padding-bottom: 1.5em;
-  height: 100%;
+  padding-left: 1.1em;
+  height: 82%;
 }
 
 .weather-card-weather-icon-container {
@@ -215,4 +213,17 @@
 
 .weather-card-weather-description-container {
   display: inline-block;
+}
+
+.close-config-enclosure {
+  float: right;
+  position: inherit;
+  font-size: 25px;
+  text-shadow: 2px 2px 3px grey;
+  margin-top: 0px;
+  margin-right: 0.5em;
+}
+
+.close-config-enclosure:hover {
+  cursor: pointer;
 }
