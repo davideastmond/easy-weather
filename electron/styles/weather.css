@@ -222,8 +222,18 @@
   text-shadow: 2px 2px 3px grey;
   margin-top: 0px;
   margin-right: 0.5em;
+  width: 100%;
 }
 
 .close-config-enclosure:hover {
   cursor: pointer;
+}
+
+.close-settings-icon {
+  margin-right: 0.2em;
+  float: right;
+}
+
+.tr-class-row {
+  padding: 0.2em;
 }
