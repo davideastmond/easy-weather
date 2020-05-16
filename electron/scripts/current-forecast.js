@@ -1,16 +1,12 @@
 import {
   getForecastFromAPI,
   updateWeatherForecastUI,
-  getFromLocalStorage
 } from "./weather-functions.js";
 
 import {
-  loadBackGroundFromLocalStorage
+  loadBackGroundFromLocalStorage,
+  getFetchConfigData
 } from "./file-system.js";
-
-import {
-  getMeasurementUnitsFromLocalStorage
-} from "./measurement-units.js";
 
 const assert = require("assert");
 require("dotenv").config();
@@ -33,13 +29,17 @@ $(() => {
 
 async function refresh() {
   loadBackGroundFromLocalStorage(window.localStorage, liveLoadBackgroundImage);
-  const key = process.env.API_KEY;
-  const savedCityInfo = getFromLocalStorage(window.localStorage);
-  const units = getMeasurementUnitsFromLocalStorage(window.localStorage);
+  let key, lat, lon, units;
+  ({
+    key,
+    lat,
+    lon,
+    units
+  } = getFetchConfigData(window.localStorage));
   try {
     const {
       data
-    } = await getForecastFromAPI(savedCityInfo.lat, savedCityInfo.lon, key, units);
+    } = await getForecastFromAPI(lat, lon, key, units);
     updateWeatherForecastUI(data);
   } catch (ex) {
     console.log(ex);

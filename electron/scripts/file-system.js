@@ -3,6 +3,44 @@ const path = require("path");
 const rootPath = require('electron-root-path').rootPath;
 const fs = require('fs');
 
+const MEASUREMENTS = {
+  metric: {
+    temperature: " °C",
+    wind: " km/h",
+    pressure: " kPa"
+  },
+  imperial: {
+    temperature: " °F",
+    wind: " m/h",
+    pressure: " mb"
+  }
+};
+
+/**
+ * 
+ * @param {{}} storage should be window.localStorage object
+ * @returns {string}
+ */
+export function getFromLocalStorage(storage) {
+  assert(storage.getItem, "Incorrect local storage object passed to this method");
+  return JSON.parse(storage.getItem("saved_city_data"));
+}
+
+/**
+ * @returns {string} either "metric" or "imperial"
+ */
+export function getMeasurementUnitsFromLocalStorage(storage) {
+  assert(storage, "storage isn't defined here");
+  assert(storage.getItem, "Wrong object passed for obtaining local storage");
+  const units = storage.getItem("units");
+  if (units && units !== "undefined") {
+    return units;
+  } else {
+    setMeasurementUnitsIntoLocalStorage("metric");
+    return "metric";
+  }
+}
+
 /**
  * @returns { Promise<string[]> } the paths to the built-in photos
  */
@@ -59,4 +97,42 @@ export function loadBackGroundFromLocalStorage(storage, UILoaderFunction) {
     UILoaderFunction("background_003_blue_sea_sky.jpg");
     storage.setItem("backgroundImage", "background_003_blue_sea_sky.jpg");
   }
+}
+
+/**
+ * Helper method that allows us to easily get the configuration 
+ * info we need to do a fetch
+ * request to the weatherAPI
+ */
+export function getFetchConfigData(storage) {
+  const key = process.env.API_KEY;
+  const savedCityInfo = getFromLocalStorage(storage);
+  const units = getMeasurementUnitsFromLocalStorage(storage);
+
+  return {
+    key: key,
+    lat: savedCityInfo.lat,
+    lon: savedCityInfo.lon,
+    units: units
+  };
+}
+
+/**
+ * Saves preferred unit of measurement to localStorage
+ * @param {string} unit 
+ */
+export function setMeasurementUnitsIntoLocalStorage(unit, storage) {
+  assert(unit === "metric" || unit === "imperial", "Invalid measurement unit");
+  assert(storage && storage.setItem, "Invalid storage object");
+  storage.setItem("units", unit);
+}
+
+/**
+ * Gets the current measurement units (metric or imperial) and returns the
+ * proper unit of measurement given the type
+ * @param {string} type "temperature" | "wind" | "pressure"
+ */
+export function getMeasurementUnitsSymbol(type, storage) {
+  const units = getMeasurementUnitsFromLocalStorage(storage);
+  return MEASUREMENTS[units][type];
 }

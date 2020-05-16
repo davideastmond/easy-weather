@@ -5,13 +5,10 @@ const electronPath = require("electron-root-path").rootPath;
 const path = require("path");
 import {
   getPhotoBackgroundResourcePaths,
-  loadBackGroundFromLocalStorage
-} from "./file-system.js";
-
-import {
+  loadBackGroundFromLocalStorage,
   setMeasurementUnitsIntoLocalStorage,
   getMeasurementUnitsFromLocalStorage
-} from "./measurement-units.js";
+} from "./file-system.js";
 
 let selectedCityInformation;
 let isWin = process.platform === "win32";
@@ -83,20 +80,6 @@ function liveLoadBackgroundImage(fileName) {
   $(".configuration-window").css("background-image", "url(" + fn + ")");
 }
 
-// function loadBackgroundFromLocalStorage() {
-//   const currentImage = window.localStorage.getItem("backgroundImage");
-
-//   if (currentImage !== "undefined" && currentImage !== null) {
-//     liveLoadBackgroundImage(currentImage);
-//   } else {
-//     loadDefaultBackground();
-//   }
-// }
-
-function loadDefaultBackground() {
-  liveLoadBackgroundImage("background_003_blue_sea_sky.jpg");
-  window.localStorage.setItem("backgroundImage", "background_003_blue_sea_sky.jpg");
-}
 /**
  * Basically populates the global object. This called when user selects
  * a city from the search result.

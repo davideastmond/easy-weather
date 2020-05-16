@@ -3,13 +3,20 @@ window.$ = window.jQuery = require("jquery");
 require("dotenv").config();
 
 const moment = require("moment");
-import { getMeasurementUnitsFromLocalStorage, getMeasurementUnitsSymbol } from "./measurement-units.js";
+import {
+  getMeasurementUnitsSymbol
+} from "./file-system.js";
+
+import {
+  getMeasurementUnitsFromLocalStorage,
+  getFromLocalStorage
+} from "./file-system.js";
 const assert = require("assert");
 
 const WEATHER_CARD_DATE_FORMAT_CONSTANT = "ddd HH:mm";
 
 export function getWindCompassDirectionFromDegrees(degrees) {
-  const compassDirections = ["N","NNE","NE","ENE","E","ESE", "SE", "SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
+  const compassDirections = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
   const value = ((degrees / 22.5) + 0.5);
   return compassDirections[Math.floor(value % 16)];
 }
@@ -19,7 +26,8 @@ export function getWindSpeed(speed, units) {
 }
 
 /**
- * Helper method to pull from localStorage and do fetch
+ * Wrapper method to fetch from weather API - make sure you get the 
+ * required parameters (lat, lon, key, units ) from localStorage when calling this
  * @returns {Promise<any>} the results of the axios.get request
  */
 export async function getForecastFromAPI(lat, lon, key, units) {
@@ -28,7 +36,7 @@ export async function getForecastFromAPI(lat, lon, key, units) {
 }
 
 /**
-* @param conditions {string[]}
+ * @param conditions {string[]}
  */
 export function makeWeatherConditionCaptionString(conditions) {
   return conditions.reduce((acc, cv) => {
@@ -38,9 +46,9 @@ export function makeWeatherConditionCaptionString(conditions) {
 }
 
 /**
-* Extracts relevant data from API response and updates the UI
-* @param {{}} data data received from weatherAPI
-*/
+ * Extracts relevant data from API response and updates the UI
+ * @param {{}} data data received from weatherAPI
+ */
 export function updateWeatherForecastUI(data) {
   console.log(data);
   updateCityName(getFromLocalStorage(window.localStorage).city_name);
@@ -81,8 +89,8 @@ function updateTime(time) {
 function updateCurrentWeatherConditions(conditions) {
   const caption = makeWeatherConditionCaptionString(conditions);
 
- $(".current-weather-conditions").text(caption);  
- $(".weather-condition-description").text(conditions[0].description);
+  $(".current-weather-conditions").text(caption);
+  $(".weather-condition-description").text(conditions[0].description);
 }
 
 function getWeatherIconURL(iconString) {
@@ -91,15 +99,22 @@ function getWeatherIconURL(iconString) {
 
 function renderWeatherIcon(iconString, jQueryElement) {
   assert($(jQueryElement).length, "jQuery element does not exist");
-  $(jQueryElement).css({ "background-image" : `url("${getWeatherIconURL(iconString)}")` });
+  $(jQueryElement).css({
+    "background-image": `url("${getWeatherIconURL(iconString)}")`
+  });
 }
+
 function updateTemperatureFeelsLike(temp) {
   $(".temperature-feels-like").text(`Feels like: ${roundedTemperature(temp).toString()} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`);
 }
 
 function updateWindData(data) {
   let wind_speed, wind_gust, wind_deg;
-  ({ wind_speed, wind_gust, wind_deg } = data);
+  ({
+    wind_speed,
+    wind_gust,
+    wind_deg
+  } = data);
 
   const windCompassDirection = getWindCompassDirectionFromDegrees(wind_deg);
   const windSpeed = getWindSpeed(wind_speed, getMeasurementUnitsFromLocalStorage(window.localStorage));
@@ -109,26 +124,21 @@ function updateWindData(data) {
 
 function updateSunriseSunset(data) {
   let sunrise, sunset;
-  ({ sunrise, sunset } = data);
-  
+  ({
+    sunrise,
+    sunset
+  } = data);
+
   $(".sun-sunrise").text(`Rise: ${moment.unix(sunrise).format("HH:mm")}`);
   $(".sun-sunset").text(`Set: ${moment.unix(sunset).format("HH:mm")}`);
 }
 
 function updateHumidity(data) {
   let humidity;
-  ({ humidity } = data);
+  ({
+    humidity
+  } = data);
   $(".humidity").text(`${humidity}%`);
-}
-
-/**
- * 
- * @param {{}} storage should be window.localStorage object
- * @returns {string}
- */
-export function getFromLocalStorage(storage) {
-  assert(storage.getItem, "Incorrect local storage object passed to this method");
-  return JSON.parse(storage.getItem("saved_city_data"));
 }
 
 /**
@@ -137,7 +147,9 @@ export function getFromLocalStorage(storage) {
  */
 function updateAtmosphericPressure(data) {
   let pressure;
-  ({ pressure } = data);
+  ({
+    pressure
+  } = data);
   $(".atmospheric-pressure").text(`${pressure} ${getMeasurementUnitsSymbol("pressure", window.localStorage)}`);
 }
 
@@ -146,20 +158,38 @@ function updateAtmosphericPressure(data) {
  * @param {} data 
  */
 function updateNextTwelveHourForecast(data) {
-  const plusSix =data[5];
+  const plusSix = data[5];
   const plusTwelve = data[11];
-  $(".forecast-cards-enclosure").html( [ 
-    { temperature: `${roundedTemperature(plusSix.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`, feels_like: `${roundedTemperature(plusSix.feels_like)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`, icon_src: `${getWeatherIconURL(plusSix.weather[0].icon)}`, date_time: moment.unix(plusSix.dt).format(WEATHER_CARD_DATE_FORMAT_CONSTANT), condition_description: makeWeatherConditionCaptionString(plusSix.weather) }, 
-    { temperature:`${roundedTemperature(plusTwelve.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`, feels_like: `${roundedTemperature(plusTwelve.feels_like)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`, icon_src: `${getWeatherIconURL(plusTwelve.weather[0].icon)}`, date_time: moment.unix(plusTwelve.dt).format(WEATHER_CARD_DATE_FORMAT_CONSTANT), condition_description: makeWeatherConditionCaptionString(plusTwelve.weather) }
+  $(".forecast-cards-enclosure").html([{
+      temperature: `${roundedTemperature(plusSix.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
+      feels_like: `${roundedTemperature(plusSix.feels_like)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
+      icon_src: `${getWeatherIconURL(plusSix.weather[0].icon)}`,
+      date_time: moment.unix(plusSix.dt).format(WEATHER_CARD_DATE_FORMAT_CONSTANT),
+      condition_description: makeWeatherConditionCaptionString(plusSix.weather)
+    },
+    {
+      temperature: `${roundedTemperature(plusTwelve.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
+      feels_like: `${roundedTemperature(plusTwelve.feels_like)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
+      icon_src: `${getWeatherIconURL(plusTwelve.weather[0].icon)}`,
+      date_time: moment.unix(plusTwelve.dt).format(WEATHER_CARD_DATE_FORMAT_CONSTANT),
+      condition_description: makeWeatherConditionCaptionString(plusTwelve.weather)
+    }
   ].map(weatherCard).join(''));
 }
 
 /**
  * A template for hourly forecast cards.
  */
-export const weatherCard = ({ temperature, 
-  feels_like, condition_main, condition_description, 
-  wind_speed, wind_direction, date_time, icon_src}) => `
+export const weatherCard = ({
+  temperature,
+  feels_like,
+  condition_main,
+  condition_description,
+  wind_speed,
+  wind_direction,
+  date_time,
+  icon_src
+}) => `
   <div class="weather-card">
     <div class="weather-card-temperature-enclosure">
       <div class="card-temperature">
@@ -177,5 +207,4 @@ export const weatherCard = ({ temperature,
       <footer class="time-footer">${date_time}</footer>
     </div>
   </div>
-`
-;
+`;
