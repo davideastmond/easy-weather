@@ -4,6 +4,8 @@
 
 ![options](https://github.com/davideastmond/easy-weather/blob/master/docs/img/May_04_settings_easy_weather.jpg)
 
+![hourly](https://github.com/davideastmond/easy-weather/blob/master/docs/img/May_17_hourly.jpg)
+
 ## Description
 Desktop app using ElectronJS for Windows / Mac / Linux and openWeather API.
 It shows up-to-date weather data for the location of your choosing.
