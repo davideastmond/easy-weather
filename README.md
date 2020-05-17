@@ -11,6 +11,7 @@ It shows up-to-date weather data for the location of your choosing.
 ## Features 
 - Choose city.
 - Up-to-date current conditions and 5-day forecast every few minutes
+- View hourly forecast
 - Set background image
 - Set units (metric / imperial)
 
@@ -19,7 +20,7 @@ It shows up-to-date weather data for the location of your choosing.
 - Run `npm i`
 - create a `.env` file
 - Add your API key from openWeather (https://home.openweathermap.org/) to the 
-  .env as per the sample.env file
+  .env as per the sample.env file _registration required_
 - Install typescript and compile `main.ts`
 - run `npm start` from the command line.
 
@@ -28,6 +29,8 @@ It shows up-to-date weather data for the location of your choosing.
 
 ## Dependencies
 - Typescript
+- moment.js
+- jQuery
 
 ## Image / Photo Credits
 (https://unsplash.com/images/stock/royalty-free)

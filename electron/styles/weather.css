@@ -254,5 +254,6 @@
 
 .hourly-list-table-master>tbody>tr>td {
   padding: 0px;
+  padding-left: 0.25em;
   border-top: none;
 }
