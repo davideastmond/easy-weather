@@ -84,8 +84,7 @@ export const hourlyStrip = ({
 }) => `
 <tr class="${styling} row-no-padding">
   <td>${dateTime}</td>
-  <td>${temp}</td>
-  <td>${feels_like}</td>
+  <td><div>${temp}</div> <div class="hourly-feels-like"> Feels like: ${feels_like}</div></td>
   <td> <img class="hourly-card-icon" src=${icon}></td>
   <td> <div> ${main_desc} </div> <div> ${sup_desc}</div></td>
   <td>${wind}</td>
