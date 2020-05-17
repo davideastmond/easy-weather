@@ -16,6 +16,8 @@ const MEASUREMENTS = {
   }
 };
 
+export const DEFAULT_BACKGROUND_IMAGE = "background_003_blue_sea_sky.jpg";
+
 /**
  * 
  * @param {{}} storage should be window.localStorage object
@@ -36,7 +38,7 @@ export function getMeasurementUnitsFromLocalStorage(storage) {
   if (units && units !== "undefined") {
     return units;
   } else {
-    setMeasurementUnitsIntoLocalStorage("metric");
+    setMeasurementUnitsIntoLocalStorage("metric", storage);
     return "metric";
   }
 }
@@ -91,11 +93,11 @@ export function loadBackGroundFromLocalStorage(storage, UILoaderFunction) {
   assert(storage && storage.getItem, "supply a valid local storage object");
   assert(UILoaderFunction, "please supply a UI Loader function that references the UI instance to update");
   const currentImage = storage.getItem("backgroundImage");
-  if (currentImage !== "undefined") {
+  if (currentImage && currentImage !== "undefined") {
     UILoaderFunction(currentImage);
   } else {
-    UILoaderFunction("background_003_blue_sea_sky.jpg");
-    storage.setItem("backgroundImage", "background_003_blue_sea_sky.jpg");
+    UILoaderFunction(DEFAULT_BACKGROUND_IMAGE);
+    storage.setItem("backgroundImage", DEFAULT_BACKGROUND_IMAGE);
   }
 }
 
@@ -123,7 +125,7 @@ export function getFetchConfigData(storage) {
  */
 export function setMeasurementUnitsIntoLocalStorage(unit, storage) {
   assert(unit === "metric" || unit === "imperial", "Invalid measurement unit");
-  assert(storage && storage.setItem, "Invalid storage object");
+  assert(storage && storage.setItem, `Invalid storage object`);
   storage.setItem("units", unit);
 }
 
@@ -135,4 +137,8 @@ export function setMeasurementUnitsIntoLocalStorage(unit, storage) {
 export function getMeasurementUnitsSymbol(type, storage) {
   const units = getMeasurementUnitsFromLocalStorage(storage);
   return MEASUREMENTS[units][type];
+}
+
+export function getWeatherIconURL(iconString) {
+  return `http://openweathermap.org/img/wn/${iconString}@2x.png`;
 }

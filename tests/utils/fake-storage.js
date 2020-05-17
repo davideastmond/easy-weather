@@ -4,11 +4,10 @@
  * Useful for tests
  */
 export class FakeStorage {
- 
+
   constructor(key, val) {
-   this.prop = {
-     [key]: val
-   };
+    this.prop = {};
+    this.prop[key] = val;
   }
 
   getItem(key) {
@@ -16,14 +15,10 @@ export class FakeStorage {
   }
 
   setItem(key, val) {
-    this.prop = {
-      [key]: val
-    };
+    this.prop[key] = val;
   }
 
   saveObject(key, val) {
-    this.prop = {
-      [key]: JSON.stringify(val)
-    };
+    this.prop[key] = JSON.stringify(val);
   }
 }

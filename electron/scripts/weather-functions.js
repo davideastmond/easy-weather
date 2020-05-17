@@ -4,7 +4,8 @@ require("dotenv").config();
 
 const moment = require("moment");
 import {
-  getMeasurementUnitsSymbol
+  getMeasurementUnitsSymbol,
+  getWeatherIconURL
 } from "./file-system.js";
 
 import {
@@ -13,7 +14,7 @@ import {
 } from "./file-system.js";
 const assert = require("assert");
 
-const WEATHER_CARD_DATE_FORMAT_CONSTANT = "ddd HH:mm";
+export const WEATHER_CARD_DATE_FORMAT_CONSTANT = "ddd HH:mm";
 
 export function getWindCompassDirectionFromDegrees(degrees) {
   const compassDirections = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
@@ -77,7 +78,7 @@ function updateTemperature(temp) {
   $(".temperature-actual").text(roundedTemperature(temp).toString() + getMeasurementUnitsSymbol("temperature", window.localStorage));
 }
 
-const roundedTemperature = (temp) => Math.floor(temp);
+export const roundedTemperature = (temp) => Math.floor(temp);
 
 function updateTime(time) {
   $(".date-time").text(moment.unix(time).format("dddd, MMMM D YYYY, HH:mm"));
@@ -91,10 +92,6 @@ function updateCurrentWeatherConditions(conditions) {
 
   $(".current-weather-conditions").text(caption);
   $(".weather-condition-description").text(conditions[0].description);
-}
-
-function getWeatherIconURL(iconString) {
-  return `http://openweathermap.org/img/wn/${iconString}@2x.png`;
 }
 
 function renderWeatherIcon(iconString, jQueryElement) {

@@ -1,12 +1,21 @@
 window.$ = window.jQuery = require("jquery");
 import {
   loadBackGroundFromLocalStorage,
-  getFetchConfigData
+  getFetchConfigData,
+  getWeatherIconURL,
+  getMeasurementUnitsSymbol,
+  getMeasurementUnitsFromLocalStorage
 } from "./file-system.js";
 
 import {
-  getForecastFromAPI
+  getForecastFromAPI,
+  roundedTemperature,
+  getWindCompassDirectionFromDegrees,
+  getWindSpeed,
+  WEATHER_CARD_DATE_FORMAT_CONSTANT
 } from "./weather-functions.js";
+
+const moment = require("moment");
 
 $(() => {
   loadBackGroundFromLocalStorage(window.localStorage, liveLoadBackgroundImage);
@@ -25,7 +34,7 @@ function liveLoadBackgroundImage(fileName) {
  * Fetches from API and then spawns rows to populate the table
  * of hourly forecast data
  */
-async function updateHourlyForecast(maxHrs = 12) {
+async function updateHourlyForecast(maxHrs = 48) {
   let lat, lon, key, units, data;
   ({
     lat,
@@ -38,22 +47,30 @@ async function updateHourlyForecast(maxHrs = 12) {
     data
   } = await getForecastFromAPI(lat, lon, key, units));
 
-  const hourlyObjects = data.hourly.slice(0, maxHrs + 1);
+  const hourlyObjects = data.hourly.slice(0, maxHrs);
 
-  $(".hourly-forecast-table-body").html(hourlyObjects.map((forecast) => {
+  // Instead of accessing localStorage to get measurement units for each pass in the 
+  // map we access localStorage once before the map begins.
+  const temperatureUnits = getMeasurementUnitsSymbol("temperature", window.localStorage);
+  const windSpeedUnits = getMeasurementUnitsSymbol("wind", window.localStorage);
+  const measurementUnits = getMeasurementUnitsFromLocalStorage(window.localStorage);
+
+  $(".hourly-forecast-table-body").html(hourlyObjects.map((forecast, index) => {
     return {
-      styling: "tr-class-row-dark",
-      dateTime: forecast.dt,
-      temp: forecast.temp,
-      feels_like: forecast.feels_like,
-      desc: forecast.weather[0].main
+      styling: index % 2 == 0 ? "tr-class-row-dark" : "tr-class-row-light",
+      dateTime: moment.unix(forecast.dt).format(WEATHER_CARD_DATE_FORMAT_CONSTANT),
+      temp: `${roundedTemperature(forecast.temp)} ${temperatureUnits}`,
+      feels_like: `${roundedTemperature(forecast.feels_like)} ${temperatureUnits}`,
+      icon: getWeatherIconURL(forecast.weather[0].icon),
+      main_desc: `${forecast.weather[0].main}`,
+      sup_desc: `${forecast.weather[0].description}`,
+      wind: `${getWindSpeed(forecast.wind_speed, measurementUnits)} ${windSpeedUnits} ${getWindCompassDirectionFromDegrees(forecast.wind_deg)}`
     };
   }).map(hourlyStrip).join(''));
 }
+
 /**
- * an hourlyStrip is a row of hourly data from the API.
- * This is a template
- *  
+ * an hourlyStrip template is a table row of hourly data from the API.
  */
 export const hourlyStrip = ({
   styling,
@@ -61,14 +78,15 @@ export const hourlyStrip = ({
   temp,
   feels_like,
   icon,
-  desc,
+  main_desc,
+  sup_desc,
   wind
 }) => `
-<tr class="${styling}">
+<tr class="${styling} row-no-padding">
   <td>${dateTime}</td>
   <td>${temp}</td>
   <td>${feels_like}</td>
-  <td>${icon}</td>
-  <td>${desc}</td>
+  <td> <img class="hourly-card-icon" src=${icon}></td>
+  <td> <div> ${main_desc} </div> <div> ${sup_desc}</div></td>
   <td>${wind}</td>
 </tr>`;

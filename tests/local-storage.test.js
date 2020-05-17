@@ -13,8 +13,10 @@ describe("local storage tests", () => {
   test("should return the correct unit of measurements when retrieving from local storage", () => {
     const fs1 = new FakeStorage("units", "imperial");
     const fs2 = new FakeStorage("units", "metric");
+    const fs3 = new FakeStorage("units", undefined);
     expect(getMeasurementUnitsFromLocalStorage(fs1)).toBe("imperial");
     expect(getMeasurementUnitsFromLocalStorage(fs2)).toBe("metric");
+    expect(getMeasurementUnitsFromLocalStorage(fs3)).toBe("metric");
   });
 
   test("gets city info from local storage", () => {
