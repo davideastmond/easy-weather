@@ -3,16 +3,19 @@ const cityList = require("../public/data/city.list.json");
 const assert = require("assert");
 const electronPath = require("electron-root-path").rootPath;
 const path = require("path");
-import { getPhotoBackgroundResourcePaths } from "./file-system.js";
-import { setMeasurementUnitsIntoLocalStorage, getMeasurementUnitsFromLocalStorage } from "./measurement-units.js";
-
+import {
+  getPhotoBackgroundResourcePaths,
+  loadBackGroundFromLocalStorage,
+  setMeasurementUnitsIntoLocalStorage,
+  getMeasurementUnitsFromLocalStorage
+} from "./file-system.js";
 
 let selectedCityInformation;
 let isWin = process.platform === "win32";
 
-$(()=> {
+$(() => {
   // Do dynamic search results when user types in a city, stroke by stroke
-  $(".city-search-box").keyup(()=> {
+  $(".city-search-box").keyup(() => {
     const textLength = $(".city-search-box").val().length;
     const textValue = $(".city-search-box").val();
     if (textLength >= 1) {
@@ -21,7 +24,7 @@ $(()=> {
   });
 
   // User clicks on a city result in the list
-  $(".city-results-list").click((e)=> {
+  $(".city-results-list").click((e) => {
     setSelectedCityInformation(e);
     console.log(selectedCityInformation);
     $(".save-button").prop("disabled", false);
@@ -31,20 +34,21 @@ $(()=> {
 
   $(".save-button").click((e) => {
     // Save city information to localStorage. Disable the save button and navigate to the weather page
-    try { 
+    try {
       window.localStorage.setItem("saved_city_data", JSON.stringify(selectedCityInformation));
       $(".saved-button").prop("disabled", true);
       window.location.href = "current-forecast.html";
-    } catch(ex) {
+    } catch (ex) {
       alert(ex);
     }
   });
+
   $(".close-config-enclosure").click((e) => {
     $(".saved-button").prop("disabled", true);
     window.location.href = "current-forecast.html";
   });
 
-  $(".options-change-background-image-enclosure").click((e)=>{
+  $(".options-change-background-image-enclosure").click((e) => {
     window.localStorage.setItem("backgroundImage", e.target.dataset.id);
     liveLoadBackgroundImage(e.target.dataset.id);
     refreshImages();
@@ -52,15 +56,15 @@ $(()=> {
   });
 
   $(".metric").click((e) => {
-    if (! $(e.target).hasClass("active")) {
+    if (!$(e.target).hasClass("active")) {
       $(e.target).addClass("active");
       $(".imperial").removeClass("active");
       setMeasurementUnitsIntoLocalStorage("metric", window.localStorage);
     }
   });
 
-  $(".imperial").click((e)=> {
-    if (! $(e.target).hasClass("active")) {
+  $(".imperial").click((e) => {
+    if (!$(e.target).hasClass("active")) {
       $(e.target).addClass("active");
       $(".metric").removeClass("active");
       setMeasurementUnitsIntoLocalStorage("imperial", window.localStorage);
@@ -76,20 +80,6 @@ function liveLoadBackgroundImage(fileName) {
   $(".configuration-window").css("background-image", "url(" + fn + ")");
 }
 
-function loadBackGroundFromLocalStorage() {
-  const currentImage = window.localStorage.getItem("backgroundImage");
-
-  if (currentImage !== "undefined" && currentImage !== null) {
-    liveLoadBackgroundImage(currentImage);
-  } else {
-    loadDefaultBackground();
-  }
-}
-
-function loadDefaultBackground() {
-  liveLoadBackgroundImage("background_003_blue_sea_sky.jpg");
-  window.localStorage.setItem("backgroundImage", "background_003_blue_sea_sky.jpg" );
-}
 /**
  * Basically populates the global object. This called when user selects
  * a city from the search result.
@@ -103,7 +93,7 @@ function setSelectedCityInformation(e) {
     country: e.target.dataset.country,
     lat: e.target.dataset.lat,
     lon: e.target.dataset.lon,
-    full_name: ()=> {
+    full_name: () => {
       return `${selectedCityInformation.city_name}, ${selectedCityInformation.state} ${selectedCityInformation.country}`.trim();
     }
   };
@@ -130,9 +120,10 @@ function doCityFilter(input) {
   return cityList.filter((cityItem) => {
     return cityItem.name.toLowerCase().startsWith(input.toLowerCase()) || cityItem.name.toLowerCase().includes(input.toLowerCase());
   }).map((result) => {
-    return { id: result.id, 
-      cityName: result.name, 
-      state: result.state.trim(), 
+    return {
+      id: result.id,
+      cityName: result.name,
+      state: result.state.trim(),
       country: getFullCountryFromISOCode(result.country),
       lat: result.coord.lat,
       lon: result.coord.lon
@@ -146,13 +137,13 @@ function doCityFilter(input) {
  */
 function getListItem(cityListItem) {
   return $("<li></li>").addClass("list-group-item city-item")
-  .text(`${cityListItem.cityName}, ${cityListItem.state} ${cityListItem.country}`)
-  .attr("data-id", cityListItem.id)
-  .attr("data-city_name", `${cityListItem.cityName}`)
-  .attr("data-state", `${cityListItem.state}`)
-  .attr("data-country", `${cityListItem.country}`)
-  .attr("data-lat",`${cityListItem.lat}`)
-  .attr("data-lon", `${cityListItem.lon}`);
+    .text(`${cityListItem.cityName}, ${cityListItem.state} ${cityListItem.country}`)
+    .attr("data-id", cityListItem.id)
+    .attr("data-city_name", `${cityListItem.cityName}`)
+    .attr("data-state", `${cityListItem.state}`)
+    .attr("data-country", `${cityListItem.country}`)
+    .attr("data-lat", `${cityListItem.lat}`)
+    .attr("data-lon", `${cityListItem.lon}`);
 }
 
 /**
@@ -163,9 +154,9 @@ function getListItem(cityListItem) {
  */
 async function refreshBackgroundImageThumbnails(max = 6) {
   // This gets all the paths regardless of amount
-  loadBackGroundFromLocalStorage();
+  loadBackGroundFromLocalStorage(window.localStorage, liveLoadBackgroundImage);
 
-  try { 
+  try {
     let backgroundImageElementURLS = await getPhotoBackgroundResourcePaths();
     if (backgroundImageElementURLS.length > max) {
       backgroundImageElementURLS = backgroundImageElementURLS.slice(0, max + 1);
@@ -173,10 +164,10 @@ async function refreshBackgroundImageThumbnails(max = 6) {
     backgroundImageElementURLS.forEach((url) => {
       if (!isWin) {
         $(".options-change-background-image-enclosure")
-        .append(getBackGroundImageFromResource(path.join(electronPath, "electron/img/backgrounds/" + url), url)); 
+          .append(getBackGroundImageFromResource(path.join(electronPath, "electron/img/backgrounds/" + url), url));
       } else {
         $(".options-change-background-image-enclosure")
-        .append(getBackGroundImageFromResource(path.join(electronPath, "electron\\img\\backgrounds\\" + url), url)); 
+          .append(getBackGroundImageFromResource(path.join(electronPath, "electron\\img\\backgrounds\\" + url), url));
       }
     });
   } catch (ex) {
@@ -194,13 +185,13 @@ function getBackGroundImageFromResource(resource, fn) {
 
   if (currentImage === fn) {
     return $("<img/>").addClass("options-bkg-img-thumbnail")
-    .attr("src", resource)
-    .attr("data-id", fn)
-    .addClass("active-background-image-selected");
+      .attr("src", resource)
+      .attr("data-id", fn)
+      .addClass("active-background-image-selected");
   }
   return $("<img/>").addClass("options-bkg-img-thumbnail")
-  .attr("src", resource)
-  .attr("data-id", fn);   
+    .attr("src", resource)
+    .attr("data-id", fn);
 }
 
 /** 
@@ -226,7 +217,7 @@ function loadDefaultMeasurementUnits() {
   // update UI
   $(".metric").removeClass("active");
   $(".imperial").removeClass("active");
-  switch(units) {
+  switch (units) {
     case "metric":
       $(".metric").addClass("active");
       break;
@@ -247,7 +238,7 @@ function getSavedCityInformationFromLocalStorage() {
       loadSelectedCityInformation(cityInfo);
       $(".close-config-enclosure").css("visibility", "visible");
     }
-  } catch(error) {
+  } catch (error) {
     console.log("Error getting saved city information", error);
   }
 }

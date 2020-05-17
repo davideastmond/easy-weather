@@ -14,9 +14,11 @@
   margin-top: 0px;
   margin-right: 0.5em;
 }
+
 .options-settings-enclosure:hover {
   cursor: pointer;
 }
+
 .top-strip {
   width: 100%;
   height: 50%;
@@ -29,12 +31,13 @@
   text-shadow: 2px 2px 2px black;
   display: inline-block;
 }
+
 .separator {
   font-size: 20px;
   color: yellow;
   display: inline-block;
   text-shadow: 2px 2px 3px darkolivegreen;
-} 
+}
 
 .current-conditions-icon {
   width: 100px;
@@ -45,7 +48,7 @@
   margin-bottom: 2em;
   box-shadow: 2px 2px 3px black;
   color: white;
-  
+
 }
 
 .city-temp-enclosure {
@@ -74,12 +77,14 @@
 .enclosure {
   color: white;
 }
+
 .temperature-feels-like {
   display: inline-block;
   width: auto;
   height: auto;
   font-size: 15px;
 }
+
 .current-weather-conditions {
   width: auto;
   height: auto;
@@ -93,6 +98,7 @@
   display: block;
   font-size: 15px;
 }
+
 .other-stats-enclosure {
   width: 550px;
   height: 150px;
@@ -105,13 +111,20 @@
 .wind-main-enclosure {
   display: inline-block;
 }
+
 .bottom-strip {
   width: 100%;
   height: 50%;
   background-color: #2a2e33;
 }
 
-.wind-speed, .wind-gust, .wind_deg, .sun-sunrise, .sun-sunset, .atmospheric-pressure, .humidity {
+.wind-speed,
+.wind-gust,
+.wind_deg,
+.sun-sunrise,
+.sun-sunset,
+.atmospheric-pressure,
+.humidity {
   display: inline-block;
   font-size: 15px;
   margin-left: 0.1em;
@@ -119,6 +132,18 @@
 
 .current-forecast-background-image {
   /* background-image: url("../img/backgrounds/background_001_city.jpg"); */
+  background-size: 100vw 100vh;
+}
+
+.hourly-view-link {
+  color: wheat;
+  font-size: 14px;
+  display: inline-block;
+  margin-left: 1.1em;
+  margin-top: 0.5em;
+}
+
+.hourly-window {
   background-size: 100vw 100vh;
 }
 
@@ -138,6 +163,7 @@
   background-color: khaki;
   color: black;
 }
+
 .temperature-display {
   font-size: 20px;
   display: inline-block;
@@ -147,11 +173,10 @@
   font-size: 12px;
   display: inline-block;
 }
+
 .forecast-cards-enclosure {
-  padding-left: 1.5em;
-  padding-top: 1.5em;
-  padding-bottom: 1.5em;
-  height: 100%;
+  padding-left: 1.1em;
+  height: 82%;
 }
 
 .weather-card-weather-icon-container {
@@ -162,6 +187,7 @@
 .weather-card-temperature-enclosure {
   display: inline-block;
 }
+
 .card-temperature {
   display: inline-block;
 }
@@ -187,4 +213,46 @@
 
 .weather-card-weather-description-container {
   display: inline-block;
+}
+
+.close-config-enclosure {
+  float: right;
+  position: inherit;
+  font-size: 25px;
+  text-shadow: 2px 2px 3px grey;
+  margin-top: 0px;
+  margin-right: 0.5em;
+  width: 100%;
+}
+
+.close-config-enclosure:hover {
+  cursor: pointer;
+}
+
+.close-settings-icon {
+  margin-right: 0.2em;
+  float: right;
+}
+
+.tr-class-row-dark {
+  background-color: #333;
+  color: white;
+  opacity: 90%;
+
+}
+
+.tr-class-row-light {
+  background-color: #345278;
+  color: white;
+  opacity: 90%;
+}
+
+.hourly-card-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.hourly-list-table-master>tbody>tr>td {
+  padding: 0px;
+  border-top: none;
 }
