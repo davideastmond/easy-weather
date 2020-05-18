@@ -4,12 +4,14 @@ import {
   loadBackGroundFromLocalStorage,
   DEFAULT_BACKGROUND_IMAGE,
   getFetchConfigData,
-  getWeatherIconURL
+  getWeatherIconURL,
+  TIME_FORMAT_CONVERSION
 } from "../electron/scripts/file-system";
 import regeneratorRuntime from "regenerator-runtime";
 import {
   FakeStorage
 } from "./utils/fake-storage";
+import moment from "moment";
 
 describe("file system tests", () => {
   test("returns the correctly-formatted path for win32", () => {
@@ -101,5 +103,12 @@ describe("getWeatherIconURL function", () => {
   test("getWeatherIconURL returns correctly formatted URL", () => {
     const iconString = "test";
     expect(getWeatherIconURL(iconString)).toBe(`http://openweathermap.org/img/wn/${iconString}@2x.png`);
+  });
+});
+
+describe("time format conversion tests", () => {
+  test("returns correct time format string for use with moment.js", () => {
+    expect(TIME_FORMAT_CONVERSION["12"]).toBe("hh:mm a");
+    expect(TIME_FORMAT_CONVERSION["24"]).toBe("HH:mm");
   });
 });

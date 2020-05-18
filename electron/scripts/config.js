@@ -7,7 +7,8 @@ import {
   getPhotoBackgroundResourcePaths,
   loadBackGroundFromLocalStorage,
   setMeasurementUnitsIntoLocalStorage,
-  getMeasurementUnitsFromLocalStorage
+  getMeasurementUnitsFromLocalStorage,
+  setTimeFormat
 } from "./file-system.js";
 
 let selectedCityInformation;
@@ -70,6 +71,22 @@ $(() => {
       setMeasurementUnitsIntoLocalStorage("imperial", window.localStorage);
     }
   });
+
+  $(".twenty-four-hour").click((e) => {
+    if (!$(e.target).hasClass("active")) {
+      $(e.target).addClass("active");
+      $(".twelve-hour").removeClass("active");
+      setTimeFormat("24", window.localStorage);
+    }
+  });
+  $(".twelve-hour").click((e) => {
+    if (!$(e.target).hasClass("active")) {
+      $(e.target).addClass("active");
+      $(".twenty-four-hour").removeClass("active");
+      setTimeFormat("12", window.localStorage);
+    }
+  });
+
   loadDefaultMeasurementUnits();
   refreshBackgroundImageThumbnails();
   getSavedCityInformationFromLocalStorage();

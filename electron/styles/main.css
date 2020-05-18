@@ -106,6 +106,7 @@
   margin-top: 0px;
   margin-right: 0.5em;
   visibility: hidden;
+  display: block;
 }
 
 .close-config-enclosure:hover {

@@ -16,6 +16,10 @@ const MEASUREMENTS = {
   }
 };
 
+export const TIME_FORMAT_CONVERSION = {
+  ["12"]: "hh:mm a",
+  ["24"]: "HH:mm"
+}
 export const DEFAULT_BACKGROUND_IMAGE = "background_003_blue_sea_sky.jpg";
 
 /**
@@ -139,6 +143,17 @@ export function getMeasurementUnitsSymbol(type, storage) {
   return MEASUREMENTS[units][type];
 }
 
+/**
+ * Returns the appropriate URL based on a weather icon string
+ * @param {string} iconString
+ * @returns {string} a formatted URL based on weather icon string
+ */
 export function getWeatherIconURL(iconString) {
   return `http://openweathermap.org/img/wn/${iconString}@2x.png`;
+}
+
+export function setTimeFormat(unit, storage) {
+  assert(unit === "12" || unit === "24", "invalid time unit. It must be 12 or 24");
+  assert(storage && storage.setItem, `Invalid storage object`);
+  storage.setItem("timeFormat", unit);
 }
