@@ -27,8 +27,8 @@
 
 .options-bkg-img-thumbnail {
   display: inline-block;
-  width: 120px;
-  height: 68px;
+  width: 100px;
+  height: 48px;
   margin: 0.1em;
 }
 
@@ -98,11 +98,6 @@
   background-size: 100vw 100vh;
 }
 
-.hourly-window {
-  /* background-image: url("../img/backgrounds/background_003_blue_sea_sky.jpg"); */
-  background-size: 100vw 100vh;
-}
-
 .close-config-enclosure {
   float: right;
   position: inherit;
@@ -111,8 +106,13 @@
   margin-top: 0px;
   margin-right: 0.5em;
   visibility: hidden;
+  display: block;
 }
 
 .close-config-enclosure:hover {
   cursor: pointer;
+}
+
+.settings-header {
+  font-size: 12px;
 }

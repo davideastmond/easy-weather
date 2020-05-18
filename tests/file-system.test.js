@@ -4,12 +4,15 @@ import {
   loadBackGroundFromLocalStorage,
   DEFAULT_BACKGROUND_IMAGE,
   getFetchConfigData,
-  getWeatherIconURL
+  getWeatherIconURL,
+  TIME_FORMAT_CONVERSION,
+  getTimeFormat
 } from "../electron/scripts/file-system";
 import regeneratorRuntime from "regenerator-runtime";
 import {
   FakeStorage
 } from "./utils/fake-storage";
+import moment from "moment";
 
 describe("file system tests", () => {
   test("returns the correctly-formatted path for win32", () => {
@@ -101,5 +104,29 @@ describe("getWeatherIconURL function", () => {
   test("getWeatherIconURL returns correctly formatted URL", () => {
     const iconString = "test";
     expect(getWeatherIconURL(iconString)).toBe(`http://openweathermap.org/img/wn/${iconString}@2x.png`);
+  });
+});
+
+describe("time format conversion tests", () => {
+  test("returns correct time format string for use with moment.js", () => {
+    expect(TIME_FORMAT_CONVERSION["12"]).toBe("h:mm a");
+    expect(TIME_FORMAT_CONVERSION["24"]).toBe("HH:mm");
+  });
+
+  test("time format conversion from localStorage function", () => {
+    const fs = new FakeStorage("timeFormat", "24");
+    const fs2 = new FakeStorage("timeFormat", "12");
+    expect(TIME_FORMAT_CONVERSION[getTimeFormat(fs)]).toBe("HH:mm");
+    expect(TIME_FORMAT_CONVERSION[getTimeFormat(fs2)]).toBe("h:mm a");
+  });
+  test("gets the time format from localStorage and gets a default value if it's undefined or invalid", () => {
+    const fs = new FakeStorage("timeFormat", "12");
+    const fs2 = new FakeStorage("timeFormat", "24");
+    const fs3 = new FakeStorage("timeFormat", "23");
+    const fs4 = new FakeStorage();
+    expect(getTimeFormat(fs)).toBe("12");
+    expect(getTimeFormat(fs2)).toBe("24");
+    expect(getTimeFormat(fs3)).toBe("24");
+    expect(getTimeFormat(fs4)).toBe("24");
   });
 });

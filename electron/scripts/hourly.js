@@ -4,7 +4,9 @@ import {
   getFetchConfigData,
   getWeatherIconURL,
   getMeasurementUnitsSymbol,
-  getMeasurementUnitsFromLocalStorage
+  getMeasurementUnitsFromLocalStorage,
+  TIME_FORMAT_CONVERSION,
+  getTimeFormat
 } from "./file-system.js";
 
 import {
@@ -54,11 +56,14 @@ async function updateHourlyForecast(maxHrs = 48) {
   const temperatureUnits = getMeasurementUnitsSymbol("temperature", window.localStorage);
   const windSpeedUnits = getMeasurementUnitsSymbol("wind", window.localStorage);
   const measurementUnits = getMeasurementUnitsFromLocalStorage(window.localStorage);
+  const timeFormat = TIME_FORMAT_CONVERSION[getTimeFormat(window.localStorage)];
+  const convertedFormat = `${WEATHER_CARD_DATE_FORMAT_CONSTANT} ${timeFormat}`;
 
+  console.log(convertedFormat);
   $(".hourly-forecast-table-body").html(hourlyObjects.map((forecast, index) => {
     return {
       styling: index % 2 == 0 ? "tr-class-row-dark" : "tr-class-row-light",
-      dateTime: moment.unix(forecast.dt).format(WEATHER_CARD_DATE_FORMAT_CONSTANT),
+      dateTime: moment.unix(forecast.dt).format(convertedFormat),
       temp: `${roundedTemperature(forecast.temp)} ${temperatureUnits}`,
       feels_like: `${roundedTemperature(forecast.feels_like)} ${temperatureUnits}`,
       icon: getWeatherIconURL(forecast.weather[0].icon),

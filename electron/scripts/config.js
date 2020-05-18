@@ -7,7 +7,9 @@ import {
   getPhotoBackgroundResourcePaths,
   loadBackGroundFromLocalStorage,
   setMeasurementUnitsIntoLocalStorage,
-  getMeasurementUnitsFromLocalStorage
+  getMeasurementUnitsFromLocalStorage,
+  setTimeFormat,
+  getTimeFormat
 } from "./file-system.js";
 
 let selectedCityInformation;
@@ -70,7 +72,25 @@ $(() => {
       setMeasurementUnitsIntoLocalStorage("imperial", window.localStorage);
     }
   });
+
+  $(".twenty-four-hour").click((e) => {
+    if (!$(e.target).hasClass("active")) {
+      $(e.target).addClass("active");
+      $(".twelve-hour").removeClass("active");
+      setTimeFormat("24", window.localStorage);
+    }
+  });
+
+  $(".twelve-hour").click((e) => {
+    if (!$(e.target).hasClass("active")) {
+      $(e.target).addClass("active");
+      $(".twenty-four-hour").removeClass("active");
+      setTimeFormat("12", window.localStorage);
+    }
+  });
+
   loadDefaultMeasurementUnits();
+  loadDefaultTimeFormat();
   refreshBackgroundImageThumbnails();
   getSavedCityInformationFromLocalStorage();
 });
@@ -223,6 +243,20 @@ function loadDefaultMeasurementUnits() {
       break;
     case "imperial":
       $(".imperial").addClass("active");
+      break;
+  }
+}
+
+function loadDefaultTimeFormat() {
+  $(".twenty-four-hour").removeClass("active");
+  $(".twelve-hour").removeClass("active");
+  const format = getTimeFormat(window.localStorage);
+  switch (format) {
+    case "12":
+      $(".twelve-hour").addClass("active");
+      break;
+    case "24":
+      $(".twenty-four-hour").addClass("active");
       break;
   }
 }
