@@ -3,9 +3,9 @@ window.$ = window.jQuery = require("jquery");
 /**
  * We should access localStorage to see if there are any settings. If so
  * redirect to more content-relevant page. Otherwise prompt for settings
- */ 
+ */
 
-$(()=> {
+$(() => {
   //window.localStorage.clear();
   const data = window.localStorage.getItem("saved_city_data");
   if (!data || data === "") {
