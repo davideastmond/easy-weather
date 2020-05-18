@@ -5,7 +5,8 @@ import {
   DEFAULT_BACKGROUND_IMAGE,
   getFetchConfigData,
   getWeatherIconURL,
-  TIME_FORMAT_CONVERSION
+  TIME_FORMAT_CONVERSION,
+  getTimeFormat
 } from "../electron/scripts/file-system";
 import regeneratorRuntime from "regenerator-runtime";
 import {
@@ -108,7 +109,24 @@ describe("getWeatherIconURL function", () => {
 
 describe("time format conversion tests", () => {
   test("returns correct time format string for use with moment.js", () => {
-    expect(TIME_FORMAT_CONVERSION["12"]).toBe("hh:mm a");
+    expect(TIME_FORMAT_CONVERSION["12"]).toBe("h:mm a");
     expect(TIME_FORMAT_CONVERSION["24"]).toBe("HH:mm");
+  });
+
+  test("time format conversion from localStorage function", () => {
+    const fs = new FakeStorage("timeFormat", "24");
+    const fs2 = new FakeStorage("timeFormat", "12");
+    expect(TIME_FORMAT_CONVERSION[getTimeFormat(fs)]).toBe("HH:mm");
+    expect(TIME_FORMAT_CONVERSION[getTimeFormat(fs2)]).toBe("h:mm a");
+  });
+  test("gets the time format from localStorage and gets a default value if it's undefined or invalid", () => {
+    const fs = new FakeStorage("timeFormat", "12");
+    const fs2 = new FakeStorage("timeFormat", "24");
+    const fs3 = new FakeStorage("timeFormat", "23");
+    const fs4 = new FakeStorage();
+    expect(getTimeFormat(fs)).toBe("12");
+    expect(getTimeFormat(fs2)).toBe("24");
+    expect(getTimeFormat(fs3)).toBe("24");
+    expect(getTimeFormat(fs4)).toBe("24");
   });
 });

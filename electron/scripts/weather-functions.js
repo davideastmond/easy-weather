@@ -5,7 +5,9 @@ require("dotenv").config();
 const moment = require("moment");
 import {
   getMeasurementUnitsSymbol,
-  getWeatherIconURL
+  getWeatherIconURL,
+  getTimeFormat,
+  TIME_FORMAT_CONVERSION
 } from "./file-system.js";
 
 import {
@@ -14,7 +16,7 @@ import {
 } from "./file-system.js";
 const assert = require("assert");
 
-export const WEATHER_CARD_DATE_FORMAT_CONSTANT = "ddd HH:mm";
+export const WEATHER_CARD_DATE_FORMAT_CONSTANT = "ddd";
 
 export function getWindCompassDirectionFromDegrees(degrees) {
   const compassDirections = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
@@ -81,7 +83,8 @@ function updateTemperature(temp) {
 export const roundedTemperature = (temp) => Math.floor(temp);
 
 function updateTime(time) {
-  $(".date-time").text(moment.unix(time).format("dddd, MMMM D YYYY, HH:mm"));
+  const customTime = TIME_FORMAT_CONVERSION[getTimeFormat(window.localStorage)];
+  $(".date-time").text(moment.unix(time).format(`dddd, MMMM D YYYY, ${customTime}`));
 }
 
 /**
@@ -125,9 +128,9 @@ function updateSunriseSunset(data) {
     sunrise,
     sunset
   } = data);
-
-  $(".sun-sunrise").text(`Rise: ${moment.unix(sunrise).format("HH:mm")}`);
-  $(".sun-sunset").text(`Set: ${moment.unix(sunset).format("HH:mm")}`);
+  const customTime = TIME_FORMAT_CONVERSION[getTimeFormat(window.localStorage)];
+  $(".sun-sunrise").text(`Rise: ${moment.unix(sunrise).format(`${customTime}`)}`);
+  $(".sun-sunset").text(`Set: ${moment.unix(sunset).format(`${customTime}`)}`);
 }
 
 function updateHumidity(data) {
@@ -157,18 +160,19 @@ function updateAtmosphericPressure(data) {
 function updateNextTwelveHourForecast(data) {
   const plusSix = data[5];
   const plusTwelve = data[11];
+  const customTime = TIME_FORMAT_CONVERSION[getTimeFormat(window.localStorage)];
   $(".forecast-cards-enclosure").html([{
       temperature: `${roundedTemperature(plusSix.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
       feels_like: `${roundedTemperature(plusSix.feels_like)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
       icon_src: `${getWeatherIconURL(plusSix.weather[0].icon)}`,
-      date_time: moment.unix(plusSix.dt).format(WEATHER_CARD_DATE_FORMAT_CONSTANT),
+      date_time: moment.unix(plusSix.dt).format(`${WEATHER_CARD_DATE_FORMAT_CONSTANT} ${customTime}`),
       condition_description: makeWeatherConditionCaptionString(plusSix.weather)
     },
     {
       temperature: `${roundedTemperature(plusTwelve.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
       feels_like: `${roundedTemperature(plusTwelve.feels_like)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
       icon_src: `${getWeatherIconURL(plusTwelve.weather[0].icon)}`,
-      date_time: moment.unix(plusTwelve.dt).format(WEATHER_CARD_DATE_FORMAT_CONSTANT),
+      date_time: moment.unix(plusTwelve.dt).format(`${WEATHER_CARD_DATE_FORMAT_CONSTANT} ${customTime}`),
       condition_description: makeWeatherConditionCaptionString(plusTwelve.weather)
     }
   ].map(weatherCard).join(''));

@@ -8,7 +8,8 @@ import {
   loadBackGroundFromLocalStorage,
   setMeasurementUnitsIntoLocalStorage,
   getMeasurementUnitsFromLocalStorage,
-  setTimeFormat
+  setTimeFormat,
+  getTimeFormat
 } from "./file-system.js";
 
 let selectedCityInformation;
@@ -79,6 +80,7 @@ $(() => {
       setTimeFormat("24", window.localStorage);
     }
   });
+
   $(".twelve-hour").click((e) => {
     if (!$(e.target).hasClass("active")) {
       $(e.target).addClass("active");
@@ -88,6 +90,7 @@ $(() => {
   });
 
   loadDefaultMeasurementUnits();
+  loadDefaultTimeFormat();
   refreshBackgroundImageThumbnails();
   getSavedCityInformationFromLocalStorage();
 });
@@ -240,6 +243,20 @@ function loadDefaultMeasurementUnits() {
       break;
     case "imperial":
       $(".imperial").addClass("active");
+      break;
+  }
+}
+
+function loadDefaultTimeFormat() {
+  $(".twenty-four-hour").removeClass("active");
+  $(".twelve-hour").removeClass("active");
+  const format = getTimeFormat(window.localStorage);
+  switch (format) {
+    case "12":
+      $(".twelve-hour").addClass("active");
+      break;
+    case "24":
+      $(".twenty-four-hour").addClass("active");
       break;
   }
 }

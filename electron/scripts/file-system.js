@@ -17,9 +17,10 @@ const MEASUREMENTS = {
 };
 
 export const TIME_FORMAT_CONVERSION = {
-  ["12"]: "hh:mm a",
+  ["12"]: "h:mm a",
   ["24"]: "HH:mm"
-}
+};
+
 export const DEFAULT_BACKGROUND_IMAGE = "background_003_blue_sea_sky.jpg";
 
 /**
@@ -156,4 +157,21 @@ export function setTimeFormat(unit, storage) {
   assert(unit === "12" || unit === "24", "invalid time unit. It must be 12 or 24");
   assert(storage && storage.setItem, `Invalid storage object`);
   storage.setItem("timeFormat", unit);
+}
+
+/**
+ * Retrieves the time format setting from localStorage
+ * @param {{}} storage 
+ * @returns {string} either "12" or "24" - use this as the key to access the formatString object
+ */
+export function getTimeFormat(storage) {
+  assert(storage && storage.getItem, `Invalid storage object`);
+  let format = storage.getItem("timeFormat");
+
+  // if unable to get format, set the default and return default
+  if (!format || format === "undefined" || (format !== "12" && format !== "24")) {
+    format = "24";
+    setTimeFormat(format, storage);
+  }
+  return format;
 }
