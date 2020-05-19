@@ -6,13 +6,13 @@ import {
   getFetchConfigData,
   getWeatherIconURL,
   TIME_FORMAT_CONVERSION,
-  getTimeFormat
+  getTimeFormat,
+  numberInRange
 } from "../electron/scripts/file-system";
 import regeneratorRuntime from "regenerator-runtime";
 import {
   FakeStorage
 } from "./utils/fake-storage";
-import moment from "moment";
 
 describe("file system tests", () => {
   test("returns the correctly-formatted path for win32", () => {
@@ -128,5 +128,17 @@ describe("time format conversion tests", () => {
     expect(getTimeFormat(fs2)).toBe("24");
     expect(getTimeFormat(fs3)).toBe("24");
     expect(getTimeFormat(fs4)).toBe("24");
+  });
+});
+
+describe("numberInRange tests", () => {
+  test("function returns valid result and throws when needed", () => {
+    expect(numberInRange(1, 48)).toBe(true);
+    expect(numberInRange(10, 50, 11)).toBe(false);
+    expect(() => numberInRange("n", 48)).toThrow();
+    expect(() => numberInRange(1, 48, 50)).toThrow();
+    expect(() => numberInRange(1, "n", 50)).toThrow();
+    expect(() => numberInRange(1, 48, "n")).toThrow();
+    expect(() => numberInRange(2, 2, 2)).toThrow();
   });
 });
