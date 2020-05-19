@@ -6,7 +6,8 @@ import {
   getMeasurementUnitsSymbol,
   getMeasurementUnitsFromLocalStorage,
   TIME_FORMAT_CONVERSION,
-  getTimeFormat
+  getTimeFormat,
+  numberInRange
 } from "./file-system.js";
 
 import {
@@ -16,6 +17,9 @@ import {
   getWindSpeed,
   WEATHER_CARD_DATE_FORMAT_CONSTANT
 } from "./weather-functions.js";
+import {
+  AssertionError
+} from "assert";
 
 const moment = require("moment");
 
@@ -37,6 +41,7 @@ function liveLoadBackgroundImage(fileName) {
  * of hourly forecast data
  */
 async function updateHourlyForecast(maxHrs = 48) {
+  if (!numberInRange(maxHrs, 48, 12)) maxHrs = 48;
   let lat, lon, key, units, data;
   ({
     lat,
