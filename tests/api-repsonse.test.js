@@ -1,7 +1,21 @@
-import {
-  getForecastFromAPI
-} from "../electron/scripts/weather-functions";
+import * as module from "../electron/scripts/weather-functions";
+module.getForecastFromAPI = jest.fn(() => {
+  return Promise.resolve({
+    status: 200,
+    data: {
+      hourly: Array(48),
+      current: {},
+      daily: {},
+      minutely: {},
+      timezone: "America/Toronto"
+    }
+  });
+});
+
 import regeneratorRuntime from "regenerator-runtime";
+import {
+  jestPreset
+} from "ts-jest";
 require("dotenv").config();
 
 describe("External API tests", () => {
@@ -10,7 +24,7 @@ describe("External API tests", () => {
     const lon = -79.766327;
     const key = process.env.API_KEY;
     const units = "metric";
-    const response = await getForecastFromAPI(lat, lon, key, units);
+    const response = await module.getForecastFromAPI(lat, lon, key, units);
     expect(response.status).toBe(200);
     expect(response).toHaveProperty("data.hourly");
     expect(response).toHaveProperty("data.current");
