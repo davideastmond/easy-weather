@@ -17,9 +17,6 @@ import {
   getWindSpeed,
   WEATHER_CARD_DATE_FORMAT_CONSTANT
 } from "./weather-functions.js";
-import {
-  AssertionError
-} from "assert";
 
 const moment = require("moment");
 
@@ -64,7 +61,6 @@ async function updateHourlyForecast(maxHrs = 48) {
   const timeFormat = TIME_FORMAT_CONVERSION[getTimeFormat(window.localStorage)];
   const convertedFormat = `${WEATHER_CARD_DATE_FORMAT_CONSTANT} ${timeFormat}`;
 
-  console.log(convertedFormat);
   $(".hourly-forecast-table-body").html(hourlyObjects.map((forecast, index) => {
     return {
       styling: index % 2 == 0 ? "tr-class-row-dark" : "tr-class-row-light",

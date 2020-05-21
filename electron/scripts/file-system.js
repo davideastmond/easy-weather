@@ -185,7 +185,6 @@ export function getTimeFormat(storage) {
 export function numberInRange(num, upper, lower = 0) {
   assert(num && upper, "undefined values");
   assert(upper > lower, "invalid range");
-  assert(num !== upper && num !== lower, "invalid range");
   assert(!isNaN(num), "supply a valid number");
   assert(!isNaN(upper), "supply a valid number(upper)");
   assert(!isNaN(lower), "supply a valid number(lower)");

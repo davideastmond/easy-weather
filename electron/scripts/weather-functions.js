@@ -65,6 +65,7 @@ export function updateWeatherForecastUI(data) {
   updateAtmosphericPressure(data.current);
   updateHumidity(data.current);
   updateNextTwelveHourForecast(data.hourly);
+  updateNextFiveDaysForecast(data.daily);
 }
 
 /**
@@ -176,6 +177,20 @@ function updateNextTwelveHourForecast(data) {
       condition_description: makeWeatherConditionCaptionString(plusTwelve.weather)
     }
   ].map(weatherCard).join(''));
+}
+
+function updateNextFiveDaysForecast(data) {
+  const five = data.slice(0, 5);
+  const customTime = TIME_FORMAT_CONVERSION[getTimeFormat(window.localStorage)];
+  $(".daily-forecast-cards-enclosure").html(five.map((forecast, index) => {
+    return {
+      temperature: `${roundedTemperature(five.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
+      feels_like: `${roundedTemperature(five.feels_like)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
+      icon_src: `${getWeatherIconURL(five.weather[0].icon)}`,
+      date_time: moment.unix(five.dt).format(`${WEATHER_CARD_DATE_FORMAT_CONSTANT} ${customTime}`),
+      condition_description: makeWeatherConditionCaptionString(five.weather)
+    };
+  }).map(weatherCard).join(""));
 }
 
 /**
