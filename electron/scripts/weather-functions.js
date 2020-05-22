@@ -188,7 +188,6 @@ function updateNextTwelveHourForecast(data) {
 
 function updateNextFiveDaysForecast(data) {
   const five = data.slice(0, 5);
-  const customTime = TIME_FORMAT_CONVERSION[getTimeFormat(window.localStorage)];
   $(".daily-forecast-cards-enclosure").html(five.map((forecast, index) => {
     console.log(forecast);
     return {
@@ -198,7 +197,7 @@ function updateNextFiveDaysForecast(data) {
       evening_temp: `${roundedTemperature(forecast.temp.eve)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
       night_temp: `${roundedTemperature(forecast.temp.night)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
       icon_src: `${getWeatherIconURL(forecast.weather[0].icon)}`,
-      date_time: moment.unix(forecast.dt).format(`${WEATHER_CARD_DATE_FORMAT_CONSTANT} ${customTime}`),
+      date_time: moment.unix(forecast.dt).format(`dddd`),
       condition_description: makeWeatherConditionCaptionString(forecast.weather)
     };
   }).map(dailyCard).join(""));

@@ -11,10 +11,10 @@ export const weatherCard = ({
   date_time,
   icon_src
 }) => `
-  <div class="weather-card">
+  <div class="weather-card card-shadow">
     <div class="weather-card-temperature-enclosure">
       <div class="card-temperature">
-        <p class="temperature-display">${temperature}</p>
+        <p class="temperature-display shadow-text">${temperature}</p>
       </div>
     </div>
     <div class="weather-card-weather-icon-container">
@@ -22,9 +22,9 @@ export const weatherCard = ({
     </div>
     <div class="temperature-display-feels-like">Feels like:${feels_like}</div>
     <div class="weather-card-weather-description-container">
-      <div class="weather-card-weather-description">${condition_description}</div>
+      <div class="weather-card-weather-description shadow-text">${condition_description}</div>
     </div>
-    <div>
+    <div class="time-footer-enclosure">
       <footer class="time-footer">${date_time}</footer>
     </div>
   </div>
