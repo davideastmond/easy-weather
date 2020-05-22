@@ -16,6 +16,13 @@ import {
 } from "./file-system.js";
 const assert = require("assert");
 
+import {
+  weatherCard
+} from "./cards/weather-card.js";
+import {
+  dailyCard
+} from "./cards/daily-card.js";
+
 export const WEATHER_CARD_DATE_FORMAT_CONSTANT = "ddd";
 
 export function getWindCompassDirectionFromDegrees(degrees) {
@@ -183,44 +190,16 @@ function updateNextFiveDaysForecast(data) {
   const five = data.slice(0, 5);
   const customTime = TIME_FORMAT_CONVERSION[getTimeFormat(window.localStorage)];
   $(".daily-forecast-cards-enclosure").html(five.map((forecast, index) => {
+    console.log(forecast);
     return {
-      temperature: `${roundedTemperature(five.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
-      feels_like: `${roundedTemperature(five.feels_like)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
-      icon_src: `${getWeatherIconURL(five.weather[0].icon)}`,
-      date_time: moment.unix(five.dt).format(`${WEATHER_CARD_DATE_FORMAT_CONSTANT} ${customTime}`),
-      condition_description: makeWeatherConditionCaptionString(five.weather)
+      temperature_high: `${roundedTemperature(forecast.temp.max)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
+      feels_like_high: `${roundedTemperature(forecast.feels_like.day)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
+      morning_temp: `${roundedTemperature(forecast.temp.morn)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
+      evening_temp: `${roundedTemperature(forecast.temp.eve)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
+      night_temp: `${roundedTemperature(forecast.temp.night)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
+      icon_src: `${getWeatherIconURL(forecast.weather[0].icon)}`,
+      date_time: moment.unix(forecast.dt).format(`${WEATHER_CARD_DATE_FORMAT_CONSTANT} ${customTime}`),
+      condition_description: makeWeatherConditionCaptionString(forecast.weather)
     };
-  }).map(weatherCard).join(""));
+  }).map(dailyCard).join(""));
 }
-
-/**
- * A template for hourly forecast cards.
- */
-export const weatherCard = ({
-  temperature,
-  feels_like,
-  condition_main,
-  condition_description,
-  wind_speed,
-  wind_direction,
-  date_time,
-  icon_src
-}) => `
-  <div class="weather-card">
-    <div class="weather-card-temperature-enclosure">
-      <div class="card-temperature">
-        <p class="temperature-display">${temperature}</p>
-      </div>
-    </div>
-    <div class="weather-card-weather-icon-container">
-      <img class="card-icon" src=${icon_src}>
-    </div>
-    <div class="temperature-display-feels-like">Feels like:${feels_like}</div>
-    <div class="weather-card-weather-description-container">
-      <div class="weather-card-weather-description">${condition_description}</div>
-    </div>
-    <div>
-      <footer class="time-footer">${date_time}</footer>
-    </div>
-  </div>
-`;
