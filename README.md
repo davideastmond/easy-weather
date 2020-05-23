@@ -7,15 +7,18 @@
 ![hourly](https://github.com/davideastmond/easy-weather/blob/master/docs/img/m23_hourly.jpg)
 
 ## Description
-Desktop app using ElectronJS for Windows / Mac / Linux and openWeather API.
+Desktop app using the openWeather API and ElectronJs for Windows / Mac / Linux.
 It shows up-to-date weather data for the location of your choosing.
 
 ## Features 
-- Choose city.
+- Choose a city to get a forecast.
 - Up-to-date current conditions and 5-day forecast every few minutes
 - View hourly forecast
 - Set background image
 - Set units (metric / imperial)
+
+## In progress
+- Radar map
 
 ## Installation
 - Clone / fork the repo
@@ -33,6 +36,11 @@ It shows up-to-date weather data for the location of your choosing.
 - Typescript
 - moment.js
 - jQuery
+- ElectronJs
+- jest
+- axios
+- Leaflet
+- openWeather API
 
 ## Image / Photo Credits
 (https://unsplash.com/images/stock/royalty-free)
