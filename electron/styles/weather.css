@@ -152,7 +152,7 @@
   border-color: wheat;
   border-width: 0.5px;
   width: 100px;
-  height: 100%;
+  height: 160px;
   display: inline-block;
   padding-left: 0.2em;
   padding-bottom: 0.1em;
@@ -192,6 +192,7 @@
 
 .daily-temp {
   font-size: 9.5px;
+  margin-bottom: 5px;
 }
 
 .forecast-cards-enclosure {
@@ -239,10 +240,7 @@
   font-size: 12px;
 }
 
-.time-footer-enclosure {
-  position: fixed;
-  bottom: 14%;
-}
+.time-footer-enclosure {}
 
 .five-day-header {
   color: wheat;
@@ -323,4 +321,21 @@
 .daily-forecast-cards-enclosure {
   height: 82%;
   display: table;
+}
+
+.wind-daily-enclosure {
+  font-size: 12px;
+  margin-bottom: -10px;
+}
+
+.card-icon {
+  background-color: darkseagreen;
+}
+
+.daily-time-footer {
+  text-align: center;
+}
+
+.temperature-display {
+  vertical-align: text-top;
 }

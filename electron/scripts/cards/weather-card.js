@@ -24,6 +24,9 @@ export const weatherCard = ({
     <div class="weather-card-weather-description-container">
       <div class="weather-card-weather-description shadow-text">${condition_description}</div>
     </div>
+    <div class="weather-card-wind-enclosure"> 
+      <p class="weather-card-wind-data">${wind_speed} ${wind_direction}</p>
+    </div>
     <div class="time-footer-enclosure">
       <footer class="time-footer">${date_time}</footer>
     </div>
