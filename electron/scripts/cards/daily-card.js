@@ -31,8 +31,11 @@ export const dailyCard = ({
       <p class="daily-temp cat"> Morn | Eve | Night </p>
       <p class="daily-temp shadow-text"> ${morning_temp} | ${evening_temp} | ${night_temp}</p>
     </div>
+    <div class="wind-daily-enclosure"> 
+      <p class="wind-data">${wind_speed} ${wind_direction}</p>
+    </div>
     <div class="time-footer-enclosure">
-      <footer class="time-footer">${date_time}</footer>
+      <footer class="daily-time-footer">${date_time}</footer>
     </div>
   </div>
 `;

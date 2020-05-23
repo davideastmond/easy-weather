@@ -174,14 +174,18 @@ function updateNextTwelveHourForecast(data) {
       feels_like: `${roundedTemperature(plusSix.feels_like)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
       icon_src: `${getWeatherIconURL(plusSix.weather[0].icon)}`,
       date_time: moment.unix(plusSix.dt).format(`${WEATHER_CARD_DATE_FORMAT_CONSTANT} ${customTime}`),
-      condition_description: makeWeatherConditionCaptionString(plusSix.weather)
+      condition_description: makeWeatherConditionCaptionString(plusSix.weather),
+      wind_speed: `${getWindSpeed(plusSix.wind_speed, getMeasurementUnitsFromLocalStorage(window.localStorage))} ${getMeasurementUnitsSymbol("wind", window.localStorage)}`,
+      wind_direction: getWindCompassDirectionFromDegrees(plusSix.wind_deg)
     },
     {
       temperature: `${roundedTemperature(plusTwelve.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
       feels_like: `${roundedTemperature(plusTwelve.feels_like)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
       icon_src: `${getWeatherIconURL(plusTwelve.weather[0].icon)}`,
       date_time: moment.unix(plusTwelve.dt).format(`${WEATHER_CARD_DATE_FORMAT_CONSTANT} ${customTime}`),
-      condition_description: makeWeatherConditionCaptionString(plusTwelve.weather)
+      condition_description: makeWeatherConditionCaptionString(plusTwelve.weather),
+      wind_speed: `${getWindSpeed(plusTwelve.wind_speed, getMeasurementUnitsFromLocalStorage(window.localStorage))} ${getMeasurementUnitsSymbol("wind", window.localStorage)}`,
+      wind_direction: getWindCompassDirectionFromDegrees(plusTwelve.wind_deg)
     }
   ].map(weatherCard).join(''));
 }
@@ -198,7 +202,9 @@ function updateNextFiveDaysForecast(data) {
       night_temp: `${roundedTemperature(forecast.temp.night)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
       icon_src: `${getWeatherIconURL(forecast.weather[0].icon)}`,
       date_time: moment.unix(forecast.dt).format(`dddd`),
-      condition_description: makeWeatherConditionCaptionString(forecast.weather)
+      condition_description: makeWeatherConditionCaptionString(forecast.weather),
+      wind_speed: `${getWindSpeed(forecast.wind_speed, getMeasurementUnitsFromLocalStorage(window.localStorage))} ${getMeasurementUnitsSymbol("wind", window.localStorage)}`,
+      wind_direction: getWindCompassDirectionFromDegrees(forecast.wind_deg)
     };
   }).map(dailyCard).join(""));
 }
