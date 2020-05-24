@@ -8,7 +8,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true
     },
-    resizable: false,
+    resizable: true,
   });
 
   // Menu.setApplicationMenu(null);
