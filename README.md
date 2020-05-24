@@ -6,6 +6,8 @@
 
 ![hourly](https://github.com/davideastmond/easy-weather/blob/master/docs/img/m23_hourly.jpg)
 
+![radar](https://github.com/davideastmond/easy-weather/blob/master/docs/img/m24_radar.jpg)
+
 ## Description
 Desktop app using the openWeather API and ElectronJs for Windows / Mac / Linux.
 It shows up-to-date weather data for the location of your choosing.
