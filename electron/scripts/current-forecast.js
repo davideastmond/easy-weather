@@ -8,7 +8,6 @@ import {
   getFetchConfigData
 } from "./file-system.js";
 
-const assert = require("assert");
 require("dotenv").config();
 
 let refreshTimer = 120;

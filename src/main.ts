@@ -1,14 +1,14 @@
-import { app, BrowserWindow, Menu} from "electron";
-
-function createWindow () {
+import { app, BrowserWindow, Menu } from "electron";
+/*  HELLO WORLD */
+function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 1100,
-    height: 545,
+    width: 1000,
+    height: 480,
     webPreferences: {
       nodeIntegration: true
     },
-    // resizable: false,
+    resizable: true,
   });
 
   // Menu.setApplicationMenu(null);

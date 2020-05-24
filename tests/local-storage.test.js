@@ -22,6 +22,8 @@ describe("local storage tests", () => {
   test("gets city info from local storage", () => {
     const fs1 = new FakeStorage();
     fs1.saveObject("saved_city_data", {
+      lat: 31,
+      lon: 51,
       city_name: "Toronto"
     });
     const result = getFromLocalStorage(fs1);
@@ -31,6 +33,8 @@ describe("local storage tests", () => {
   test("invalid key supplied", () => {
     const fs1 = new FakeStorage();
     fs1.saveObject("saved_city_data", {
+      lat: 31,
+      lon: 51,
       city_name: "Toronto"
     });
     const result = getFromLocalStorage(fs1);
@@ -45,5 +49,33 @@ describe("local storage tests", () => {
     expect(fs1.getItem("units")).toBe("metric");
     expect(fs2.getItem("units")).toBe("imperial");
 
+  });
+
+  test("gets lat and long data from saved_city_data", () => {
+    const fs1 = new FakeStorage();
+    fs1.saveObject("saved_city_data", {
+      city_name: "London",
+      lat: 51.51,
+      lon: -0.09
+    });
+
+    const result = getFromLocalStorage(fs1);
+    expect(result.lat).toBe(51.51);
+    expect(result.lon).toBe(-0.09);
+    expect(fs1.prop).toHaveProperty(["saved_city_data"]);
+    expect(JSON.parse(fs1.prop.saved_city_data)).toHaveProperty(["lat"]);
+    expect(JSON.parse(fs1.prop.saved_city_data)).toHaveProperty(["lon"]);
+    expect(JSON.parse(fs1.prop.saved_city_data)).toHaveProperty(["city_name"]);
+
+  });
+
+  test("getFromLocalStorage doesn't have proper values in storage", () => {
+    const fs1 = new FakeStorage();
+    fs1.saveObject("saved_city_data", {
+      city_name: "London",
+      lat: 51.51,
+      long: -0.09
+    });
+    expect(() => getFromLocalStorage(fs1)).toThrow();
   });
 });

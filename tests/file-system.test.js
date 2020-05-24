@@ -84,6 +84,7 @@ describe("getFetchConfigData", () => {
   test("getFetchConfigData - returns correct values from localStorage", () => {
     const fs = new FakeStorage();
     fs.saveObject("saved_city_data", {
+      city_name: "testCity",
       lat: "123",
       lon: "456",
     });
