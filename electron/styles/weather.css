@@ -339,3 +339,21 @@
 .temperature-display {
   vertical-align: text-top;
 }
+
+.special-features-section {
+  position: fixed;
+  left: 750px;
+  margin-top: 33px;
+  display: inline-block;
+  width: 200px;
+  height: 100%;
+}
+
+.special-features-button {
+  color: wheat;
+}
+
+.special-features-button:hover {
+  cursor: pointer;
+  color: white;
+}

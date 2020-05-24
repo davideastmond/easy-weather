@@ -1,0 +1,21 @@
+#mapid {
+  height: 180px;
+}
+
+.close-config-enclosure {
+  font-size: 25px;
+  text-shadow: 2px 2px 3px grey;
+  margin-top: 0px;
+  margin-right: 0.5em;
+  visibility: visible;
+  display: block;
+}
+
+
+.close-config-enclosure:hover {
+  cursor: pointer;
+}
+
+.close-button {
+  float: right;
+}

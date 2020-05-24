@@ -46,4 +46,17 @@ describe("local storage tests", () => {
     expect(fs2.getItem("units")).toBe("imperial");
 
   });
+
+  test("gets lat and long data from saved_city_data", () => {
+    const fs1 = new FakeStorage();
+    fs1.saveObject("saved_city_data", {
+      city_name: "London",
+      lat: 51.51,
+      long: -0.09
+    });
+
+    const result = getFromLocalStorage(fs1);
+    expect(result.lat).toBe(51.51);
+    expect(result.long).toBe(-0.09);
+  });
 });
