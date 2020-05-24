@@ -1,6 +1,6 @@
-import { app, BrowserWindow, Menu} from "electron";
+import { app, BrowserWindow, Menu } from "electron";
 
-function createWindow () {
+function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
     width: 1100,

@@ -17,7 +17,7 @@
   "dependencies": {
     "-": "0.0.1",
     "@electron/typescript-definitions": "^8.7.2",
-    "@types/jquery": "^3.3.34",
+    "@types/jquery": "^3.3.38",
     "axios": "^0.19.2",
     "bootstrap": "^3.4.1",
     "dotenv": "^8.2.0",

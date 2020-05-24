@@ -1,5 +1,5 @@
 #mapid {
-  height: 180px;
+  height: 200px;
 }
 
 .close-config-enclosure {
@@ -11,6 +11,9 @@
   display: block;
 }
 
+.map-enclosure {
+  display: block;
+}
 
 .close-config-enclosure:hover {
   cursor: pointer;
