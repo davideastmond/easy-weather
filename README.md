@@ -18,9 +18,10 @@ It shows up-to-date weather data for the location of your choosing.
 - View hourly forecast
 - Set background image
 - Set units (metric / imperial)
+- Radar map
 
 ## In progress
-- Radar map
+
 
 ## Installation
 - Clone / fork the repo
