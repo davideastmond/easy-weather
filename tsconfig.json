@@ -71,8 +71,8 @@
     /* Advanced Options */
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
   },
-  "include": ["src/**/*", "electron/scripts/**/*"],
-  // "files": [
-  //   "src/main.ts", "electron/scripts/~"
-  // ],
+  //"include": ["src/**/*", "electron/scripts/**/*"],
+  "files": [
+    "src/main.ts"
+  ],
 }
