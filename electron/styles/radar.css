@@ -23,3 +23,11 @@
 .close-button {
   float: right;
 }
+
+.selected {
+  color: red;
+}
+
+.map-view-options-enclosure {
+  margin-bottom: 2px;
+}
