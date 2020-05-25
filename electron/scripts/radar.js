@@ -67,10 +67,20 @@ export function loadMapData(data, view = DEFAULT_STREET_VIEW) {
     zoomOffset: -1,
     accessToken: process.env.MAP_TILE_LAYER_API_KEY,
   }).addTo(mapObject);
-  L.tileLayer('https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-{timestamp}/{z}/{x}/{y}.png', {
+  L.tileLayer('https://tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png?appid={api_key}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
     layer: 'clouds_new',
+    tileSize: 512,
+    zoomOffset: -1,
+    timestamp: "900913-m50m",
+    api_key: process.env.API_KEY,
+    op: "PR0"
+  }).addTo(mapObject);
+  L.tileLayer('https://tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png?appid={api_key}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    layer: 'precipitation_new',
     tileSize: 512,
     zoomOffset: -1,
     timestamp: "900913-m50m",
