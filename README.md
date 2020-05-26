@@ -1,12 +1,12 @@
 # Easy-weather
 ![Node.js CI](https://github.com/davideastmond/easy-weather/workflows/Node.js%20CI/badge.svg)
-![mainscreen](https://github.com/davideastmond/easy-weather/blob/master/docs/img/m23_main.jpg)
+![mainscreen](https://github.com/davideastmond/easy-weather/blob/master/docs/img/m26_main.jpg)
 
 ![options](https://github.com/davideastmond/easy-weather/blob/master/docs/img/m23_config.jpg)
 
 ![hourly](https://github.com/davideastmond/easy-weather/blob/master/docs/img/m23_hourly.jpg)
 
-![radar](https://github.com/davideastmond/easy-weather/blob/master/docs/img/m24_radar.jpg)
+![radar](https://github.com/davideastmond/easy-weather/blob/master/docs/img/m26_radar.jpg)
 
 ## Description
 Desktop app using the openWeather API and ElectronJs for Windows / Mac / Linux.
