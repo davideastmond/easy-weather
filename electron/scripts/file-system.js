@@ -31,7 +31,6 @@ export const DEFAULT_BACKGROUND_IMAGE = "background_003_blue_sea_sky.jpg";
 export function getFromLocalStorage(storage) {
   assert(storage.getItem, "Incorrect local storage object passed to this method");
   const returnValue = JSON.parse(storage.getItem("saved_city_data"));
-  console.log(returnValue);
   assert(returnValue.lat, "saved city info (lat) doesn't exist in localStorage");
   assert(returnValue.lon, "saved city info (lon) doesn't exist in localStorage");
   assert(returnValue.city_name, "saved city info (city_name) doesn't exist in localStorage");

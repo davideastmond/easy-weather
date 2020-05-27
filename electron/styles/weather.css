@@ -357,3 +357,7 @@
   cursor: pointer;
   color: white;
 }
+
+#pagination {
+  max-height: 80px;
+}
