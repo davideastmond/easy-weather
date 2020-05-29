@@ -358,6 +358,15 @@
   color: white;
 }
 
-#pagination {
-  max-height: 80px;
+.pagination {
+  margin-top: -35px;
+}
+
+li {
+  float: left;
+  padding: 0.5em;
+  background-color: white;
+  border-color: lightskyblue;
+  color: black;
+  list-style: none;
 }

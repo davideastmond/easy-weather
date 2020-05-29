@@ -1,3 +1,4 @@
+const pagination = require("paginationjs");
 window.$ = window.jQuery = require("jquery");
 import {
   loadBackGroundFromLocalStorage,
@@ -22,7 +23,7 @@ import {
   hourlyStrip
 } from "./cards/hourly-long-card.js";
 
-const pagination = require("paginationjs");
+
 
 const moment = require("moment");
 
@@ -67,7 +68,7 @@ async function updateHourlyForecast(maxHrs = 48) {
   const timeFormat = TIME_FORMAT_CONVERSION[getTimeFormat(window.localStorage)];
   const convertedFormat = `${WEATHER_CARD_DATE_FORMAT_CONSTANT} ${timeFormat}`;
 
-  $("#pagination").pagination({
+  $(".pagination").pagination({
     dataSource: hourlyObjects,
     callback: (data, pagination) => {
       $(".hourly-forecast-table-body").html(data.map((forecast, index) => {
@@ -85,10 +86,9 @@ async function updateHourlyForecast(maxHrs = 48) {
     },
     showPrevious: true,
     showNext: true,
-    pageSize: 10,
-    ulClassName: "list-group list-group-horizontal",
+    pageSize: 6,
+    ulClassName: "list-group list-group-horizontal"
   });
-  $("li").addClass("list-group-item flex-fill");
 }
 
 function tempHourly() {
