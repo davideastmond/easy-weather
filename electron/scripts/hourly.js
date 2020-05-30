@@ -42,7 +42,8 @@ function liveLoadBackgroundImage(fileName) {
 
 /**
  * Fetches from API and then spawns rows to populate the table
- * of hourly forecast data
+ * of hourly forecast data. Using PaginationJS to handle page
+ * scrolling.
  */
 async function updateHourlyForecast(maxHrs = 48) {
   if (!numberInRange(maxHrs, 48, 12)) maxHrs = 48;
