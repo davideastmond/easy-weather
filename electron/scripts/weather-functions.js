@@ -42,6 +42,7 @@ export function getWindSpeed(speed, units) {
  */
 export async function getForecastFromAPI(lat, lon, key, units) {
   const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${key}&units=${units}`;
+  console.log("Forecast URL:", url);
   return await axios.get(url);
 }
 
@@ -150,7 +151,6 @@ function updateHumidity(data) {
 }
 
 /**
- * 
  * @param {{}} data 
  */
 function updateAtmosphericPressure(data) {
@@ -162,7 +162,7 @@ function updateAtmosphericPressure(data) {
 }
 
 /**
- * Returns two hourly forecasts; the now + 6, and the other now + 12
+ * Returns two hourly forecasts; the now + 6 hours, and the other now + 12 hours
  * @param {} data 
  */
 function updateNextTwelveHourForecast(data) {

@@ -55,9 +55,15 @@ async function updateHourlyForecast(maxHrs = 48) {
     units
   } = getFetchConfigData(window.localStorage));
 
-  ({
-    data
-  } = await getForecastFromAPI(lat, lon, key, units));
+  try {
+    ({
+      data
+    } = await getForecastFromAPI(lat, lon, key, units));
+    $(".error-message").css("visibility", "hidden");
+  } catch (exception) {
+    // Show a user-friendly error
+    $(".error-message").css("visibility", "visible");
+  }
 
   const hourlyObjects = data.hourly.slice(0, maxHrs);
 
