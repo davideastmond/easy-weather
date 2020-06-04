@@ -12,7 +12,7 @@ const SATELLITE_VIEW = "mapbox/satellite-v9";
 const DEFAULT_STREET_VIEW = "mapbox/streets-v11";
 
 $(() => {
-  $(".close-config-enclosure").click((e) => {
+  $(".close-settings-icon").click((e) => {
     window.location.href = "current-forecast.html";
   });
 
@@ -37,6 +37,11 @@ $(() => {
       window.location = "radar.html";
     }
   });
+
+  $(".fa-sync-alt").click((e) => {
+    window.location = "radar.html";
+  });
+
   loadConfigureMap();
 });
 

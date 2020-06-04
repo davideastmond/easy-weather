@@ -12,6 +12,10 @@
   height: 25px;
 }
 
+.radar-options-enclosure {
+  font-size: 20px;
+}
+
 .map-enclosure {
   display: block;
 }
@@ -20,14 +24,22 @@
   cursor: pointer;
 }
 
-.close-button {
-  float: right;
-}
-
 .selected {
   color: red;
 }
 
 .map-view-options-enclosure {
   margin-bottom: 2px;
+}
+
+.radar-option {
+  cursor: pointer;
+}
+
+.close-settings-icon {
+  float: right;
+}
+
+.refresh-settings-icon {
+  display: inline-block;
 }
