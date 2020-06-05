@@ -20,7 +20,7 @@ let selectedCityInformation;
 let isWin = process.platform === "win32";
 
 
-async function loadSearchableList() {
+function loadSearchableList() {
   return new Promise((resolve) => {
     const searchableList = cityList.map((element) => {
       return {
