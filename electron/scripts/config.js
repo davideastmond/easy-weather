@@ -1,5 +1,6 @@
 window.$ = window.jQuery = require("jquery");
 const cityList = require("../public/data/city.list.json");
+
 const assert = require("assert");
 const electronPath = require("electron-root-path").rootPath;
 const path = require("path");
@@ -11,11 +12,30 @@ import {
   setTimeFormat,
   getTimeFormat
 } from "./file-system.js";
+import {
+  removeDiacritics
+} from "./diacritics.js";
 
 let selectedCityInformation;
 let isWin = process.platform === "win32";
 
-$(() => {
+
+async function loadSearchableList() {
+  return new Promise((resolve) => {
+    const searchableList = cityList.map((element) => {
+      return {
+        ...element,
+        name: removeDiacritics(element.name),
+        original_name: element.name,
+      };
+    });
+    resolve(searchableList);
+  });
+}
+
+let searchableList;
+
+$(async () => {
   // Do dynamic search results when user types in a city, stroke by stroke
   $(".city-search-box").keyup(() => {
     const textLength = $(".city-search-box").val().length;
@@ -93,6 +113,7 @@ $(() => {
   loadDefaultTimeFormat();
   refreshBackgroundImageThumbnails();
   getSavedCityInformationFromLocalStorage();
+  searchableList = await loadSearchableList();
 });
 
 function liveLoadBackgroundImage(fileName) {
@@ -137,12 +158,12 @@ function renderCitySearchResults(filteredCityList) {
  * @returns {[{}]} An array of filtered city items from city.list.json
  */
 function doCityFilter(input) {
-  return cityList.filter((cityItem) => {
+  return searchableList.filter((cityItem) => {
     return cityItem.name.toLowerCase().startsWith(input.toLowerCase()) || cityItem.name.toLowerCase().includes(input.toLowerCase());
   }).map((result) => {
     return {
       id: result.id,
-      cityName: result.name,
+      cityName: result.original_name,
       state: result.state.trim(),
       country: getFullCountryFromISOCode(result.country),
       lat: result.coord.lat,
