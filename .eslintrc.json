@@ -10,6 +10,7 @@
     "ordered-imports": false,
     "quotemark": [true, "double"],
     "variable-name": [true, "allow-leading-underscore"],
-    "semicolon": [true, "always", "ignore-bound-class-methods"]
+    "semicolon": [true, "always", "ignore-bound-class-methods"],
+    "no-undef": "error"
   }
 }

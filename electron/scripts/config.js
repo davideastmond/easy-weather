@@ -12,30 +12,17 @@ import {
   setTimeFormat,
   getTimeFormat
 } from "./file-system.js";
+
 import {
-  removeDiacritics
-} from "./diacritics.js";
+  loadSearchableList
+} from "./searchable-list.js";
 
 let selectedCityInformation;
 let isWin = process.platform === "win32";
-
-
-function loadSearchableList() {
-  return new Promise((resolve) => {
-    const searchableList = cityList.map((element) => {
-      return {
-        ...element,
-        name: removeDiacritics(element.name),
-        original_name: element.name,
-      };
-    });
-    resolve(searchableList);
-  });
-}
-
 let searchableList;
 
-$(async () => {
+
+$(() => {
   // Do dynamic search results when user types in a city, stroke by stroke
   $(".city-search-box").keyup(() => {
     const textLength = $(".city-search-box").val().length;
@@ -113,7 +100,7 @@ $(async () => {
   loadDefaultTimeFormat();
   refreshBackgroundImageThumbnails();
   getSavedCityInformationFromLocalStorage();
-  searchableList = await loadSearchableList();
+  searchableList = loadSearchableList(cityList);
 });
 
 function liveLoadBackgroundImage(fileName) {
