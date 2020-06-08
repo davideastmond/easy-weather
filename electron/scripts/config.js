@@ -10,7 +10,9 @@ import {
   setMeasurementUnitsIntoLocalStorage,
   getMeasurementUnitsFromLocalStorage,
   setTimeFormat,
-  getTimeFormat
+  getTimeFormat,
+  getAutoRefreshOption,
+  setAutoRefreshOption
 } from "./file-system.js";
 
 import {
@@ -96,8 +98,27 @@ $(() => {
     }
   });
 
+  $(".auto-refresh-on").click((e) => {
+    if (!$(e.target).hasClass("active")) {
+      $(e.target).addClass("active");
+      $(".auto-refresh-off").removeClass("active");
+      setAutoRefreshOption(true, window.localStorage);
+      console.log("Auto refresh on");
+    }
+  });
+
+  $(".auto-refresh-off").click((e) => {
+    if (!$(e.target).hasClass("active")) {
+      $(e.target).addClass("active");
+      $(".auto-refresh-on").removeClass("active");
+      setAutoRefreshOption(false, window.localStorage);
+      console.log("Auto refresh off");
+    }
+  });
+
   loadDefaultMeasurementUnits();
   loadDefaultTimeFormat();
+  loadDefaultAutoRefreshOptions();
   refreshBackgroundImageThumbnails();
   getSavedCityInformationFromLocalStorage();
   searchableList = loadSearchableList(cityList);
@@ -265,6 +286,20 @@ function loadDefaultTimeFormat() {
       break;
     case "24":
       $(".twenty-four-hour").addClass("active");
+      break;
+  }
+}
+
+function loadDefaultAutoRefreshOptions() {
+  $(".auto-refresh-on").removeClass("active");
+  $(".auto-refresh-off").removeClass("active");
+  const option = getAutoRefreshOption(window.localStorage);
+  switch (option) {
+    case true:
+      $(".auto-refresh-on").addClass("active");
+      break;
+    case false:
+      $(".auto-refresh-off").addClass("active");
       break;
   }
 }

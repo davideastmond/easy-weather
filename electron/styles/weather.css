@@ -391,5 +391,5 @@ li {
 }
 
 .error-message {
-  visibility: hidden;
+  display: none;
 }

@@ -10,7 +10,7 @@ import {
 
 require("dotenv").config();
 
-let refreshTimer = 120;
+let refreshTimer = process.env.UPDATE_TIME;
 
 $(async () => {
   /* When this page loads, we need to do an axios fetch request to the API
@@ -39,10 +39,23 @@ async function refresh() {
     const {
       data
     } = await getForecastFromAPI(lat, lon, key, units);
+    showErrorMessage(null, true);
     updateWeatherForecastUI(data);
   } catch (ex) {
     console.log(ex);
+    showErrorMessage(ex);
   }
+}
+
+function showErrorMessage(msg, clear = false) {
+  if (clear) {
+    $(".error-message").css("display", "none");
+    return;
+  }
+  if (!msg) {
+    return;
+  }
+  $(".error-message").text(`Connection error: ${msg}`).css("display", "block");
 }
 
 function startIntervalTimer() {
@@ -51,9 +64,10 @@ function startIntervalTimer() {
     if (refreshTimer <= 10 && refreshTimer >= 1) {
       $(".weather-forecast-auto-update").css("visibility", "visible").text(`Will update in ${refreshTimer} seconds...`);
     }
+
     if (refreshTimer <= 0) {
       refresh();
-      refreshTimer = 120;
+      refreshTimer = parseInt(process.env.UPDATE_TIME);
       $(".weather-forecast-auto-update").css("visibility", "hidden");
     }
   }, (1000));
