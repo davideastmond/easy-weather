@@ -293,10 +293,10 @@ function loadDefaultAutoRefreshOptions() {
   $(".auto-refresh-off").removeClass("active");
   const option = getAutoRefreshOption(window.localStorage);
   switch (option) {
-    case true:
+    case "true":
       $(".auto-refresh-on").addClass("active");
       break;
-    case false:
+    case "false":
       $(".auto-refresh-off").addClass("active");
       break;
   }
