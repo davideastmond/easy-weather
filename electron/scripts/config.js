@@ -103,7 +103,6 @@ $(() => {
       $(e.target).addClass("active");
       $(".auto-refresh-off").removeClass("active");
       setAutoRefreshOption(true, window.localStorage);
-      console.log("Auto refresh on");
     }
   });
 
@@ -112,7 +111,6 @@ $(() => {
       $(e.target).addClass("active");
       $(".auto-refresh-on").removeClass("active");
       setAutoRefreshOption(false, window.localStorage);
-      console.log("Auto refresh off");
     }
   });
 

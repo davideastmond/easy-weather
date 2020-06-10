@@ -165,8 +165,9 @@ export function setTimeFormat(unit, storage) {
 
 export function setAutoRefreshOption(option, storage) {
   assert(storage && storage.setItem, `Invalid storage object`);
-  storage.setItem("auto_refresh", JSON.stringify(option));
+  storage.setItem("auto_refresh", option);
 }
+
 /**
  * Retrieves the time format setting from localStorage
  * @param {{}} storage 
@@ -191,14 +192,12 @@ export function getTimeFormat(storage) {
  */
 export function getAutoRefreshOption(storage) {
   assert(storage && storage.getItem, `Invalid storage object`);
-  let format = JSON.parse(storage.getItem("auto_refresh"));
-
+  let format = storage.getItem("auto_refresh");
   // if unable to get format, set the default and return default
-  if (!format || format === undefined || (format !== true && format !== false)) {
-    format = true;
-    setAutoRefreshOption(format, storage);
+  if (format === undefined) {
+    setAutoRefreshOption(true, storage);
+    return true;
   }
-  assert(typeof format === "boolean", "parsing error - not a JS boolean type");
   return format;
 }
 /**
@@ -206,6 +205,7 @@ export function getAutoRefreshOption(storage) {
  * @param {number} num 
  * @param {number} upper 
  * @param {number} lower (default is 0)
+ * @returns {boolean} weather or not the number is in range
  */
 export function numberInRange(num, upper, lower = 0) {
   assert(num && upper, "undefined values");
