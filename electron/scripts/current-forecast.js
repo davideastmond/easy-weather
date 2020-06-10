@@ -22,9 +22,6 @@ $(async () => {
   console.log("22", result);
   if (result === "true") {
     startIntervalTimer();
-    console.log("Auto refresh !on!");
-  } else {
-    console.log("Auto refresh is off");
   }
 });
 
@@ -68,7 +65,6 @@ function showErrorMessage(msg, clear = false) {
 
 function startIntervalTimer() {
   const timer = setInterval(() => {
-    console.log(refreshTimer);
     refreshTimer -= 1;
     if (refreshTimer <= 10 && refreshTimer >= 1) {
       $(".weather-forecast-auto-update").css("visibility", "visible").text(`Will update in ${refreshTimer} seconds...`);
