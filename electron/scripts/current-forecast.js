@@ -29,6 +29,10 @@ $(() => {
   $(".settings-icon").click((e) => {
     window.location.href = "config.html";
   });
+
+  $(".refresh-forecast-icon").click((e) => {
+    window.location.href = "current-forecast.html";
+  });
 });
 
 async function refresh() {

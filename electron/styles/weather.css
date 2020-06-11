@@ -393,3 +393,7 @@ li {
 .error-message {
   display: none;
 }
+
+.settings-inline {
+  display: inline-block;
+}
