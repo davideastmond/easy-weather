@@ -163,6 +163,11 @@ export function setTimeFormat(unit, storage) {
   storage.setItem("timeFormat", unit);
 }
 
+export function setAutoRefreshOption(option, storage) {
+  assert(storage && storage.setItem, `Invalid storage object`);
+  storage.setItem("auto_refresh", option);
+}
+
 /**
  * Retrieves the time format setting from localStorage
  * @param {{}} storage 
@@ -182,9 +187,25 @@ export function getTimeFormat(storage) {
 
 /**
  * 
+ * @param {object} storage window.localStorage objecty
+ * @returns {boolean} true if auto-refresh is turned on, false otherwise
+ */
+export function getAutoRefreshOption(storage) {
+  assert(storage && storage.getItem, `Invalid storage object`);
+  let format = storage.getItem("auto_refresh");
+  // if unable to get format, set the default and return default
+  if (format === undefined) {
+    setAutoRefreshOption(true, storage);
+    return true;
+  }
+  return format;
+}
+/**
+ * 
  * @param {number} num 
  * @param {number} upper 
  * @param {number} lower (default is 0)
+ * @returns {boolean} weather or not the number is in range
  */
 export function numberInRange(num, upper, lower = 0) {
   assert(num && upper, "undefined values");

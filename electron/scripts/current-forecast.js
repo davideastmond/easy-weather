@@ -5,24 +5,33 @@ import {
 
 import {
   loadBackGroundFromLocalStorage,
-  getFetchConfigData
+  getFetchConfigData,
+  getAutoRefreshOption
 } from "./file-system.js";
 
 require("dotenv").config();
 
-let refreshTimer = 120;
+let refreshTimer = process.env.UPDATE_TIME;
 
 $(async () => {
   /* When this page loads, we need to do an axios fetch request to the API
   to get weather for the city. Then call a method to update the UI and start the refresh timer
   */
   refresh();
-  startIntervalTimer();
+  const result = getAutoRefreshOption(window.localStorage);
+  console.log("22", result);
+  if (result === "true") {
+    startIntervalTimer();
+  }
 });
 
 $(() => {
   $(".settings-icon").click((e) => {
     window.location.href = "config.html";
+  });
+
+  $(".refresh-forecast-icon").click((e) => {
+    window.location.href = "current-forecast.html";
   });
 });
 
@@ -39,10 +48,23 @@ async function refresh() {
     const {
       data
     } = await getForecastFromAPI(lat, lon, key, units);
+    showErrorMessage(null, true);
     updateWeatherForecastUI(data);
   } catch (ex) {
     console.log(ex);
+    showErrorMessage(ex);
   }
+}
+
+function showErrorMessage(msg, clear = false) {
+  if (clear) {
+    $(".error-message").css("display", "none");
+    return;
+  }
+  if (!msg) {
+    return;
+  }
+  $(".error-message").text(`Connection error: ${msg}`).css("display", "block");
 }
 
 function startIntervalTimer() {
@@ -51,9 +73,10 @@ function startIntervalTimer() {
     if (refreshTimer <= 10 && refreshTimer >= 1) {
       $(".weather-forecast-auto-update").css("visibility", "visible").text(`Will update in ${refreshTimer} seconds...`);
     }
+
     if (refreshTimer <= 0) {
       refresh();
-      refreshTimer = 120;
+      refreshTimer = parseInt(process.env.UPDATE_TIME);
       $(".weather-forecast-auto-update").css("visibility", "hidden");
     }
   }, (1000));

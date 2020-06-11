@@ -28,7 +28,6 @@
   margin-left: 1em;
   position: absolute;
   margin-top: 3em;
-
 }
 
 .options-bkg-img-thumbnail {
@@ -126,4 +125,12 @@
 
 .settings-header {
   font-size: 12px;
+}
+
+.btn-group-toggle {
+  font-size: 12px;
+}
+
+.enclosure-inline {
+  display: inline-block;
 }

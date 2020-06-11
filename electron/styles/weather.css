@@ -391,5 +391,9 @@ li {
 }
 
 .error-message {
-  visibility: hidden;
+  display: none;
+}
+
+.settings-inline {
+  display: inline-block;
 }

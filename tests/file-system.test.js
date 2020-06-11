@@ -7,7 +7,9 @@ import {
   getWeatherIconURL,
   TIME_FORMAT_CONVERSION,
   getTimeFormat,
-  numberInRange
+  numberInRange,
+  setAutoRefreshOption,
+  getAutoRefreshOption
 } from "../electron/scripts/file-system";
 import regeneratorRuntime from "regenerator-runtime";
 import {
@@ -141,5 +143,23 @@ describe("numberInRange tests", () => {
     expect(() => numberInRange(1, "n", 50)).toThrow();
     expect(() => numberInRange(1, 48, "n")).toThrow();
     expect(() => numberInRange(2, 2, 2)).toThrow();
+  });
+});
+
+
+describe("auto-refresh option tests", () => {
+  test("gets / sets auto-refresh option", () => {
+    const fs1 = new FakeStorage();
+    setAutoRefreshOption(undefined, fs1);
+    expect(fs1.prop.hasOwnProperty('auto_refresh')).toBe(true);
+    const result = getAutoRefreshOption(fs1);
+    expect(result).toBe(true);
+  });
+
+  test("gets correct value if false", () => {
+    const fs2 = new FakeStorage();
+    setAutoRefreshOption(false, fs2);
+    const getResult = getAutoRefreshOption(fs2);
+    expect(getResult).toBe(false);
   });
 });
