@@ -187,6 +187,23 @@ export function getTimeFormat(storage) {
 
 /**
  * 
+ * @param {*} storage 
+ * @returns {object} with two properties, time-zone and time-zone offset
+ */
+export function getTimeZone(storage) {
+  assert(storage && storage.getItem, `Invalid storage object`);
+  const timezoneData = JSON.parse(storage.getItem("timezone"));
+  return timezoneData;
+}
+
+export function setTimezoneInfo(data, storage) {
+  assert(data.timezone, "no timezone key specified");
+  assert(data.timezone_offset, "no offset key specified");
+  storage.setItem("timezone", JSON.stringify(data));
+}
+
+/**
+ * 
  * @param {object} storage window.localStorage objecty
  * @returns {boolean} true if auto-refresh is turned on, false otherwise
  */

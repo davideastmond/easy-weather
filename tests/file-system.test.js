@@ -9,12 +9,16 @@ import {
   getTimeFormat,
   numberInRange,
   setAutoRefreshOption,
-  getAutoRefreshOption
+  getAutoRefreshOption,
+  getTimeZone,
+  setTimezoneInfo,
 } from "../electron/scripts/file-system";
 import regeneratorRuntime from "regenerator-runtime";
 import {
   FakeStorage
 } from "./utils/fake-storage";
+
+
 
 describe("file system tests", () => {
   test("returns the correctly-formatted path for win32", () => {
@@ -161,5 +165,35 @@ describe("auto-refresh option tests", () => {
     setAutoRefreshOption(false, fs2);
     const getResult = getAutoRefreshOption(fs2);
     expect(getResult).toBe(false);
+  });
+});
+
+describe("get time zone tests", () => {
+  test("gets timezone string", () => {
+    const fs = new FakeStorage();
+    fs.saveObject("timezone", {
+      city_name: "testCity",
+      lat: "123",
+      lon: "456",
+      timezone: "America/Toronto",
+      timezone_offset: 3600
+    });
+
+    const result = getTimeZone(fs);
+    expect(result.timezone).toBe("America/Toronto");
+    expect(result.timezone_offset).toBeDefined();
+  });
+
+  test("sets timezone string in local storage", () => {
+    const input = {
+      timezone: "foo",
+      timezone_offset: 999
+    };
+    const fs = new FakeStorage();
+    setTimezoneInfo(input, fs);
+
+    const result = JSON.parse(fs.getItem("timezone"));
+    expect(result.timezone).toBe(input.timezone);
+    expect(result.timezone_offset).toBe(input.timezone_offset);
   });
 });
