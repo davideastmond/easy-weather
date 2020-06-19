@@ -6,7 +6,8 @@ import {
 import {
   loadBackGroundFromLocalStorage,
   getFetchConfigData,
-  getAutoRefreshOption
+  getAutoRefreshOption,
+  setTimezoneInfo,
 } from "./file-system.js";
 
 require("dotenv").config();
@@ -19,7 +20,6 @@ $(async () => {
   */
   refresh();
   const result = getAutoRefreshOption(window.localStorage);
-  console.log("22", result);
   if (result === "true") {
     startIntervalTimer();
   }
@@ -49,6 +49,12 @@ async function refresh() {
       data
     } = await getForecastFromAPI(lat, lon, key, units);
     showErrorMessage(null, true);
+
+    setTimezoneInfo({
+      timezone: data.timezone,
+      timezone_offset: data.timezone_offset
+    }, window.localStorage);
+
     updateWeatherForecastUI(data);
   } catch (ex) {
     console.log(ex);
@@ -64,7 +70,7 @@ function showErrorMessage(msg, clear = false) {
   if (!msg) {
     return;
   }
-  $(".error-message").text(`Connection error: ${msg}`).css("display", "block");
+  $(".error-message").text(`${msg}`).css("display", "block");
 }
 
 function startIntervalTimer() {

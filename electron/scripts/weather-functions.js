@@ -2,12 +2,15 @@ const axios = require("axios").default;
 window.$ = window.jQuery = require("jquery");
 require("dotenv").config();
 
-const moment = require("moment");
+//const momentTz = require("moment-timezone");
+
+const moment = require("moment-timezone");
 import {
   getMeasurementUnitsSymbol,
   getWeatherIconURL,
   getTimeFormat,
-  TIME_FORMAT_CONVERSION
+  TIME_FORMAT_CONVERSION,
+  getTimeZone,
 } from "./file-system.js";
 
 import {
@@ -22,6 +25,10 @@ import {
 import {
   dailyCard
 } from "./cards/daily-card.js";
+
+import {
+  getConvertedTime
+} from "./time-functions.js";
 
 export const WEATHER_CARD_DATE_FORMAT_CONSTANT = "ddd";
 
@@ -42,7 +49,6 @@ export function getWindSpeed(speed, units) {
  */
 export async function getForecastFromAPI(lat, lon, key, units) {
   const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${key}&units=${units}`;
-  console.log("Forecast URL:", url);
   return await axios.get(url);
 }
 
@@ -93,7 +99,13 @@ export const roundedTemperature = (temp) => Math.floor(temp);
 
 function updateTime(time) {
   const customTime = TIME_FORMAT_CONVERSION[getTimeFormat(window.localStorage)];
-  $(".date-time").text(moment.unix(time).format(`dddd, MMMM D YYYY, ${customTime}`));
+  const formatSpec = `dddd, MMMM D YYYY, ${customTime}`;
+  let timezone;
+  ({
+    timezone
+  } = getTimeZone(window.localStorage));
+  const localizedTime = getConvertedTime(time, timezone, formatSpec);
+  $(".date-time").text(localizedTime);
 }
 
 /**
@@ -132,14 +144,19 @@ function updateWindData(data) {
 }
 
 function updateSunriseSunset(data) {
-  let sunrise, sunset;
+  let sunrise, sunset, timezone;
   ({
     sunrise,
     sunset
   } = data);
+
+  ({
+    timezone
+  } = getTimeZone(window.localStorage));
+
   const customTime = TIME_FORMAT_CONVERSION[getTimeFormat(window.localStorage)];
-  $(".sun-sunrise").text(`Rise: ${moment.unix(sunrise).format(`${customTime}`)}`);
-  $(".sun-sunset").text(`Set: ${moment.unix(sunset).format(`${customTime}`)}`);
+  $(".sun-sunrise").text(`Rise: ${getConvertedTime(sunrise, timezone, customTime)}`);
+  $(".sun-sunset").text(`Set: ${getConvertedTime(sunset, timezone, customTime )}`);
 }
 
 function updateHumidity(data) {
@@ -169,11 +186,17 @@ function updateNextTwelveHourForecast(data) {
   const plusSix = data[5];
   const plusTwelve = data[11];
   const customTime = TIME_FORMAT_CONVERSION[getTimeFormat(window.localStorage)];
+  const timeFormat = `${WEATHER_CARD_DATE_FORMAT_CONSTANT} ${customTime}`;
+  let timezone;
+  ({
+    timezone
+  } = getTimeZone(window.localStorage));
+
   $(".forecast-cards-enclosure").html([{
       temperature: `${roundedTemperature(plusSix.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
       feels_like: `${roundedTemperature(plusSix.feels_like)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
       icon_src: `${getWeatherIconURL(plusSix.weather[0].icon)}`,
-      date_time: moment.unix(plusSix.dt).format(`${WEATHER_CARD_DATE_FORMAT_CONSTANT} ${customTime}`),
+      date_time: getConvertedTime(plusSix.dt, timezone, timeFormat),
       condition_description: makeWeatherConditionCaptionString(plusSix.weather),
       wind_speed: `${getWindSpeed(plusSix.wind_speed, getMeasurementUnitsFromLocalStorage(window.localStorage))} ${getMeasurementUnitsSymbol("wind", window.localStorage)}`,
       wind_direction: getWindCompassDirectionFromDegrees(plusSix.wind_deg)
@@ -182,7 +205,7 @@ function updateNextTwelveHourForecast(data) {
       temperature: `${roundedTemperature(plusTwelve.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
       feels_like: `${roundedTemperature(plusTwelve.feels_like)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
       icon_src: `${getWeatherIconURL(plusTwelve.weather[0].icon)}`,
-      date_time: moment.unix(plusTwelve.dt).format(`${WEATHER_CARD_DATE_FORMAT_CONSTANT} ${customTime}`),
+      date_time: getConvertedTime(plusTwelve.dt, timezone, timeFormat),
       condition_description: makeWeatherConditionCaptionString(plusTwelve.weather),
       wind_speed: `${getWindSpeed(plusTwelve.wind_speed, getMeasurementUnitsFromLocalStorage(window.localStorage))} ${getMeasurementUnitsSymbol("wind", window.localStorage)}`,
       wind_direction: getWindCompassDirectionFromDegrees(plusTwelve.wind_deg)
@@ -192,6 +215,13 @@ function updateNextTwelveHourForecast(data) {
 
 function updateNextFiveDaysForecast(data) {
   const five = data.slice(0, 5);
+
+  let timezone;
+  ({
+    timezone
+  } = getTimeZone(window.localStorage));
+
+  const timeFormat = "dddd";
   $(".daily-forecast-cards-enclosure").html(five.map((forecast, index) => {
     console.log(forecast);
     return {
@@ -201,7 +231,7 @@ function updateNextFiveDaysForecast(data) {
       evening_temp: `${roundedTemperature(forecast.temp.eve)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
       night_temp: `${roundedTemperature(forecast.temp.night)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
       icon_src: `${getWeatherIconURL(forecast.weather[0].icon)}`,
-      date_time: moment.unix(forecast.dt).format(`dddd`),
+      date_time: getConvertedTime(forecast.dt, timezone, timeFormat),
       condition_description: makeWeatherConditionCaptionString(forecast.weather),
       wind_speed: `${getWindSpeed(forecast.wind_speed, getMeasurementUnitsFromLocalStorage(window.localStorage))} ${getMeasurementUnitsSymbol("wind", window.localStorage)}`,
       wind_direction: getWindCompassDirectionFromDegrees(forecast.wind_deg)

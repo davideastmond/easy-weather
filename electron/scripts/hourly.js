@@ -8,7 +8,8 @@ import {
   getMeasurementUnitsFromLocalStorage,
   TIME_FORMAT_CONVERSION,
   getTimeFormat,
-  numberInRange
+  numberInRange,
+  getTimeZone
 } from "./file-system.js";
 
 import {
@@ -22,6 +23,9 @@ import {
 import {
   hourlyStrip
 } from "./cards/hourly-long-card.js";
+import {
+  getConvertedTime
+} from "./time-functions.js";
 
 
 
@@ -74,6 +78,10 @@ async function updateHourlyForecast(maxHrs = 48) {
   const measurementUnits = getMeasurementUnitsFromLocalStorage(window.localStorage);
   const timeFormat = TIME_FORMAT_CONVERSION[getTimeFormat(window.localStorage)];
   const convertedFormat = `${WEATHER_CARD_DATE_FORMAT_CONSTANT} ${timeFormat}`;
+  let timezone;
+  ({
+    timezone
+  } = getTimeZone(window.localStorage));
 
   $(".pagination").pagination({
     dataSource: hourlyObjects,
@@ -81,7 +89,7 @@ async function updateHourlyForecast(maxHrs = 48) {
       $(".hourly-forecast-table-body").html(data.map((forecast, index) => {
         return {
           styling: index % 2 == 0 ? "tr-class-row-dark" : "tr-class-row-light",
-          dateTime: moment.unix(forecast.dt).format(convertedFormat),
+          dateTime: getConvertedTime(forecast.dt, timezone, convertedFormat),
           temp: `${roundedTemperature(forecast.temp)} ${temperatureUnits}`,
           feels_like: `${roundedTemperature(forecast.feels_like)} ${temperatureUnits}`,
           icon: getWeatherIconURL(forecast.weather[0].icon),
