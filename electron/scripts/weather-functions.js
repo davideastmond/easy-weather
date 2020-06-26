@@ -65,7 +65,7 @@ export function makeWeatherConditionCaptionString(conditions) {
  * @param {{}} data data received from weatherAPI
  */
 export function updateWeatherForecastUI(data, storage) {
-  (data);
+  console.log(data);
   updateCityName(getFromLocalStorage(storage).city_name);
   updateTemperature(data.current.temp, storage);
   updateTemperatureFeelsLike(data.current.feels_like, storage);
