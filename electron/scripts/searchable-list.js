@@ -8,7 +8,7 @@ export function loadSearchableList(cityList) {
       ...element,
       name: removeDiacritics(element.name),
       original_name: element.name,
-    }
-  })
+    };
+  });
   return returnList;
 }

@@ -33,7 +33,7 @@ const moment = require("moment");
 
 $(() => {
   loadBackGroundFromLocalStorage(window.localStorage, liveLoadBackgroundImage);
-  updateHourlyForecast();
+  updateHourlyForecast(window.localStorage);
   $(".close-config-enclosure").click((e) => {
     window.location.href = "current-forecast.html";
   });
@@ -49,7 +49,7 @@ function liveLoadBackgroundImage(fileName) {
  * of hourly forecast data. Using PaginationJS to handle page
  * scrolling.
  */
-async function updateHourlyForecast(maxHrs = 48) {
+async function updateHourlyForecast(storage, maxHrs = 48) {
   if (!numberInRange(maxHrs, 48, 12)) maxHrs = 48;
   let lat, lon, key, units, data;
   ({
@@ -57,7 +57,7 @@ async function updateHourlyForecast(maxHrs = 48) {
     lon,
     key,
     units
-  } = getFetchConfigData(window.localStorage));
+  } = getFetchConfigData(storage));
 
   try {
     ({
@@ -73,10 +73,10 @@ async function updateHourlyForecast(maxHrs = 48) {
 
   // Instead of accessing localStorage to get measurement units for each pass in the 
   // map we access localStorage once before the map begins.
-  const temperatureUnits = getMeasurementUnitsSymbol("temperature", window.localStorage);
-  const windSpeedUnits = getMeasurementUnitsSymbol("wind", window.localStorage);
-  const measurementUnits = getMeasurementUnitsFromLocalStorage(window.localStorage);
-  const timeFormat = TIME_FORMAT_CONVERSION[getTimeFormat(window.localStorage)];
+  const temperatureUnits = getMeasurementUnitsSymbol("temperature", storage);
+  const windSpeedUnits = getMeasurementUnitsSymbol("wind", storage);
+  const measurementUnits = getMeasurementUnitsFromLocalStorage(storage);
+  const timeFormat = TIME_FORMAT_CONVERSION[getTimeFormat(storage)];
   const convertedFormat = `${WEATHER_CARD_DATE_FORMAT_CONSTANT} ${timeFormat}`;
   let timezone;
   ({

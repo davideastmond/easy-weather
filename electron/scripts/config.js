@@ -164,8 +164,9 @@ function renderCitySearchResults(filteredCityList) {
  * @returns {[{}]} An array of filtered city items from city.list.json
  */
 function doCityFilter(input) {
+  const lowerCaseInput = input.toLowerCase();
   return searchableList.filter((cityItem) => {
-    return cityItem.name.toLowerCase().startsWith(input.toLowerCase()) || cityItem.name.toLowerCase().includes(input.toLowerCase());
+    return cityItem.name.toLowerCase().includes(lowerCaseInput);
   }).map((result) => {
     return {
       id: result.id,

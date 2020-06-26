@@ -12,12 +12,11 @@ import {
   getAutoRefreshOption,
   getTimeZone,
   setTimezoneInfo,
-} from "../electron/scripts/file-system";
+} from "../electron/scripts/file-system.js";
 import regeneratorRuntime from "regenerator-runtime";
 import {
   FakeStorage
 } from "./utils/fake-storage";
-
 
 
 describe("file system tests", () => {
@@ -69,22 +68,51 @@ describe("file system tests", () => {
   });
 
   test("photoResourcePaths return valid data and throws / rejects as expected", async () => {
+
     await expect(getPhotoBackgroundResourcePaths()).resolves.not.toHaveLength(0);
-    await expect(getPhotoBackgroundResourcePaths("/invalid/path")).rejects;
+    await expect(() => getPhotoBackgroundResourcePaths("/invalid/path")).rejects;
+    await expect(getPhotoBackgroundResourcePaths()).resolves.toHaveLength(7);
   });
 });
 
-describe("loadBackGroundFromLocalStorage", () => {
+describe("loadBackGroundFromLocalStorage tests", () => {
   test("loadBackGroundFromLocalStorage throws with undefined parameters", () => {
     const fs1 = new FakeStorage();
     expect(() => loadBackGroundFromLocalStorage()).toThrow();
   });
   test("loads / sets the default image from storage if backgroundImage property is not defined", () => {
     const fs = new FakeStorage("backgroundImage", undefined);
-    loadBackGroundFromLocalStorage(fs, function () {});
+    const $ = require("jquery");
+    $("body").addClass("configuration-window");
+    const imgURL = fs.getItem("backgroundImage");
+
+    loadBackGroundFromLocalStorage(fs, () => {
+      $(".configuration-window").css("background-image", `"url("${DEFAULT_BACKGROUND_IMAGE}")"`);
+    });
+
     expect(fs.getItem("backgroundImage")).toBe(DEFAULT_BACKGROUND_IMAGE);
+
+    loadBackGroundFromLocalStorage(fs, () => {
+      $(".configuration-window").css("background-image", "url(" + DEFAULT_BACKGROUND_IMAGE + ")");
+    });
+    const result = $(".configuration-window").css("background-image");
+    expect(result).toBe(`url(${DEFAULT_BACKGROUND_IMAGE})`);
+  });
+
+  test("Tests that the UILoaderFunction callback actually changes the DOM element", () => {
+    const fs = new FakeStorage("backgroundImage", "test.jpg");
+    const $ = require("jquery");
+    $("body").addClass("bck");
+    const imgURL = fs.getItem("backgroundImage");
+    const fn = () => {
+      $(".bck").css("background-image", "url(" + imgURL + ")");
+    };
+    loadBackGroundFromLocalStorage(fs, fn);
+    const result = $(".bck").css("background-image");
+    expect(result).toBe(`url(${imgURL})`);
   });
 });
+
 
 describe("getFetchConfigData", () => {
   test("getFetchConfigData - returns correct values from localStorage", () => {
