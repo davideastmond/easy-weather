@@ -193,14 +193,12 @@ export function getTimeFormat(storage) {
 export function getTimeZone(storage) {
   assert(storage && storage.getItem, `Invalid storage object`);
   const timezoneData = JSON.parse(storage.getItem("timezone"));
-  console.log("196", timezoneData);
   return timezoneData;
 }
 
 export function setTimezoneInfo(data, storage) {
   assert(data.timezone, "no timezone key specified");
   assert(data.timezone_offset, "no offset key specified");
-  console.log("203", data)
   storage.setItem("timezone", JSON.stringify(data));
 }
 

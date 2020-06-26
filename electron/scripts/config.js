@@ -37,7 +37,6 @@ $(() => {
   // User clicks on a city result in the list
   $(".city-results-list").click((e) => {
     setSelectedCityInformation(e);
-    console.log(selectedCityInformation);
     $(".save-button").prop("disabled", false);
     $(".city-item").removeClass("city-selected");
     $(e.target).addClass("city-selected");
@@ -307,7 +306,6 @@ function getSavedCityInformationFromLocalStorage() {
   try {
     const cityInfo = JSON.parse(window.localStorage.getItem('saved_city_data'));
     if (cityInfo) {
-      console.log(cityInfo);
       $(".selected-city-label").text(getFullCityName(cityInfo));
       $(".city-search-box").val(cityInfo.city_name);
       $(".save-button").prop("disabled", false);

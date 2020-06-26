@@ -65,7 +65,7 @@ export function makeWeatherConditionCaptionString(conditions) {
  * @param {{}} data data received from weatherAPI
  */
 export function updateWeatherForecastUI(data, storage) {
-  console.log(data);
+  (data);
   updateCityName(getFromLocalStorage(storage).city_name);
   updateTemperature(data.current.temp, storage);
   updateTemperatureFeelsLike(data.current.feels_like, storage);
@@ -99,12 +99,10 @@ function updateTime(time, storage) {
   const customTime = TIME_FORMAT_CONVERSION[getTimeFormat(storage)];
   const formatSpec = `dddd, MMMM D YYYY, ${customTime}`;
   let timezone;
-  console.log("102 storage", storage);
   ({
     timezone
   } = getTimeZone(storage));
 
-  console.log("106", timezone);
   const localizedTime = getConvertedTime(time, timezone, formatSpec);
   $(".date-time").text(localizedTime);
 }
@@ -224,7 +222,6 @@ function updateNextFiveDaysForecast(data, storage) {
 
   const timeFormat = "dddd";
   $(".daily-forecast-cards-enclosure").html(five.map((forecast, index) => {
-    console.log(forecast);
     return {
       temperature_high: `${roundedTemperature(forecast.temp.max)} ${getMeasurementUnitsSymbol("temperature", storage)}`,
       feels_like_high: `${roundedTemperature(forecast.feels_like.day)} ${getMeasurementUnitsSymbol("temperature", storage)}`,
