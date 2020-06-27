@@ -1,6 +1,6 @@
 import {
   getConvertedTime
-} from "../electron/scripts/time-functions.js";
+} from "../electron/scripts/time-functions";
 
 describe("Time conversion functionality", () => {
   test("batch converting to correct localized times", () => {

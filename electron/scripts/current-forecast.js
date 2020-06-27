@@ -55,7 +55,7 @@ async function refresh() {
       timezone_offset: data.timezone_offset
     }, window.localStorage);
 
-    updateWeatherForecastUI(data);
+    updateWeatherForecastUI(data, window.localStorage);
   } catch (ex) {
     console.log(ex);
     showErrorMessage(ex);

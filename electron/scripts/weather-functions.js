@@ -2,8 +2,6 @@ const axios = require("axios").default;
 window.$ = window.jQuery = require("jquery");
 require("dotenv").config();
 
-//const momentTz = require("moment-timezone");
-
 const moment = require("moment-timezone");
 import {
   getMeasurementUnitsSymbol,
@@ -66,20 +64,20 @@ export function makeWeatherConditionCaptionString(conditions) {
  * Extracts relevant data from API response and updates the UI
  * @param {{}} data data received from weatherAPI
  */
-export function updateWeatherForecastUI(data) {
+export function updateWeatherForecastUI(data, storage) {
   console.log(data);
-  updateCityName(getFromLocalStorage(window.localStorage).city_name);
-  updateTemperature(data.current.temp);
-  updateTemperatureFeelsLike(data.current.feels_like);
-  updateTime(data.current.dt);
-  updateCurrentWeatherConditions(data.current.weather); // this is an array of weather conditions
-  renderWeatherIcon(data.current.weather[0].icon, ".current-conditions-icon");
-  updateWindData(data.current);
-  updateSunriseSunset(data.current);
-  updateAtmosphericPressure(data.current);
-  updateHumidity(data.current);
-  updateNextTwelveHourForecast(data.hourly);
-  updateNextFiveDaysForecast(data.daily);
+  updateCityName(getFromLocalStorage(storage).city_name);
+  updateTemperature(data.current.temp, storage);
+  updateTemperatureFeelsLike(data.current.feels_like, storage);
+  updateTime(data.current.dt, storage);
+  updateCurrentWeatherConditions(data.current.weather, storage); // this is an array of weather conditions
+  renderWeatherIcon(data.current.weather[0].icon, ".current-conditions-icon", storage);
+  updateWindData(data.current, storage);
+  updateSunriseSunset(data.current, storage);
+  updateAtmosphericPressure(data.current, storage);
+  updateHumidity(data.current, storage);
+  updateNextTwelveHourForecast(data.hourly, storage);
+  updateNextFiveDaysForecast(data.daily, storage);
 }
 
 /**
@@ -91,19 +89,20 @@ function updateCityName(cityName) {
   $(".city-name").text(cityName);
 }
 
-function updateTemperature(temp) {
-  $(".temperature-actual").text(roundedTemperature(temp).toString() + getMeasurementUnitsSymbol("temperature", window.localStorage));
+function updateTemperature(temp, storage) {
+  $(".temperature-actual").text(roundedTemperature(temp).toString() + getMeasurementUnitsSymbol("temperature", storage));
 }
 
 export const roundedTemperature = (temp) => Math.floor(temp);
 
-function updateTime(time) {
-  const customTime = TIME_FORMAT_CONVERSION[getTimeFormat(window.localStorage)];
+function updateTime(time, storage) {
+  const customTime = TIME_FORMAT_CONVERSION[getTimeFormat(storage)];
   const formatSpec = `dddd, MMMM D YYYY, ${customTime}`;
   let timezone;
   ({
     timezone
-  } = getTimeZone(window.localStorage));
+  } = getTimeZone(storage));
+
   const localizedTime = getConvertedTime(time, timezone, formatSpec);
   $(".date-time").text(localizedTime);
 }
@@ -125,11 +124,11 @@ function renderWeatherIcon(iconString, jQueryElement) {
   });
 }
 
-function updateTemperatureFeelsLike(temp) {
-  $(".temperature-feels-like").text(`Feels like: ${roundedTemperature(temp).toString()} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`);
+function updateTemperatureFeelsLike(temp, storage) {
+  $(".temperature-feels-like").text(`Feels like: ${roundedTemperature(temp).toString()} ${getMeasurementUnitsSymbol("temperature", storage)}`);
 }
 
-function updateWindData(data) {
+function updateWindData(data, storage) {
   let wind_speed, wind_gust, wind_deg;
   ({
     wind_speed,
@@ -138,12 +137,12 @@ function updateWindData(data) {
   } = data);
 
   const windCompassDirection = getWindCompassDirectionFromDegrees(wind_deg);
-  const windSpeed = getWindSpeed(wind_speed, getMeasurementUnitsFromLocalStorage(window.localStorage));
-  $(".wind-speed").text(`Speed: ${windSpeed} ${getMeasurementUnitsSymbol("wind", window.localStorage)} ${windCompassDirection}`);
-  $(".wind-gust").text(`Gust: ${wind_gust && getWindSpeed(wind_gust) + getMeasurementUnitsSymbol("wind", window.localStorage) || "-" }`);
+  const windSpeed = getWindSpeed(wind_speed, getMeasurementUnitsFromLocalStorage(storage));
+  $(".wind-speed").text(`Speed: ${windSpeed} ${getMeasurementUnitsSymbol("wind", storage)} ${windCompassDirection}`);
+  $(".wind-gust").text(`Gust: ${wind_gust && getWindSpeed(wind_gust) + getMeasurementUnitsSymbol("wind", storage) || "-" }`);
 }
 
-function updateSunriseSunset(data) {
+function updateSunriseSunset(data, storage) {
   let sunrise, sunset, timezone;
   ({
     sunrise,
@@ -152,9 +151,9 @@ function updateSunriseSunset(data) {
 
   ({
     timezone
-  } = getTimeZone(window.localStorage));
+  } = getTimeZone(storage));
 
-  const customTime = TIME_FORMAT_CONVERSION[getTimeFormat(window.localStorage)];
+  const customTime = TIME_FORMAT_CONVERSION[getTimeFormat(storage)];
   $(".sun-sunrise").text(`Rise: ${getConvertedTime(sunrise, timezone, customTime)}`);
   $(".sun-sunset").text(`Set: ${getConvertedTime(sunset, timezone, customTime )}`);
 }
@@ -170,70 +169,69 @@ function updateHumidity(data) {
 /**
  * @param {{}} data 
  */
-function updateAtmosphericPressure(data) {
+function updateAtmosphericPressure(data, storage) {
   let pressure;
   ({
     pressure
   } = data);
-  $(".atmospheric-pressure").text(`${pressure} ${getMeasurementUnitsSymbol("pressure", window.localStorage)}`);
+  $(".atmospheric-pressure").text(`${pressure} ${getMeasurementUnitsSymbol("pressure", storage)}`);
 }
 
 /**
  * Returns two hourly forecasts; the now + 6 hours, and the other now + 12 hours
  * @param {} data 
  */
-function updateNextTwelveHourForecast(data) {
+function updateNextTwelveHourForecast(data, storage) {
   const plusSix = data[5];
   const plusTwelve = data[11];
-  const customTime = TIME_FORMAT_CONVERSION[getTimeFormat(window.localStorage)];
+  const customTime = TIME_FORMAT_CONVERSION[getTimeFormat(storage)];
   const timeFormat = `${WEATHER_CARD_DATE_FORMAT_CONSTANT} ${customTime}`;
   let timezone;
   ({
     timezone
-  } = getTimeZone(window.localStorage));
+  } = getTimeZone(storage));
 
   $(".forecast-cards-enclosure").html([{
-      temperature: `${roundedTemperature(plusSix.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
-      feels_like: `${roundedTemperature(plusSix.feels_like)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
+      temperature: `${roundedTemperature(plusSix.temp)} ${getMeasurementUnitsSymbol("temperature", storage)}`,
+      feels_like: `${roundedTemperature(plusSix.feels_like)} ${getMeasurementUnitsSymbol("temperature", storage)}`,
       icon_src: `${getWeatherIconURL(plusSix.weather[0].icon)}`,
       date_time: getConvertedTime(plusSix.dt, timezone, timeFormat),
       condition_description: makeWeatherConditionCaptionString(plusSix.weather),
-      wind_speed: `${getWindSpeed(plusSix.wind_speed, getMeasurementUnitsFromLocalStorage(window.localStorage))} ${getMeasurementUnitsSymbol("wind", window.localStorage)}`,
+      wind_speed: `${getWindSpeed(plusSix.wind_speed, getMeasurementUnitsFromLocalStorage(storage))} ${getMeasurementUnitsSymbol("wind", storage)}`,
       wind_direction: getWindCompassDirectionFromDegrees(plusSix.wind_deg)
     },
     {
-      temperature: `${roundedTemperature(plusTwelve.temp)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
-      feels_like: `${roundedTemperature(plusTwelve.feels_like)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
+      temperature: `${roundedTemperature(plusTwelve.temp)} ${getMeasurementUnitsSymbol("temperature", storage)}`,
+      feels_like: `${roundedTemperature(plusTwelve.feels_like)} ${getMeasurementUnitsSymbol("temperature", storage)}`,
       icon_src: `${getWeatherIconURL(plusTwelve.weather[0].icon)}`,
       date_time: getConvertedTime(plusTwelve.dt, timezone, timeFormat),
       condition_description: makeWeatherConditionCaptionString(plusTwelve.weather),
-      wind_speed: `${getWindSpeed(plusTwelve.wind_speed, getMeasurementUnitsFromLocalStorage(window.localStorage))} ${getMeasurementUnitsSymbol("wind", window.localStorage)}`,
+      wind_speed: `${getWindSpeed(plusTwelve.wind_speed, getMeasurementUnitsFromLocalStorage(storage))} ${getMeasurementUnitsSymbol("wind", storage)}`,
       wind_direction: getWindCompassDirectionFromDegrees(plusTwelve.wind_deg)
     }
   ].map(weatherCard).join(''));
 }
 
-function updateNextFiveDaysForecast(data) {
+function updateNextFiveDaysForecast(data, storage) {
   const five = data.slice(0, 5);
 
   let timezone;
   ({
     timezone
-  } = getTimeZone(window.localStorage));
+  } = getTimeZone(storage));
 
   const timeFormat = "dddd";
   $(".daily-forecast-cards-enclosure").html(five.map((forecast, index) => {
-    console.log(forecast);
     return {
-      temperature_high: `${roundedTemperature(forecast.temp.max)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
-      feels_like_high: `${roundedTemperature(forecast.feels_like.day)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
-      morning_temp: `${roundedTemperature(forecast.temp.morn)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
-      evening_temp: `${roundedTemperature(forecast.temp.eve)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
-      night_temp: `${roundedTemperature(forecast.temp.night)} ${getMeasurementUnitsSymbol("temperature", window.localStorage)}`,
+      temperature_high: `${roundedTemperature(forecast.temp.max)} ${getMeasurementUnitsSymbol("temperature", storage)}`,
+      feels_like_high: `${roundedTemperature(forecast.feels_like.day)} ${getMeasurementUnitsSymbol("temperature", storage)}`,
+      morning_temp: `${roundedTemperature(forecast.temp.morn)} ${getMeasurementUnitsSymbol("temperature", storage)}`,
+      evening_temp: `${roundedTemperature(forecast.temp.eve)} ${getMeasurementUnitsSymbol("temperature", storage)}`,
+      night_temp: `${roundedTemperature(forecast.temp.night)} ${getMeasurementUnitsSymbol("temperature", storage)}`,
       icon_src: `${getWeatherIconURL(forecast.weather[0].icon)}`,
       date_time: getConvertedTime(forecast.dt, timezone, timeFormat),
       condition_description: makeWeatherConditionCaptionString(forecast.weather),
-      wind_speed: `${getWindSpeed(forecast.wind_speed, getMeasurementUnitsFromLocalStorage(window.localStorage))} ${getMeasurementUnitsSymbol("wind", window.localStorage)}`,
+      wind_speed: `${getWindSpeed(forecast.wind_speed, getMeasurementUnitsFromLocalStorage(storage))} ${getMeasurementUnitsSymbol("wind", window.localStorage)}`,
       wind_direction: getWindCompassDirectionFromDegrees(forecast.wind_deg)
     };
   }).map(dailyCard).join(""));

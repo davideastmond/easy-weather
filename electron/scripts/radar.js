@@ -92,7 +92,6 @@ export function loadMapData(data, view = DEFAULT_STREET_VIEW) {
     api_key: process.env.API_KEY,
     op: "PR0"
   }).addTo(mapObject);
-  console.log(mapObject);
 }
 
 function sampleMap() {

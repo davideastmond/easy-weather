@@ -37,7 +37,6 @@ $(() => {
   // User clicks on a city result in the list
   $(".city-results-list").click((e) => {
     setSelectedCityInformation(e);
-    console.log(selectedCityInformation);
     $(".save-button").prop("disabled", false);
     $(".city-item").removeClass("city-selected");
     $(e.target).addClass("city-selected");
@@ -164,8 +163,9 @@ function renderCitySearchResults(filteredCityList) {
  * @returns {[{}]} An array of filtered city items from city.list.json
  */
 function doCityFilter(input) {
+  const lowerCaseInput = input.toLowerCase();
   return searchableList.filter((cityItem) => {
-    return cityItem.name.toLowerCase().startsWith(input.toLowerCase()) || cityItem.name.toLowerCase().includes(input.toLowerCase());
+    return cityItem.name.toLowerCase().includes(lowerCaseInput);
   }).map((result) => {
     return {
       id: result.id,
@@ -306,7 +306,6 @@ function getSavedCityInformationFromLocalStorage() {
   try {
     const cityInfo = JSON.parse(window.localStorage.getItem('saved_city_data'));
     if (cityInfo) {
-      console.log(cityInfo);
       $(".selected-city-label").text(getFullCityName(cityInfo));
       $(".city-search-box").val(cityInfo.city_name);
       $(".save-button").prop("disabled", false);
