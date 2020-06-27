@@ -119,3 +119,5 @@ dist
 src/sandbox/
 
 notes.md
+
+out/

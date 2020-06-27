@@ -231,7 +231,7 @@ function updateNextFiveDaysForecast(data, storage) {
       icon_src: `${getWeatherIconURL(forecast.weather[0].icon)}`,
       date_time: getConvertedTime(forecast.dt, timezone, timeFormat),
       condition_description: makeWeatherConditionCaptionString(forecast.weather),
-      wind_speed: `${getWindSpeed(forecast.wind_speed, getMeasurementUnitsFromLocalStorage(storage))} ${getMeasurementUnitsSymbol("wind", window.localStorage)}`,
+      wind_speed: `${getWindSpeed(forecast.wind_speed, getMeasurementUnitsFromLocalStorage(storage))} ${getMeasurementUnitsSymbol("wind", storage)}`,
       wind_direction: getWindCompassDirectionFromDegrees(forecast.wind_deg)
     };
   }).map(dailyCard).join(""));
