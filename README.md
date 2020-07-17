@@ -17,7 +17,8 @@ It shows up-to-date weather data for the location of your choosing.
 - Up-to-date current conditions and 5-day forecast every few minutes
 - View hourly forecast
 - Set background image
-- Set units (metric / imperial)
+- Display weather data in your desired measurement units (metric / imperial)
+- Display time format (12/24)
 - Radar map
 
 ## In progress
