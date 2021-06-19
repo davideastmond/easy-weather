@@ -12,7 +12,7 @@ import {
 
 const apiData = require("../electron/public/data/sample-api-data.json");
 
-describe.only("updateWeatherForecastUI tests", () => {
+describe("updateWeatherForecastUI tests", () => {
   test("UI Updates", () => {
 
     const $ = require("jquery");

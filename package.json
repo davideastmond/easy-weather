@@ -4,7 +4,7 @@
   "description": "Cross-platform weather app built in electron.js",
   "main": "dist/main.js",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "npx tsc && electron-forge start",
     "test": "jest",
     "jest": {
       "transform": {
@@ -32,7 +32,7 @@
     "paginationjs": "^2.1.5",
     "save": "^2.4.0",
     "ts-jest": "^25.5.1",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.7"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.9.5",
